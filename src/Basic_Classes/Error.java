@@ -2,7 +2,7 @@ package Basic_Classes;
 
 public class Error {
 
-    private String name;
+    private final String name;
 
     public Error (String type){
         this.name = type;

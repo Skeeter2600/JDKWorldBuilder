@@ -2,7 +2,7 @@ package Basic_Classes;
 
 public class Map {
 
-    private Sector[][] layout;
+    private final Sector[][] layout;
     private final Sector defaultImage;
 
     /**

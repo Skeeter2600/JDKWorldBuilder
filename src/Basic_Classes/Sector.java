@@ -6,7 +6,7 @@ public class Sector {
 
     private boolean revealed;
     private final String image;
-    private String revealCode;
+    private final String revealCode;
 
     public Sector(String image){
         this.image = image;

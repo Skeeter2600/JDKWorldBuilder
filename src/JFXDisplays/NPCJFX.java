@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class NPCJFX {
 
-    private HashSet<Object> processor;
+    private final HashSet<Object> processor;
     private final Stage primaryStage;
     private final boolean admin;
 
