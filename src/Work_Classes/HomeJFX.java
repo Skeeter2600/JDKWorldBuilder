@@ -509,110 +509,270 @@ public class HomeJFX {
     }
 
     /**
-     * This will add a Special to the system
+     * This will add a special to the system
+     * experimental
+     * 
      * @return true if completed, false if a problem occurred
      */
-    public boolean addSpecial(){
+    public void addSpecial() {
 
-        System.out.print("Awesome! What would you like its name to be?: ");
-        // checks for if an NPC by that name already exists
-        boolean notMultiple = false;
-        String SpecialName = "blank";
-        boolean multipleCheck = true;
-        Special comparator = new Special("God Staff", "I check for class",true,"12345","");
+        // wipe grid
+        grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-        // checks each element for its existence
-        while (!notMultiple) {
-            SpecialName = input.nextLine();
-            notMultiple = true;
-            for (Object o : processor) {
-                if (o.getClass() == comparator.getClass()) {
-                    Special check = (Special) o;
-                    if (check.getName().equals(((Special) o).getName())) {
-                        System.out.println("An Special by this name already exists. Please provide a new name");
-                        multipleCheck = false;
+        // Get the name of the Special with text box
+        Label specialName = new Label("Name:");
+        specialName.setFont(Font.font("Tahoma"));
+        specialName.setTextFill(Color.WHITE.darker());
+        grid.add(specialName, 0, 0);
+        System.out.print("Name box generated");
+
+        TextField nameTextField = new TextField();
+        nameTextField.setPrefWidth(200);
+        grid.add(nameTextField, 1, 0);
+        System.out.println("Name Text generated");
+
+        // Gets a description of the Special
+        Label specialDescription = new Label("Description:");
+        specialDescription.setFont(Font.font("Tahoma"));
+        specialDescription.setTextFill(Color.WHITE.darker());
+        grid.add(specialDescription, 0, 2);
+        System.out.print("Description Generated");
+
+        TextArea DescriptionTextField = new TextArea();
+        DescriptionTextField.setPrefWidth(200);
+        grid.add(DescriptionTextField, 1, 2);
+        System.out.println("Occupation Text generated");
+
+        // Asks if hidden description exists
+        Label HiddenDescription = new Label("Hidden Description?:");
+        HiddenDescription.setFont(Font.font("Tahoma"));
+        HiddenDescription.setTextFill(Color.WHITE.darker());
+        grid.add(HiddenDescription, 0, 3);
+        System.out.print("Description Generated");
+
+        CheckBox DescriptionExists = new CheckBox();
+        grid.add(DescriptionExists, 1, 3);
+        System.out.println("Occupation Text generated");
+        boolean hidden = false;
+
+        // Gets a hidden description of the Special
+        Label specialHiddenDescription = new Label("Hidden Description:");
+        specialHiddenDescription.setFont(Font.font("Tahoma"));
+        specialHiddenDescription.setTextFill(Color.WHITE.darker());
+        grid.add(specialHiddenDescription, 0, 4);
+        System.out.print("Description Generated");
+
+        TextArea HiddenDescriptionTextField = new TextArea();
+        grid.add(HiddenDescriptionTextField, 1, 4);
+        System.out.println("Occupation Text generated");
+
+        Button cancel = new Button("Cancel");
+        HBox hbBtn = new HBox(20);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(cancel);
+        grid.add(hbBtn, 0, 5);
+
+        Button save = new Button("Save");
+        HBox newWorldBtn = new HBox(20);
+        newWorldBtn.setAlignment(Pos.BOTTOM_LEFT);
+        newWorldBtn.getChildren().add(save);
+        grid.add(newWorldBtn, 3, 5);
+
+        BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
+                CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(background_fill);
+        grid.setBackground(background);
+
+        Scene scene = new Scene(grid, 1152, 648);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("World Viewer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        final Text actionTarget = new Text();
+        grid.add(actionTarget, 1, 6);
+
+        final String[] outcome = {"false"};
+
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                commandProgram();
+            }
+        });
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                // checks for the separation string
+                if (specialName.getText().contains(" _-_ ") || specialDescription.getText().contains(" _-_ ") ||
+                        (specialHiddenDescription.getText().contains(" _-_ "))) {
+                    actionTarget.setFill(Color.FIREBRICK);
+                    actionTarget.setText("Please avoid using the string ' _-_ '!");
+                }
+
+                // checks for if an Special by that name already exists
+                boolean notMultiple = false;
+                boolean multipleCheck = true;
+                NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345", "");
+
+                while (!notMultiple) {
+                    notMultiple = true;
+                    for (Object o : processor) {
+                        if (o.getClass() == comparator.getClass()) {
+                            Special check = (Special) o;
+                            if (check.getName().equals(specialName.getText())) {
+                                actionTarget.setFill(Color.FIREBRICK);
+                                actionTarget.setText("An NPC by this name already exists!");
+                                multipleCheck = false;
+                            }
+                        }
+                    }
+                    if (!multipleCheck) {
+                        notMultiple = false;
                     }
                 }
-            }if(!multipleCheck){ notMultiple = false; }
-        }
+                if (multipleCheck) {
+                    // adds the Specials to the system
+                    int one = new Random().nextInt(9);
+                    int two = new Random().nextInt(9);
+                    int three = new Random().nextInt(9);
+                    int four = new Random().nextInt(9);
+                    int five = new Random().nextInt(9);
+                    String revealCode = one + String.valueOf(two) + three + four + five;
 
-        // gets the description
-        System.out.print("Interesting.... Can I get a description of it?: ");
-        String SpecialDescription = input.nextLine();
+                    // add check for if another part has the same revealCode here
 
-        // checks if a hidden description will exist
-        System.out.print("Nice! Does it have a hidden description?: ");
-        String response = input.nextLine();
-        boolean hidden = false;
-        String SpecialHiddenDescription = null;
-        // if yes
-        if(response.equals("yes")||response.equals("y")){
-            hidden = true;
-            System.out.print("What is it?: ");
-            SpecialHiddenDescription =  input.nextLine();
-        }
+                    //
 
-        // shows the aspects of the Special
-        System.out.println("So this is what you want the Special to be like?");
-        System.out.println("Name: " + SpecialName + "\nDescription: " + SpecialDescription);
-        if(hidden) System.out.println("Hidden Description (this won't actually show): " + SpecialHiddenDescription);
-
-        // Makes sure everything is good
-        System.out.print("Is this good?: ");
-        String good = input.nextLine();
-        // if not, change a part
-        while (!(good.equals("yes")||good.equals("y"))){
-            // loop for changes
-            System.out.print("What needs to change (Name, Description, Hidden Description [if exists], or cancel)?: ");
-            String change = input.nextLine();
-            boolean found = false;
-            while (!found) {
-                switch (change.toLowerCase()) {
-                    case ("name"):
-                        System.out.print("Awesome! What would you like its name to be?: ");
-                        SpecialName = input.nextLine();
-                        found = true;
-                        break;
-                    case ("description"):
-                        System.out.print("Can I get a description of it?: ");
-                        SpecialDescription = input.nextLine();
-                        found = true;
-                        break;
-                    case ("hidden description"):
-                        System.out.print("What is it?: ");
-                        SpecialHiddenDescription = input.nextLine();
-                        found = true;
-                        break;
-                    case ("cancel"):
-                        found = true;
-                        break;
+                    if (DescriptionExists.isSelected()) {
+                        processor.add(new Special(specialName.getText(), specialDescription.getText(),
+                                specialHiddenDescription.getText(), false, revealCode, ""));
+                    } else {
+                        processor.add(new Special(specialName.getText(), specialDescription.getText(),
+                                false, revealCode, ""));
+                    }
                 }
+                //displaySpecials();
             }
-
-            System.out.println("So this is what you want the NPC to be like?");
-            System.out.println("Name: " + SpecialName + "\nDescription: " + SpecialDescription);
-            if(hidden) System.out.println("Hidden Description (this won't actually show):" + SpecialHiddenDescription);
-            System.out.print("Is this good?: ");
-            good = input.nextLine();
-        }
-
-        int one = new Random().nextInt(9);
-        int two = new Random().nextInt(9);
-        int three = new Random().nextInt(9);
-        int four = new Random().nextInt(9);
-        int five = new Random().nextInt(9);
-        String revealCode = one + String.valueOf(two) + three + four + five;
-
-        // checks for the separation string
-        if(SpecialName.contains(" _-_ ")||SpecialDescription.contains(" _-_ ")||
-                (SpecialHiddenDescription != null && SpecialHiddenDescription.contains(" _-_ "))){ return false; }
-
-        // adds the NPCs to the system
-        if(SpecialHiddenDescription!=null){
-            processor.add(new Special(SpecialName, SpecialDescription, SpecialHiddenDescription, false, revealCode,"" ));
-        } else {
-            processor.add(new Special(SpecialName, SpecialDescription, false, revealCode,""));
-        }
-        return true;
+        });
     }
+    
+    
+    
+    
+    
+    
+    
+//    /**
+//     * OLD CONSOLE METHOD
+//     * This will add a Special to the system
+//     * @return true if completed, false if a problem occurred
+//     */
+//    public boolean addSpecial(){
+//
+//        System.out.print("Awesome! What would you like its name to be?: ");
+//        // checks for if an NPC by that name already exists
+//        boolean notMultiple = false;
+//        String SpecialName = "blank";
+//        boolean multipleCheck = true;
+//        Special comparator = new Special("God Staff", "I check for class",true,"12345","");
+//
+//        // checks each element for its existence
+//        while (!notMultiple) {
+//            SpecialName = input.nextLine();
+//            notMultiple = true;
+//            for (Object o : processor) {
+//                if (o.getClass() == comparator.getClass()) {
+//                    Special check = (Special) o;
+//                    if (check.getName().equals(((Special) o).getName())) {
+//                        System.out.println("An Special by this name already exists. Please provide a new name");
+//                        multipleCheck = false;
+//                    }
+//                }
+//            }if(!multipleCheck){ notMultiple = false; }
+//        }
+//
+//        // gets the description
+//        System.out.print("Interesting.... Can I get a description of it?: ");
+//        String SpecialDescription = input.nextLine();
+//
+//        // checks if a hidden description will exist
+//        System.out.print("Nice! Does it have a hidden description?: ");
+//        String response = input.nextLine();
+//        boolean hidden = false;
+//        String SpecialHiddenDescription = null;
+//        // if yes
+//        if(response.equals("yes")||response.equals("y")){
+//            hidden = true;
+//            System.out.print("What is it?: ");
+//            SpecialHiddenDescription =  input.nextLine();
+//        }
+//
+//        // shows the aspects of the Special
+//        System.out.println("So this is what you want the Special to be like?");
+//        System.out.println("Name: " + SpecialName + "\nDescription: " + SpecialDescription);
+//        if(hidden) System.out.println("Hidden Description (this won't actually show): " + SpecialHiddenDescription);
+//
+//        // Makes sure everything is good
+//        System.out.print("Is this good?: ");
+//        String good = input.nextLine();
+//        // if not, change a part
+//        while (!(good.equals("yes")||good.equals("y"))){
+//            // loop for changes
+//            System.out.print("What needs to change (Name, Description, Hidden Description [if exists], or cancel)?: ");
+//            String change = input.nextLine();
+//            boolean found = false;
+//            while (!found) {
+//                switch (change.toLowerCase()) {
+//                    case ("name"):
+//                        System.out.print("Awesome! What would you like its name to be?: ");
+//                        SpecialName = input.nextLine();
+//                        found = true;
+//                        break;
+//                    case ("description"):
+//                        System.out.print("Can I get a description of it?: ");
+//                        SpecialDescription = input.nextLine();
+//                        found = true;
+//                        break;
+//                    case ("hidden description"):
+//                        System.out.print("What is it?: ");
+//                        SpecialHiddenDescription = input.nextLine();
+//                        found = true;
+//                        break;
+//                    case ("cancel"):
+//                        found = true;
+//                        break;
+//                }
+//            }
+//
+//            System.out.println("So this is what you want the NPC to be like?");
+//            System.out.println("Name: " + SpecialName + "\nDescription: " + SpecialDescription);
+//            if(hidden) System.out.println("Hidden Description (this won't actually show):" + SpecialHiddenDescription);
+//            System.out.print("Is this good?: ");
+//            good = input.nextLine();
+//        }
+//
+//        int one = new Random().nextInt(9);
+//        int two = new Random().nextInt(9);
+//        int three = new Random().nextInt(9);
+//        int four = new Random().nextInt(9);
+//        int five = new Random().nextInt(9);
+//        String revealCode = one + String.valueOf(two) + three + four + five;
+//
+//        // checks for the separation string
+//        if(SpecialName.contains(" _-_ ")||SpecialDescription.contains(" _-_ ")||
+//                (SpecialHiddenDescription != null && SpecialHiddenDescription.contains(" _-_ "))){ return false; }
+//
+//        // adds the NPCs to the system
+//        if(SpecialHiddenDescription!=null){
+//            processor.add(new Special(SpecialName, SpecialDescription, SpecialHiddenDescription, false, revealCode,"" ));
+//        } else {
+//            processor.add(new Special(SpecialName, SpecialDescription, false, revealCode,""));
+//        }
+//        return true;
+//    }
 }
