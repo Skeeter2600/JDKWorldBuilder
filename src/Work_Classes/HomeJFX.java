@@ -617,7 +617,7 @@ public class HomeJFX {
                 // checks for if an Special by that name already exists
                 boolean notMultiple = false;
                 boolean multipleCheck = true;
-                NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345", "");
+                Special comparator = new Special("Paul Blart", "I check for class", true, "12345", "");
 
                 while (!notMultiple) {
                     notMultiple = true;
@@ -626,7 +626,7 @@ public class HomeJFX {
                             Special check = (Special) o;
                             if (check.getName().equals(specialName.getText())) {
                                 actionTarget.setFill(Color.FIREBRICK);
-                                actionTarget.setText("An NPC by this name already exists!");
+                                actionTarget.setText("A special by this name already exists!");
                                 multipleCheck = false;
                             }
                         }

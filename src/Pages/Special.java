@@ -114,10 +114,10 @@ public class Special{
 
     public String writeSpecial(){
         if (hiddenDescription == null) {
-            return Base64.getEncoder().encodeToString(("NPC _-_ " + name + " _-_ " + " _-_ " +
+            return Base64.getEncoder().encodeToString(("Special _-_ " + name + " _-_ " +
                     description + " _-_ " + revealed + " _-_ " + revealCode).getBytes());
         } else {
-            return Base64.getEncoder().encodeToString(("NPC _-_ " + name + " _-_ " + " _-_ " + description +
+            return Base64.getEncoder().encodeToString(("Special _-_ " + name + " _-_ " + description +
                     " _-_ " + hiddenDescription + " _-_ " + revealed + " _-_ " + revealCode).getBytes());
         }
     }
