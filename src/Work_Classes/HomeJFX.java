@@ -93,6 +93,26 @@ public class HomeJFX {
         exitBtn.setAlignment(Pos.CENTER);
         grid.add(exitBtn, 2, 6);
 
+        NPCButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                NPCs(admin);
+            }
+        });
+
+        CityButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+            	Cities(admin); }
+        });
+
+        SpecialButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Specials(admin);
+            }
+        });
+        
         if (admin) {
             Button AddNPCButton = new Button("Add NPC");
             HBox AdminBtn = new HBox(40);
@@ -608,7 +628,7 @@ public class HomeJFX {
             @Override
             public void handle(ActionEvent e) {
                 // checks for the separation string
-                if (specialName.getText().contains(" _-_ ") || specialDescription.getText().contains(" _-_ ") ||
+                if (nameTextField.getText().contains(" _-_ ") || specialDescription.getText().contains(" _-_ ") ||
                         (specialHiddenDescription.getText().contains(" _-_ "))) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please avoid using the string ' _-_ '!");
@@ -775,4 +795,161 @@ public class HomeJFX {
 //        }
 //        return true;
 //    }
+    
+    
+    /**
+     * This will show available NPCs in the system administrator permitting
+     *
+     * @return true if completed, false if a problem occurred
+     */
+    public void NPCs(boolean admin) {
+    	System.out.println("ran NPCs");
+    	
+        grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        
+        //Field labels for list of NPCs 
+        Label NPCName = new Label("Name");
+        NPCName.setFont(Font.font("Tahoma"));
+        NPCName.setTextFill(Color.WHITE.darker());
+        grid.add(NPCName, 0, 0);
+        System.out.println("Name box generated");
+        
+        Label NPCOccupation = new Label("Occupation");
+        NPCOccupation.setFont(Font.font("Tahoma"));
+        NPCOccupation.setTextFill(Color.WHITE.darker());
+        grid.add(NPCOccupation, 20, 0);
+        System.out.println("Occupation box generated");
+        
+        if (admin == true) {
+            Label revealed = new Label("Revealed?");
+            revealed.setFont(Font.font("Tahoma"));
+            revealed.setTextFill(Color.WHITE.darker());
+            grid.add(revealed, 30, 0);
+            System.out.println("Revealed  box generated");
+        
+            //Edit buttons for admin will be below this space
+            Label editSpace = new Label("");
+            editSpace.setFont(Font.font("Tahoma"));
+            editSpace.setTextFill(Color.WHITE.darker());
+        	grid.add(editSpace, 40, 0);
+        System.out.println("Edit space generated");
+        }
+                
+        BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
+                CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(background_fill);
+        grid.setBackground(background);
+        
+        Scene scene = new Scene(grid, 1152, 648);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("World Viewer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    
+    /**
+     * This will show available cities in the system administrator permitting
+     *
+     * @return true if completed, false if a problem occurred
+     */
+    public void Cities(boolean admin) {
+    	System.out.println("ran Cities");
+    	
+        grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        
+        //Field labels for list of Cities
+        Label cityName = new Label("Name");
+        cityName.setFont(Font.font("Tahoma"));
+        cityName.setTextFill(Color.WHITE.darker());
+        grid.add(cityName, 0, 0);
+        System.out.println("Name box generated");
+        
+        Label cityPop = new Label("Population");
+        cityPop.setFont(Font.font("Tahoma"));
+        cityPop.setTextFill(Color.WHITE.darker());
+        grid.add(cityPop, 20, 0);
+        System.out.println("Population box generated");
+        
+        if (admin == true) {
+            Label revealed = new Label("Revealed?");
+            revealed.setFont(Font.font("Tahoma"));
+            revealed.setTextFill(Color.WHITE.darker());
+            grid.add(revealed, 30, 0);
+            System.out.println("Revealed  box generated");
+                
+        	Label editSpace = new Label("");
+        	editSpace.setFont(Font.font("Tahoma"));
+        	editSpace.setTextFill(Color.WHITE.darker());
+        	grid.add(editSpace, 40, 0);
+        	System.out.println("Edit space generated");
+    	}
+        
+        BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
+                CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(background_fill);
+        grid.setBackground(background);
+        
+        Scene scene = new Scene(grid, 1152, 648);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("World Viewer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    
+    /**
+     * This will show available specials in the system administrator permitting
+     *
+     * @return true if completed, false if a problem occurred
+     */
+    public void Specials(boolean admin) {
+    	System.out.println("ran Specials");
+    	
+        grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        
+        //Field labels for list of Specials
+        Label specialName = new Label("Name");
+        specialName.setFont(Font.font("Tahoma"));
+        specialName.setTextFill(Color.WHITE.darker());
+        grid.add(specialName, 0, 0);
+        System.out.println("Name box generated");
+        
+        if (admin == true) {
+            Label revealed = new Label("Revealed?");
+            revealed.setFont(Font.font("Tahoma"));
+            revealed.setTextFill(Color.WHITE.darker());
+            grid.add(revealed, 30, 0);
+            System.out.println("Revealed  box generated");
+                
+        	Label editSpace = new Label("");
+        	editSpace.setFont(Font.font("Tahoma"));
+        	editSpace.setTextFill(Color.WHITE.darker());
+        	grid.add(editSpace, 40, 0);
+        	System.out.println("Edit space generated");
+    	}
+        
+        BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
+                CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(background_fill);
+        grid.setBackground(background);
+        
+        Scene scene = new Scene(grid, 1152, 648);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("World Viewer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 }
