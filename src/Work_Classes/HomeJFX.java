@@ -4,6 +4,8 @@ import JFXDisplays.NPCJFX;
 import Pages.City;
 import Pages.NPC;
 import Pages.Special;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -828,21 +830,32 @@ public class HomeJFX {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("Tahoma"));
             revealed.setTextFill(Color.WHITE.darker());
-            grid.add(revealed, 30, 0);
+            grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
         
             //Edit buttons for admin will be below this space
             Label editSpace = new Label("");
             editSpace.setFont(Font.font("Tahoma"));
             editSpace.setTextFill(Color.WHITE.darker());
-        	grid.add(editSpace, 40, 0);
+        	grid.add(editSpace, 25, 0);
         System.out.println("Edit space generated");
         }
                 
+        
+        ListView<String> list = new ListView<String>();
+        ObservableList<String> items =FXCollections.observableArrayList (
+            "Joe Swanson", "Darwin", "The Warden", "Mysterious Wizard");
+        list.setItems(items);
+        list.setPrefWidth(500);
+        list.setPrefHeight(70);
+        grid.add(list, 0, 1, 25, 1);
+        System.out.println("List generated");
+        
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(background_fill);
         grid.setBackground(background);
+        
         
         Scene scene = new Scene(grid, 1152, 648);
         primaryStage.setScene(scene);
@@ -883,15 +896,24 @@ public class HomeJFX {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("Tahoma"));
             revealed.setTextFill(Color.WHITE.darker());
-            grid.add(revealed, 30, 0);
+            grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
                 
         	Label editSpace = new Label("");
         	editSpace.setFont(Font.font("Tahoma"));
         	editSpace.setTextFill(Color.WHITE.darker());
-        	grid.add(editSpace, 40, 0);
+        	grid.add(editSpace, 25, 0);
         	System.out.println("Edit space generated");
     	}
+        
+        ListView<String> list = new ListView<String>();
+        ObservableList<String> items =FXCollections.observableArrayList (
+            "Onnet", "Twoson", "Threed", "Fourside");
+        list.setItems(items);
+        list.setPrefWidth(500);
+        list.setPrefHeight(70);
+        grid.add(list, 0, 1, 25, 1);
+        System.out.println("List generated");
         
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
@@ -931,15 +953,24 @@ public class HomeJFX {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("Tahoma"));
             revealed.setTextFill(Color.WHITE.darker());
-            grid.add(revealed, 30, 0);
+            grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
                 
         	Label editSpace = new Label("");
         	editSpace.setFont(Font.font("Tahoma"));
         	editSpace.setTextFill(Color.WHITE.darker());
-        	grid.add(editSpace, 40, 0);
+        	grid.add(editSpace, 25, 0);
         	System.out.println("Edit space generated");
     	}
+        
+        ListView<String> list = new ListView<String>();
+        ObservableList<String> items =FXCollections.observableArrayList (
+            "Single", "Double", "Suite", "Family App");
+        list.setItems(items);
+        list.setPrefWidth(500);
+        list.setPrefHeight(70);
+        grid.add(list, 0, 1, 25, 1);
+        System.out.println("List generated");
         
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
