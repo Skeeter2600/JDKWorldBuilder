@@ -26,8 +26,6 @@ public class FileProcessor {
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(file));
-            boolean tempAdmin = admin;
-            admin = true;
             String line = reader.readLine();
             for (int lineReader = 0; line != null; lineReader++) {
                 if(lineReader == 0){
@@ -44,7 +42,6 @@ public class FileProcessor {
                 }
                 line = reader.readLine();
             }
-            admin = tempAdmin;
             System.out.println("World successfully built!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,7 +50,7 @@ public class FileProcessor {
     }
 
     /**
-     * This function will add a components to the group of
+     * This function will add a component to the group of
      * other components
      *
      * @param line the component to be added
@@ -61,30 +58,29 @@ public class FileProcessor {
      */
     public String addComponent(String line) {
 
-        // if not in admin mode, don't edit
-        if (!admin) return "not admin";
         String revealCode;
 
         // decode the string
         byte[] decodedBytes = Base64.getDecoder().decode(line);
         line = new String(decodedBytes);
+        String[] decodedList = line.split(" _-_ ");
         // check the string
-        switch (line.split(" _-_ ")[0]) {
+        switch (decodedList[0]) {
             case ("City"):
                 // get name
-                String cityName = line.split(" _-_ ")[1];
+                String cityName = decodedList[1];
 
                 // get population
-                int population = Integer.parseInt(line.split(" _-_ ")[2]);
+                int population = Integer.parseInt(decodedList[2]);
 
                 // get trades
-                String[] tempTrade = line.split(" _-_ ")[3].split(" ... ");
+                String[] tempTrade = decodedList[3].split(" ... ");
                 List<String> trade = null;
                 assert false;
                 trade.addAll(Arrays.asList(tempTrade));
 
                 // get NPCs
-                String[] tempNPC = line.split(" _-_ ")[4].split(" ... ");
+                String[] tempNPC = decodedList[4].split(" ... ");
                 List<NPC> residents = null;
                 for (String s : tempNPC) {
                     NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345","");
@@ -98,13 +94,13 @@ public class FileProcessor {
                     }
                 }
                 // get the song
-                String song = line.split(" _-_ ")[5];
+                String song = decodedList[5];
 
                 // get the aesthetic description
-                String aesthetic = line.split(" _-_ ")[6];
+                String aesthetic = decodedList[6];
 
                 // get the specials
-                String[] specialsTemp = line.split(" _-_ ")[7].split(" ... ");
+                String[] specialsTemp = decodedList[7].split(" ... ");
                 List<Special> specials = null;
                 for (String s : specialsTemp) {
                     Special checker = new Special("Capitol Building", "Raid Site", false, "12345","");
@@ -118,13 +114,14 @@ public class FileProcessor {
                     }
                 }
 
-                boolean revealed = line.split(" _-_ ")[8].equals("true");
+                boolean revealed = decodedList[8].equals("true");
 
-                revealCode = line.split(" _-_ ")[9];
+                revealCode = decodedList[9];
 
-                String notes = line.split(" _-_ ")[10];
+                String notes = decodedList[10];
 
                 String[] test = new String[0];
+
                 // add to the components
                 components.add(new City(cityName, population, test , residents, song, aesthetic, specials, revealed, revealCode, notes));
                 return cityName + " added";
