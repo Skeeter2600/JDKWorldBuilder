@@ -105,13 +105,13 @@ public class HomeJFX {
         CityButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-            	Cities(admin); }
+            	cities(admin); }
         });
 
         SpecialButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Specials(admin);
+                specials(admin);
             }
         });
         
@@ -658,7 +658,7 @@ public class HomeJFX {
                     }
                 }
                 if (multipleCheck) {
-                    // adds the Specials to the system
+                    // adds the specials to the system
                     int one = new Random().nextInt(9);
                     int two = new Random().nextInt(9);
                     int three = new Random().nextInt(9);
@@ -678,7 +678,7 @@ public class HomeJFX {
                                 false, revealCode, ""));
                     }
                 }
-                //displaySpecials();
+                //displayspecials();
             }
         });
     }
@@ -832,36 +832,47 @@ public class HomeJFX {
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
-        
+
             //Edit buttons for admin will be below this space
             Label editSpace = new Label("");
             editSpace.setFont(Font.font("Tahoma"));
             editSpace.setTextFill(Color.WHITE.darker());
-        	grid.add(editSpace, 25, 0);
-        System.out.println("Edit space generated");
+            grid.add(editSpace, 25, 0);
+            System.out.println("Edit space generated");
         }
-                
         
         ListView<String> list = new ListView<String>();
         ObservableList<String> items =FXCollections.observableArrayList (
             "Joe Swanson", "Darwin", "The Warden", "Mysterious Wizard");
         list.setItems(items);
         list.setPrefWidth(500);
-        list.setPrefHeight(70);
+        list.setPrefHeight(400);
         grid.add(list, 0, 1, 25, 1);
         System.out.println("List generated");
+
+        Button cancel = new Button("Cancel");
+        HBox hbBtn = new HBox(20);
+        hbBtn.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtn.getChildren().add(cancel);
+        grid.add(hbBtn, 0, 2);
         
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(background_fill);
         grid.setBackground(background);
         
-        
         Scene scene = new Scene(grid, 1152, 648);
         primaryStage.setScene(scene);
         primaryStage.setTitle("World Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                commandProgram();
+            }
+        });
     }
     
     
@@ -870,8 +881,8 @@ public class HomeJFX {
      *
      * @return true if completed, false if a problem occurred
      */
-    public void Cities(boolean admin) {
-    	System.out.println("ran Cities");
+    public void cities(boolean admin) {
+    	System.out.println("ran cities");
     	
         grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -879,7 +890,7 @@ public class HomeJFX {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        //Field labels for list of Cities
+        //Field labels for list of cities
         Label cityName = new Label("Name");
         cityName.setFont(Font.font("Tahoma"));
         cityName.setTextFill(Color.WHITE.darker());
@@ -911,9 +922,15 @@ public class HomeJFX {
             "Onnet", "Twoson", "Threed", "Fourside");
         list.setItems(items);
         list.setPrefWidth(500);
-        list.setPrefHeight(70);
+        list.setPrefHeight(400);
         grid.add(list, 0, 1, 25, 1);
         System.out.println("List generated");
+
+        Button cancel = new Button("Cancel");
+        HBox hbBtn = new HBox(20);
+        hbBtn.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtn.getChildren().add(cancel);
+        grid.add(hbBtn, 0, 2);
         
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
@@ -925,6 +942,13 @@ public class HomeJFX {
         primaryStage.setTitle("World Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                commandProgram();
+            }
+        });
     }
     
     
@@ -933,8 +957,8 @@ public class HomeJFX {
      *
      * @return true if completed, false if a problem occurred
      */
-    public void Specials(boolean admin) {
-    	System.out.println("ran Specials");
+    public void specials(boolean admin) {
+    	System.out.println("ran specials");
     	
         grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -942,7 +966,7 @@ public class HomeJFX {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        //Field labels for list of Specials
+        //Field labels for list of specials
         Label specialName = new Label("Name");
         specialName.setFont(Font.font("Tahoma"));
         specialName.setTextFill(Color.WHITE.darker());
@@ -968,10 +992,16 @@ public class HomeJFX {
             "Single", "Double", "Suite", "Family App");
         list.setItems(items);
         list.setPrefWidth(500);
-        list.setPrefHeight(70);
+        list.setPrefHeight(400);
         grid.add(list, 0, 1, 25, 1);
         System.out.println("List generated");
-        
+
+        Button cancel = new Button("Cancel");
+        HBox hbBtn = new HBox(20);
+        hbBtn.setAlignment(Pos.BOTTOM_LEFT);
+        hbBtn.getChildren().add(cancel);
+        grid.add(hbBtn, 0, 2);
+
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(background_fill);
@@ -982,5 +1012,12 @@ public class HomeJFX {
         primaryStage.setTitle("World Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                commandProgram();
+            }
+        });
     }
 }

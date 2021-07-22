@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -58,35 +59,32 @@ public class Main extends Application {
         sceneTitle.setFill(Color.WHITE.darker());
         grid.add(sceneTitle, 0, 0, 3, 1);
 
+        HBox worldName = new HBox(60);
         Label userName = new Label("World Name:");
         userName.setFont(Font.font("Tahoma"));
         userName.setTextFill(Color.WHITE.darker());
-        grid.add(userName, 0, 3);
+        worldName.getChildren().add(userName);
 
         TextField userTextField = new TextField();
-        userTextField.setPrefWidth(200);
-        grid.add(userTextField, 1, 3);
+        userTextField.setPrefWidth(240);
+        worldName.getChildren().add(userTextField);
+        grid.add(worldName, 0, 3);
 
         Button signIn = new Button("Open World");
-        HBox hbBtn = new HBox(20);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        HBox hbBtn = new HBox(60);
+        hbBtn.setAlignment(Pos.BOTTOM_CENTER);
         hbBtn.getChildren().add(signIn);
-        grid.add(hbBtn, 2, 5);
 
         Button newWorld = new Button("Create World");
-        HBox newWorldBtn = new HBox(20);
-        newWorldBtn.setAlignment(Pos.BOTTOM_LEFT);
-        newWorldBtn.getChildren().add(newWorld);
-        grid.add(newWorldBtn,0,5);
+        hbBtn.getChildren().add(newWorld);
 
         Button addWorld = new Button("Add World");
-        HBox addWorldBtn = new HBox(20);
-        addWorldBtn.setAlignment(Pos.BOTTOM_CENTER);
-        addWorldBtn.getChildren().add(addWorld);
-        grid.add(addWorldBtn,1,5);
+        hbBtn.getChildren().add(addWorld);
+        grid.add(hbBtn,0,5);
 
         final Text actionTarget = new Text();
-        grid.add(actionTarget, 1, 6);
+        actionTarget.setTextAlignment(TextAlignment.CENTER);
+        grid.add(actionTarget, 0, 6);
 
         primaryStage.setTitle("World Builder");
         primaryStage.setScene(scene);
