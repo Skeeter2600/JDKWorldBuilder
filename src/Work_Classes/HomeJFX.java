@@ -370,7 +370,7 @@ public class HomeJFX {
                     }
                     fileProcessor.writeFile();
                 }
-                //displayNPCs();
+                NPCs(admin);
             }
         });
     }
@@ -528,7 +528,6 @@ public class HomeJFX {
                     //processor.add(new City(nameTextField.getText(),populationTextField.getText(),));
                     }
                 }
-                //displayNPCs();
             }
         );
     }
@@ -661,18 +660,28 @@ public class HomeJFX {
                     }
                 }
                 if (multipleCheck) {
-                    // adds the specials to the system
-                    int one = new Random().nextInt(9);
-                    int two = new Random().nextInt(9);
-                    int three = new Random().nextInt(9);
-                    int four = new Random().nextInt(9);
-                    int five = new Random().nextInt(9);
-                    String revealCode = one + String.valueOf(two) + three + four + five;
+                    boolean revealCoded = false;
+                    String revealCode = "";
+                    while(!revealCoded) {
+                        revealCoded = true;
+                        // adds the specials to the system
+                        int one = new Random().nextInt(9);
+                        int two = new Random().nextInt(9);
+                        int three = new Random().nextInt(9);
+                        int four = new Random().nextInt(9);
+                        int five = new Random().nextInt(9);
+                        revealCode = one + String.valueOf(two) + three + four + five;
 
-                    // add check for if another part has the same revealCode here
-
-                    //
-
+                        // add check for if another part has the same revealCode here
+                        Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
+                        for (Object part : processor){
+                            if (part.getClass() == tempSpecial.getClass()) {
+                                if (tempSpecial.getRevealCode().equals(revealCode)) {
+                                    revealCoded = false;
+                                }
+                            }
+                        }
+                    }
                     if (DescriptionExists.isSelected()) {
                         processor.add(new Special(specialName.getText(), specialDescription.getText(),
                                 specialHiddenDescription.getText(), false, revealCode, ""));
@@ -681,17 +690,11 @@ public class HomeJFX {
                                 false, revealCode, ""));
                     }
                 }
-                //displayspecials();
+                specials(admin);
             }
         });
     }
-    
-    
-    
-    
-    
-    
-    
+
 //    /**
 //     * OLD CONSOLE METHOD
 //     * This will add a Special to the system
