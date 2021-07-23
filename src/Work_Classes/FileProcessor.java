@@ -76,27 +76,16 @@ public class FileProcessor {
                 String cityName = splitLine[1];
 
                 // get population
-                int population = Integer.parseInt(splitLine[2]);
+                String population = splitLine[2];
 
                 // get trades
-                String[] tempTrade = splitLine[3].split(" ... ");
-                List<String> trade = null;
-                assert false;
-                trade.addAll(Arrays.asList(tempTrade));
+                String trades = splitLine[3];
 
                 // get NPCs
                 String[] tempNPC = splitLine[4].split(" ... ");
-                List<NPC> residents = null;
+                List<String> residents = null;
                 for (String s : tempNPC) {
-                    NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345","");
-                    for (Object o : components) {
-                        if (o.getClass() == comparator.getClass()) {
-                            NPC check = (NPC) o;
-                            if (check.getName().equals(s)) {
-                                residents.add(check);
-                            }
-                        }
-                    }
+                	residents.add(s);
                 }
                 // get the song
                 String song = splitLine[5];
@@ -106,17 +95,9 @@ public class FileProcessor {
 
                 // get the specials
                 String[] specialsTemp = splitLine[7].split(" ... ");
-                List<Special> specials = null;
+                List<String> specials = null;
                 for (String s : specialsTemp) {
-                    Special checker = new Special("Capitol Building", "Raid Site", false, "12345","");
-                    for (Object o : components) {
-                        if (o.getClass() == checker.getClass()) {
-                            Special checking = (Special) o;
-                            if (checking.getName().equals(s)) {
-                                specials.add(checking);
-                            }
-                        }
-                    }
+                	specials.add(s);
                 }
 
                 boolean revealed = splitLine[8].equals("true");
@@ -124,10 +105,9 @@ public class FileProcessor {
                 revealCode = splitLine[9];
 
                 String notes = splitLine[10];
-
-                String[] test = new String[0];
+                
                 // add to the components
-                components.add(new City(cityName, population, test , residents, song, aesthetic, specials, revealed, revealCode, notes));
+                components.add(new City(cityName, population, trades , residents, song, aesthetic, specials, revealed, revealCode, notes));
                 return cityName + " added";
 
             case ("NPC"):
@@ -182,7 +162,7 @@ public class FileProcessor {
                 } else {
                     // add to the components
                     assert false;
-                    components.add(new Special(specialName, specialDescription, revealed, revealCode,SpecialNotes));
+                    components.add(new Special(specialName, specialDescription, revealed, revealCode, SpecialNotes));
                 }
                 return specialName + " added";
 
@@ -197,7 +177,7 @@ public class FileProcessor {
         String encodedString;
         try (Writer writer = new FileWriter(mainFile)) {
             NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
-            City tempCity = new City("testville", 1, null, null, "never gonna give you up",
+            City tempCity = new City("testville", "1.3 mil.", null, null, "never gonna give you up",
                     "ballsy", null, false, "12345", "");
             Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
             encodedString = Base64.getEncoder().encodeToString(password.getPassword().getBytes());
@@ -206,19 +186,21 @@ public class FileProcessor {
             for (Object part : components) {
                 // write an NPC
                 if (part.getClass() == tempNPC.getClass()) {
-                    writer.write(((NPC) part).writeNPC());
+                    writer.write("\n");
+                	writer.write(((NPC) part).writeNPC());
                 }
                 // write a city
                 else if (part.getClass() == tempCity.getClass()) {
-                    writer.write(((City) part).writeCity());
+                	writer.write("\n");
+                	writer.write(((City) part).writeCity());
                 }
                 // write a Special
                 else if (part.getClass() == tempSpecial.getClass()) {
-                    writer.write(((Special) part).writeSpecial());
+                	writer.write("\n");
+                	writer.write(((Special) part).writeSpecial());
                 } else {
                     System.out.println(part.toString() + "not a valid system");
                 }
-                writer.write("\n");
                 writer.flush();
             }
         } catch (IOException e) {

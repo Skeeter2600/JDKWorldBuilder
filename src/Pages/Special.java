@@ -113,12 +113,16 @@ public class Special{
     public void setNotes(String newNotes) {notes = newNotes;}
 
     public String writeSpecial(){
+        String encodedString;
+        if(notes.equals("")){
+           notes = " ";
+        }
         if (hiddenDescription == null) {
             return Base64.getEncoder().encodeToString(("Special _-_ " + name + " _-_ " +
-                    description + " _-_ " + revealed + " _-_ " + revealCode).getBytes());
+                    description + " _-_ " + revealed + " _-_ " + revealCode + " _-_ " + notes).getBytes());
         } else {
             return Base64.getEncoder().encodeToString(("Special _-_ " + name + " _-_ " + description +
-                    " _-_ " + hiddenDescription + " _-_ " + revealed + " _-_ " + revealCode).getBytes());
+                    " _-_ " + hiddenDescription + " _-_ " + revealed + " _-_ " + revealCode + " _-_ " + notes).getBytes());
         }
     }
 }

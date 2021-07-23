@@ -526,6 +526,9 @@ public class HomeJFX {
                     // adds the NPCs to the system
                     //List<String> trades = tradeTextField.getText().split(",");
                     //processor.add(new City(nameTextField.getText(),populationTextField.getText(),));
+                    processor.add(new City(nameTextField.getText(), populationTextField.getText(), songTextField.getText(),
+                    songTextField.getText(), aestheticTextField.getText(), false, revealCode, ""));
+                    fileProcessor.writeFile();
                     }
                 }
             }
@@ -566,16 +569,16 @@ public class HomeJFX {
         grid.add(specialDescription, 0, 2);
         System.out.print("Description Generated");
 
-        TextArea DescriptionTextField = new TextArea();
-        DescriptionTextField.setPrefWidth(200);
-        grid.add(DescriptionTextField, 1, 2);
+        TextArea descriptionTextField = new TextArea();
+        descriptionTextField.setPrefWidth(200);
+        grid.add(descriptionTextField, 1, 2);
         System.out.println("Occupation Text generated");
 
         // Asks if hidden description exists
-        Label HiddenDescription = new Label("Hidden Description?:");
-        HiddenDescription.setFont(Font.font("Tahoma"));
-        HiddenDescription.setTextFill(Color.WHITE.darker());
-        grid.add(HiddenDescription, 0, 3);
+        Label hiddenDescription = new Label("Hidden Description?:");
+        hiddenDescription.setFont(Font.font("Tahoma"));
+        hiddenDescription.setTextFill(Color.WHITE.darker());
+        grid.add(hiddenDescription, 0, 3);
         System.out.print("Description Generated");
 
         CheckBox DescriptionExists = new CheckBox();
@@ -590,8 +593,8 @@ public class HomeJFX {
         grid.add(specialHiddenDescription, 0, 4);
         System.out.print("Description Generated");
 
-        TextArea HiddenDescriptionTextField = new TextArea();
-        grid.add(HiddenDescriptionTextField, 1, 4);
+        TextArea hiddenDescriptionTextField = new TextArea();
+        grid.add(hiddenDescriptionTextField, 1, 4);
         System.out.println("Occupation Text generated");
 
         Button cancel = new Button("Cancel");
@@ -632,8 +635,8 @@ public class HomeJFX {
             @Override
             public void handle(ActionEvent e) {
                 // checks for the separation string
-                if (nameTextField.getText().contains(" _-_ ") || specialDescription.getText().contains(" _-_ ") ||
-                        (specialHiddenDescription.getText().contains(" _-_ "))) {
+                if (nameTextField.getText().contains(" _-_ ") || descriptionTextField.getText().contains(" _-_ ") ||
+                        (hiddenDescriptionTextField.getText().contains(" _-_ "))) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please avoid using the string ' _-_ '!");
                 }
@@ -683,12 +686,13 @@ public class HomeJFX {
                         }
                     }
                     if (DescriptionExists.isSelected()) {
-                        processor.add(new Special(specialName.getText(), specialDescription.getText(),
-                                specialHiddenDescription.getText(), false, revealCode, ""));
+                        processor.add(new Special(nameTextField.getText(), descriptionTextField.getText(),
+                        		hiddenDescriptionTextField.getText(), false, revealCode, ""));
                     } else {
-                        processor.add(new Special(specialName.getText(), specialDescription.getText(),
+                        processor.add(new Special(nameTextField.getText(), descriptionTextField.getText(),
                                 false, revealCode, ""));
                     }
+                    fileProcessor.writeFile();
                 }
                 specials(admin);
             }
