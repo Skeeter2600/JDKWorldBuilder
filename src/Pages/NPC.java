@@ -29,6 +29,7 @@ public class NPC{
         hiddenDescriptionReveal = true;
         this.revealCode = revealCode;
         this.revealed = revealed;
+
         this.notes = notes;
     }
 
@@ -131,6 +132,9 @@ public class NPC{
 
     public String writeNPC(){
         String encodedString;
+        if(notes.equals("")){
+           notes = " ";
+        }
         if (hiddenDescription == null) {
             encodedString = Base64.getEncoder().encodeToString(("NPC _-_ " + name + " _-_ " + occupation +
                     " _-_ " + description + " _-_ " + revealed + " _-_ " + revealCode + " _-_ " + notes).getBytes());

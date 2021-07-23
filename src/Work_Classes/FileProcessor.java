@@ -70,22 +70,22 @@ public class FileProcessor {
         line = new String(decodedBytes);
         String[] splitLine = line.split(" _-_ ");
         // check the string
-        switch (line.split(" _-_ ")[0]) {
+        switch (splitLine[0]) {
             case ("City"):
                 // get name
-                String cityName = line.split(" _-_ ")[1];
+                String cityName = splitLine[1];
 
                 // get population
-                int population = Integer.parseInt(line.split(" _-_ ")[2]);
+                int population = Integer.parseInt(splitLine[2]);
 
                 // get trades
-                String[] tempTrade = line.split(" _-_ ")[3].split(" ... ");
+                String[] tempTrade = splitLine[3].split(" ... ");
                 List<String> trade = null;
                 assert false;
                 trade.addAll(Arrays.asList(tempTrade));
 
                 // get NPCs
-                String[] tempNPC = line.split(" _-_ ")[4].split(" ... ");
+                String[] tempNPC = splitLine[4].split(" ... ");
                 List<NPC> residents = null;
                 for (String s : tempNPC) {
                     NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345","");
@@ -99,13 +99,13 @@ public class FileProcessor {
                     }
                 }
                 // get the song
-                String song = line.split(" _-_ ")[5];
+                String song = splitLine[5];
 
                 // get the aesthetic description
-                String aesthetic = line.split(" _-_ ")[6];
+                String aesthetic = splitLine[6];
 
                 // get the specials
-                String[] specialsTemp = line.split(" _-_ ")[7].split(" ... ");
+                String[] specialsTemp = splitLine[7].split(" ... ");
                 List<Special> specials = null;
                 for (String s : specialsTemp) {
                     Special checker = new Special("Capitol Building", "Raid Site", false, "12345","");
@@ -119,11 +119,11 @@ public class FileProcessor {
                     }
                 }
 
-                boolean revealed = line.split(" _-_ ")[8].equals("true");
+                boolean revealed = splitLine[8].equals("true");
 
-                revealCode = line.split(" _-_ ")[9];
+                revealCode = splitLine[9];
 
-                String notes = line.split(" _-_ ")[10];
+                String notes = splitLine[10];
 
                 String[] test = new String[0];
                 // add to the components
@@ -132,24 +132,24 @@ public class FileProcessor {
 
             case ("NPC"):
                 // get name
-                String NPCName = line.split(" _-_ ")[1];
+                String NPCName = splitLine[1];
 
                 // get occupation
-                String occupation = line.split(" _-_ ")[2];
+                String occupation = splitLine[2];
 
                 // get description
-                String description = line.split(" _-_ ")[3];
+                String description = splitLine[3];
 
-                revealed = line.split(" _-_ ")[4].equals("true");
+                revealed = splitLine[4].equals("true");
 
-                revealCode = line.split(" _-_ ")[5];
+                revealCode = splitLine[5];
 
-                String NPCNotes = line.split(" _-_ ")[6];
+                String NPCNotes = splitLine[6];
 
-                if (line.split(" _-_ ").length == 7) {
-                    String hiddenDescription = line.split(" _-_ ")[5];
-                    revealCode = line.split(" _-_ ")[6];
-                    NPCNotes = line.split(" _-_ ")[7];
+                if (splitLine.length == 8) {
+                    String hiddenDescription = splitLine[5];
+                    revealCode = splitLine[6];
+                    NPCNotes = splitLine[7];
                     assert false;
                     components.add(new NPC(NPCName, occupation, description, hiddenDescription, revealed, revealCode, NPCNotes));
                 } else {
@@ -161,22 +161,22 @@ public class FileProcessor {
 
             case ("Special"):
                 // get name
-                String specialName = line.split(" _-_ ")[1];
+                String specialName = splitLine[1];
 
                 // get description
-                String specialDescription = line.split(" _-_ ")[2];
+                String specialDescription = splitLine[2];
 
-                revealed = line.split(" _-_ ")[3].equals("true");
+                revealed = splitLine[3].equals("true");
 
                 revealCode = line.split(" _-_")[4];
 
-                String SpecialNotes = line.split(" _-_ ")[5];
+                String SpecialNotes = splitLine[5];
 
-                if (line.split(" _-_ ").length == 7) {
-                    String hiddenDescription = line.split(" _-_ ")[3];
-                    revealed = line.split(" _-_ ")[4].equals("true");
-                    revealCode = line.split(" _-_ ")[5];
-                    SpecialNotes = line.split(" _-_ ")[6];
+                if (splitLine.length == 7) {
+                    String hiddenDescription = splitLine[3];
+                    revealed = splitLine[4].equals("true");
+                    revealCode = splitLine[5];
+                    SpecialNotes = splitLine[6];
                     assert false;
                     components.add(new Special(specialName, specialDescription, hiddenDescription, revealed, revealCode, SpecialNotes));
                 } else {
