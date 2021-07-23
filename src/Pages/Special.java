@@ -113,7 +113,6 @@ public class Special{
     public void setNotes(String newNotes) {notes = newNotes;}
 
     public String writeSpecial(){
-        String encodedString;
         if(notes.equals("")){
            notes = " ";
         }

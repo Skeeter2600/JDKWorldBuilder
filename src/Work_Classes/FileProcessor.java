@@ -83,10 +83,8 @@ public class FileProcessor {
 
                 // get NPCs
                 String[] tempNPC = splitLine[4].split(" ... ");
-                List<String> residents = null;
-                for (String s : tempNPC) {
-                	residents.add(s);
-                }
+                List<String> residents = new ArrayList<>();
+                Collections.addAll(residents, tempNPC);
                 // get the song
                 String song = splitLine[5];
 
@@ -95,10 +93,8 @@ public class FileProcessor {
 
                 // get the specials
                 String[] specialsTemp = splitLine[7].split(" ... ");
-                List<String> specials = null;
-                for (String s : specialsTemp) {
-                	specials.add(s);
-                }
+                List<String> specials = new ArrayList<>();
+                Collections.addAll(specials, specialsTemp);
 
                 boolean revealed = splitLine[8].equals("true");
 

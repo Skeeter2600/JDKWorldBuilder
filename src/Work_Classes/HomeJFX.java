@@ -19,10 +19,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class HomeJFX {
 
@@ -349,18 +346,29 @@ public class HomeJFX {
                     }
                 }
                 if (multipleCheck) {
-                    // adds the NPCs to the system
-                    int one = new Random().nextInt(9);
-                    int two = new Random().nextInt(9);
-                    int three = new Random().nextInt(9);
-                    int four = new Random().nextInt(9);
-                    int five = new Random().nextInt(9);
-                    String revealCode = one + String.valueOf(two) + three + four + five;
+                    boolean revealCoded = false;
+                    String revealCode = "";
+                    while(!revealCoded) {
+                        revealCoded = true;
+                        // adds the NPCs to the system
+                        int one = new Random().nextInt(9);
+                        int two = new Random().nextInt(9);
+                        int three = new Random().nextInt(9);
+                        int four = new Random().nextInt(9);
+                        int five = new Random().nextInt(9);
+                        revealCode = one + String.valueOf(two) + three + four + five;
 
-                    // add check for if another part has the same revealCode here
-
+                        NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
+                        // add check for if another part has the same revealCode here
+                        for (Object part : processor) {
+                            if (part.getClass() == tempNPC.getClass()) {
+                                if (tempNPC.getRevealCode().equals(revealCode)) {
+                                    revealCoded = false;
+                                }
+                            }
+                        }
+                    }
                     //
-
                     if (DescriptionExists.isSelected()) {
                         processor.add(new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
                         		hiddenDescriptionTextField.getText(), false, revealCode, ""));
@@ -435,7 +443,7 @@ public class HomeJFX {
         grid.add(aestheticTextField, 1, 3);
         System.out.println("Aesthetic Text generated");
 
-        // Gets the City's song
+        // Gets the City's trades
         Label cityTrade = new Label("Trades:");
         cityTrade.setFont(Font.font("Tahoma"));
         cityTrade.setTextFill(Color.WHITE.darker());
@@ -446,6 +454,30 @@ public class HomeJFX {
         tradeTextField.setPrefWidth(200);
         grid.add(tradeTextField, 1, 4);
         System.out.println("Trade Text generated");
+
+        // Gets the City's Residents
+        Label cityResidents = new Label("Residents:");
+        cityResidents.setFont(Font.font("Tahoma"));
+        cityResidents.setTextFill(Color.WHITE.darker());
+        grid.add(cityResidents, 0, 2);
+        System.out.print("Residents Generated");
+
+        TextField residentsTextField = new TextField();
+        residentsTextField.setPrefWidth(200);
+        grid.add(residentsTextField, 1, 2);
+        System.out.println("Residents Text generated");
+
+        // Gets the City's Specials
+        Label citySpecials = new Label("Specials:");
+        citySpecials.setFont(Font.font("Tahoma"));
+        citySpecials.setTextFill(Color.WHITE.darker());
+        grid.add(citySpecials, 0, 2);
+        System.out.print("Specials Generated");
+
+        TextField specialsTextField = new TextField();
+        specialsTextField.setPrefWidth(200);
+        grid.add(specialsTextField, 1, 2);
+        System.out.println("Specials Text generated");
 
         Button cancel = new Button("Cancel");
         HBox hbBtn = new HBox(20);
@@ -512,22 +544,38 @@ public class HomeJFX {
                         notMultiple = false;
                     }
                 }
+                List<String> residents = new ArrayList<>();
+                residents.add(residentsTextField.getText());
+                List<String> specials = new ArrayList<>();
+                residents.add(specialsTextField.getText());
                 if (multipleCheck) {
-                    // generates reveal code
-                    int one = new Random().nextInt(9);
-                    int two = new Random().nextInt(9);
-                    int three = new Random().nextInt(9);
-                    int four = new Random().nextInt(9);
-                    int five = new Random().nextInt(9);
-                    String revealCode = one + String.valueOf(two) + three + four + five;
-
-                    // add check for if another part has the same reveal code here
-
+                    boolean revealCoded = false;
+                    String revealCode = "";
+                    while(!revealCoded) {
+                        revealCoded = true;
+                        // generates reveal code
+                        int one = new Random().nextInt(9);
+                        int two = new Random().nextInt(9);
+                        int three = new Random().nextInt(9);
+                        int four = new Random().nextInt(9);
+                        int five = new Random().nextInt(9);
+                        revealCode = one + String.valueOf(two) + three + four + five;
+                        City tempCity = new City("testville", "1.3 mil.", null, null, "never gonna give you up",
+                                "ballsy", null, false, "12345", "");
+                        // add check for if another part has the same reveal code here
+                        for (Object part : processor) {
+                            if (part.getClass() == tempCity.getClass()) {
+                                if (tempCity.getRevealCode().equals(revealCode)) {
+                                    revealCoded = false;
+                                }
+                            }
+                        }
+                    }
                     // adds the NPCs to the system
                     //List<String> trades = tradeTextField.getText().split(",");
                     //processor.add(new City(nameTextField.getText(),populationTextField.getText(),));
-                    processor.add(new City(nameTextField.getText(), populationTextField.getText(), songTextField.getText(),
-                    songTextField.getText(), aestheticTextField.getText(), false, revealCode, ""));
+                    processor.add(new City(nameTextField.getText(), populationTextField.getText(), tradeTextField.getText(),residents,
+                    songTextField.getText(), aestheticTextField.getText(),specials, false, revealCode, ""));
                     fileProcessor.writeFile();
                     }
                 }

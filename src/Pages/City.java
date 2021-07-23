@@ -164,7 +164,6 @@ public class City{
     public void setNotes(String newNotes) { this.notes = newNotes; }
 
     public String writeCity(){
-        String encodedString;
         if(notes.equals("")){
            notes = " ";
         }
