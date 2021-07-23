@@ -197,7 +197,7 @@ public class Main extends Application {
                                     Password password = new Password(decodedString);
                                     FileProcessor fileProcessor = new FileProcessor(mainFile[0], false, password);
                                     HashSet<Object> objects = fileProcessor.readFile(mainFile[0]);
-                                    HomeJFX commander = new HomeJFX(objects, false, primaryStage);
+                                    HomeJFX commander = new HomeJFX(objects, false, primaryStage, fileProcessor);
                                     commander.commandProgram();
                                     fileProcessor.writeFile();
                                     System.out.println("Thanks! come again");
@@ -212,7 +212,7 @@ public class Main extends Application {
                                         Password password = new Password(decodedString);
                                         FileProcessor fileProcessor = new FileProcessor(mainFile[0], true, password);
                                         HashSet<Object> objects = fileProcessor.readFile(mainFile[0]);
-                                        HomeJFX commander = new HomeJFX(objects, true, primaryStage);
+                                        HomeJFX commander = new HomeJFX(objects, true, primaryStage, fileProcessor);
                                         commander.commandProgram();
                                         fileProcessor.writeFile();
                                         System.out.println("Thanks! come again");
@@ -242,7 +242,7 @@ public class Main extends Application {
                             Password password = new Password(decodedString);
                             FileProcessor fileProcessor = new FileProcessor(mainFile[0], false, password);
                             HashSet<Object> objects = fileProcessor.readFile(mainFile[0]);
-                            HomeJFX commander = new HomeJFX(objects, false, primaryStage);
+                            HomeJFX commander = new HomeJFX(objects, false, primaryStage, fileProcessor);
                             commander.commandProgram();
                             fileProcessor.writeFile();
                             System.out.println("Thanks! come again");
@@ -332,7 +332,7 @@ public class Main extends Application {
                                     writer.close();
                                     FileProcessor fileProcessor = new FileProcessor(mainFile[0], true, password);
                                     HashSet<Object> objects = fileProcessor.readFile(mainFile[0]);
-                                    HomeJFX commander = new HomeJFX(objects, true, primaryStage);
+                                    HomeJFX commander = new HomeJFX(objects, true, primaryStage, fileProcessor);
                                     commander.commandProgram();
                                     fileProcessor.writeFile();
                                 } catch (IOException e) {

@@ -1,6 +1,6 @@
 package Work_Classes;
 
-import JFXDisplays.NPCJFX;
+//import JFXDisplays.NPCJFX;
 import Pages.City;
 import Pages.NPC;
 import Pages.Special;
@@ -31,6 +31,7 @@ public class HomeJFX {
     private final Scanner input;
     private final Stage primaryStage;
     private GridPane grid;
+    private final FileProcessor fileProcessor;
 
     /**
      * This will create a new instance of a Command Processor
@@ -38,9 +39,10 @@ public class HomeJFX {
      * @param processor the set of objects in the world
      * @param admin     if admin privileges are enabled
      */
-    public HomeJFX(HashSet<Object> processor, boolean admin, Stage primaryStage) {
+    public HomeJFX(HashSet<Object> processor, boolean admin, Stage primaryStage, FileProcessor fileProcessor) {
         this.processor = processor;
         this.admin = admin;
+        this.fileProcessor = fileProcessor;
         input = new Scanner(System.in);
         this.primaryStage = primaryStage;
         this.grid = new GridPane();
@@ -241,9 +243,9 @@ public class HomeJFX {
         grid.add(NPCOccupation, 0, 1);
         System.out.print("Occupation generated");
 
-        TextField OccupationTextField = new TextField();
-        OccupationTextField.setPrefWidth(200);
-        grid.add(OccupationTextField, 1, 1);
+        TextField occupationTextField = new TextField();
+        occupationTextField.setPrefWidth(200);
+        grid.add(occupationTextField, 1, 1);
         System.out.println("Occupation Text generated");
 
         // Gets a description of the NPC
@@ -253,9 +255,9 @@ public class HomeJFX {
         grid.add(NPCDescription, 0, 2);
         System.out.print("Description Generated");
 
-        TextArea DescriptionTextField = new TextArea();
-        DescriptionTextField.setPrefWidth(200);
-        grid.add(DescriptionTextField, 1, 2);
+        TextArea descriptionTextField = new TextArea();
+        descriptionTextField.setPrefWidth(200);
+        grid.add(descriptionTextField, 1, 2);
         System.out.println("Occupation Text generated");
 
         // Asks if hidden description exists
@@ -277,8 +279,8 @@ public class HomeJFX {
         grid.add(NPCHiddenDescription, 0, 4);
         System.out.print("Description Generated");
 
-        TextArea HiddenDescriptionTextField = new TextArea();
-        grid.add(HiddenDescriptionTextField, 1, 4);
+        TextArea hiddenDescriptionTextField = new TextArea();
+        grid.add(hiddenDescriptionTextField, 1, 4);
         System.out.println("Occupation Text generated");
 
         Button cancel = new Button("Cancel");
@@ -319,8 +321,8 @@ public class HomeJFX {
             @Override
             public void handle(ActionEvent e) {
                 // checks for the separation string
-                if (NPCname.getText().contains(" _-_ ") || NPCDescription.getText().contains(" _-_ ") || NPCOccupation.getText().contains(" _-_ ") ||
-                        (NPCHiddenDescription.getText().contains(" _-_ "))) {
+                if (nameTextField.getText().contains(" _-_ ") || descriptionTextField.getText().contains(" _-_ ") || occupationTextField.getText().contains(" _-_ ") ||
+                        (hiddenDescriptionTextField.getText().contains(" _-_ "))) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please avoid using the string ' _-_ '!");
                 }
@@ -360,12 +362,13 @@ public class HomeJFX {
                     //
 
                     if (DescriptionExists.isSelected()) {
-                        processor.add(new NPC(NPCname.getText(), NPCOccupation.getText(), NPCDescription.getText(),
-                                NPCHiddenDescription.getText(), false, revealCode, ""));
+                        processor.add(new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
+                        		hiddenDescriptionTextField.getText(), false, revealCode, ""));
                     } else {
-                        processor.add(new NPC(NPCname.getText(), NPCOccupation.getText(), NPCDescription.getText(),
-                                false, revealCode, ""));
+                        processor.add(new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(), 
+                        		false, revealCode, ""));
                     }
+                    fileProcessor.writeFile();
                 }
                 //displayNPCs();
             }
