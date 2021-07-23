@@ -68,6 +68,7 @@ public class FileProcessor {
         // decode the string
         byte[] decodedBytes = Base64.getDecoder().decode(line);
         line = new String(decodedBytes);
+        String[] splitLine = line.split(" _-_ ");
         // check the string
         switch (line.split(" _-_ ")[0]) {
             case ("City"):
