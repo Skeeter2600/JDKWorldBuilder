@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -459,24 +460,58 @@ public class HomeJFX {
         Label cityResidents = new Label("Residents:");
         cityResidents.setFont(Font.font("Tahoma"));
         cityResidents.setTextFill(Color.WHITE.darker());
-        grid.add(cityResidents, 0, 2);
+        grid.add(cityResidents, 3, 0);
         System.out.print("Residents Generated");
-
-        TextField residentsTextField = new TextField();
-        residentsTextField.setPrefWidth(200);
-        grid.add(residentsTextField, 1, 2);
-        System.out.println("Residents Text generated");
+        
+        ArrayList<String> deletThis = new ArrayList<String>();
+        deletThis.add("Choose Residents");
+        deletThis.add("joe");
+        deletThis.add("mama");
+        ComboBox residentsComboBox = new ComboBox(FXCollections.observableArrayList(deletThis));
+        residentsComboBox.getSelectionModel().selectFirst();
+        grid.add(residentsComboBox, 4, 0);
+        
+        ListView<String> residentsList = new ListView<String>();
+        ObservableList<String> residentsObservableList = FXCollections.observableArrayList (
+            "Joe Swanson", "Darwin", "The Warden", "Mysterious Wizard");
+        residentsList.setItems(residentsObservableList);
+        grid.add(residentsList, 4, 1);
+        
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+        	public void handle(ActionEvent e)
+        	{
+        		String selected = (String) residentsComboBox.getValue();
+        		residentsList.getItems().add(selected);
+        	}
+        };
+        residentsComboBox.setOnAction(event);
+        
+        residentsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        	
+        	@Override
+        	public void handle(MouseEvent arg0) {
+            	int selected = residentsList.getSelectionModel().getSelectedIndex();
+            	String selectedStr = residentsList.getSelectionModel().getSelectedItem();
+            	residentsList.getItems().remove(selected);
+        		residentsComboBox.getItems().add(selectedStr);
+        	}
+        });
+        
+//        TextField residentsTextField = new TextField();
+//        residentsTextField.setPrefWidth(200);
+//        grid.add(residentsTextField, 1, 5);
+//        System.out.println("Residents Text generated");
 
         // Gets the City's Specials
         Label citySpecials = new Label("Specials:");
         citySpecials.setFont(Font.font("Tahoma"));
         citySpecials.setTextFill(Color.WHITE.darker());
-        grid.add(citySpecials, 0, 2);
+        grid.add(citySpecials, 0, 6);
         System.out.print("Specials Generated");
 
         TextField specialsTextField = new TextField();
         specialsTextField.setPrefWidth(200);
-        grid.add(specialsTextField, 1, 2);
+        grid.add(specialsTextField, 1, 6);
         System.out.println("Specials Text generated");
 
         Button cancel = new Button("Cancel");
@@ -518,7 +553,8 @@ public class HomeJFX {
             public void handle(ActionEvent e) {
                 // checks for the separation string
                 if (nameTextField.getText().contains(" _-_ ") || populationTextField.getText().contains(" _-_ ") || aestheticTextField.getText().contains(" _-_ ") ||
-                        (songTextField.getText().contains(" _-_ ") || tradeTextField.getText().contains(" _-_ "))) {
+                        songTextField.getText().contains(" _-_ ") || tradeTextField.getText().contains(" _-_ ") || specialsTextField.getText().contains(" _-_ ") || 
+                        residentsTextField.getText().contains(" _-_ ")) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please avoid using the string ' _-_ '!");
                 }
@@ -572,10 +608,9 @@ public class HomeJFX {
                         }
                     }
                     // adds the NPCs to the system
-                    //List<String> trades = tradeTextField.getText().split(",");
-                    //processor.add(new City(nameTextField.getText(),populationTextField.getText(),));
-                    processor.add(new City(nameTextField.getText(), populationTextField.getText(), tradeTextField.getText(),residents,
-                    songTextField.getText(), aestheticTextField.getText(),specials, false, revealCode, ""));
+
+                    processor.add(new City(nameTextField.getText(), populationTextField.getText(), tradeTextField.getText(), 
+                    residents, songTextField.getText(), aestheticTextField.getText(), specials, false, revealCode, ""));
                     fileProcessor.writeFile();
                     }
                 }
