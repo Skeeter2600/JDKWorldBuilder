@@ -464,21 +464,18 @@ public class HomeJFX {
         grid.add(cityResidents, 3, 0);
         System.out.print("Residents Generated");
         
-        ArrayList<String> deletThis = new ArrayList<String>();
-        deletThis.add("Choose Residents");
-        deletThis.add("joe");
-        deletThis.add("mama");
-        deletThis.add("Joe Swanson");
-        deletThis.add("Darwin");
-        deletThis.add("The Warden of Superjail");
-        deletThis.add("Mysterious Wizard");
-        ComboBox<String> residentsComboBox = new ComboBox<String>(FXCollections.observableArrayList(deletThis));
+        ArrayList<NPC> NPCList = fileProcessor.getNPCList();
+        ArrayList<String> NPCNames = new ArrayList<String>();
+        NPCNames.add("Choose Residents");
+        for (NPC n : NPCList) {
+        	NPCNames.add(n.getName());
+        }
+        ComboBox<String> residentsComboBox = new ComboBox<String>(FXCollections.observableArrayList(NPCNames));
         residentsComboBox.getSelectionModel().selectFirst();
         grid.add(residentsComboBox, 4, 0);
         
         ListView<String> residentsList = new ListView<String>();
-        ObservableList<String> residentsObservableList = FXCollections.observableArrayList (
-            "Joe Swanson", "Darwin", "The Warden of Superjail", "Mysterious Wizard");
+        ObservableList<String> residentsObservableList = FXCollections.observableArrayList ();
         residentsList.setItems(residentsObservableList);
         residentsList.setPrefWidth(200);
         residentsList.setPrefHeight(100);
@@ -509,21 +506,19 @@ public class HomeJFX {
         grid.add(citySpecials, 3, 3);
         System.out.print("Specials Generated");
         
-        ArrayList<String> deletThis2 = new ArrayList<String>();
-        deletThis2.add("Choose Residents");
-        deletThis2.add("joe");
-        deletThis2.add("mama");
-        deletThis2.add("Joe Swanson");
-        deletThis2.add("Darwin");
-        deletThis2.add("The Warden of Superjail");
-        deletThis2.add("Mysterious Wizard");
-        ComboBox<String> specialsComboBox = new ComboBox<String>(FXCollections.observableArrayList(deletThis2));
+        ArrayList<Special> specialList = fileProcessor.getSpecialList();
+        ArrayList<String> specialNames = new ArrayList<String>();
+        specialNames.add("Choose Residents");
+        for (Special s : specialList) {
+        	specialNames.add(s.getName());
+        }
+        
+        ComboBox<String> specialsComboBox = new ComboBox<String>(FXCollections.observableArrayList(specialNames));
         specialsComboBox.getSelectionModel().selectFirst();
         grid.add(specialsComboBox, 4, 3);
         
         ListView<String> specialsList = new ListView<String>();
-        ObservableList<String> specialsObservableList = FXCollections.observableArrayList (
-            "Joe Swanson", "Darwin", "The Warden of Superjail", "Mysterious Wizard");
+        ObservableList<String> specialsObservableList = FXCollections.observableArrayList ();
         specialsList.setItems(specialsObservableList);
         specialsList.setPrefWidth(200);
         specialsList.setPrefHeight(100);

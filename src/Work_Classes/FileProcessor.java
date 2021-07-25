@@ -22,6 +22,60 @@ public class FileProcessor {
         this.password = password;
     }
 
+    /**
+     * getNPCList returns an ArrayList consisting of every NPC in the file
+     * 
+     * @param file being processed
+     * @return ArrayList of NPCs
+     */
+    public ArrayList<NPC> getNPCList() {
+    	ArrayList<NPC> NPCList = new ArrayList<NPC>();
+    	HashSet<Object> ObjectList = readFile(mainFile);
+    	NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
+    	for (Object o : ObjectList) {
+    		if (o.getClass() == tempNPC.getClass()) {
+    			NPCList.add((NPC) o);
+    		}
+    	}
+    	return NPCList;
+    }
+    
+    /**
+     * getCityList returns an ArrayList consisting of every City in the file
+     * 
+     * @param file being processed
+     * @return ArrayList of Cities
+     */
+    public ArrayList<City> getCityList() {
+    	ArrayList<City> cityList = new ArrayList<City>();
+    	HashSet<Object> ObjectList = readFile(mainFile);
+    	City tempCity = new City("Paul Blart", "checker", "fat", null, null, null, null, true,"12345","");
+    	for (Object o : ObjectList) {
+    		if (o.getClass() == tempCity.getClass()) {
+    			cityList.add((City) o);
+    		}
+    	}
+    	return cityList;
+    }
+    
+    /**
+     * getSpecialList returns an ArrayList consisting of every Special in the file
+     * 
+     * @param file being processed
+     * @return ArrayList of Specials
+     */
+    public ArrayList<Special> getSpecialList() {
+    	ArrayList<Special> specialList = new ArrayList<Special>();
+    	HashSet<Object> ObjectList = readFile(mainFile);
+    	Special tempSpecial = new Special("Paul Blart", "checker", "fat", true,"12345","");
+    	for (Object o : ObjectList) {
+    		if (o.getClass() == tempSpecial.getClass()) {
+    			specialList.add((Special) o);
+    		}
+    	}
+    	return specialList;
+    }
+    
     public HashSet<Object> readFile(File file) {
         BufferedReader reader;
         try {
