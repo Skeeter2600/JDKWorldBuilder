@@ -504,7 +504,7 @@ public class HomeJFX {
         citySpecials.setFont(Font.font("Tahoma"));
         citySpecials.setTextFill(Color.WHITE.darker());
         grid.add(citySpecials, 3, 3);
-        System.out.print("Specials Generated");
+        System.out.println("Specials Generated");
         
         ArrayList<Special> specialList = fileProcessor.getSpecialList();
         ArrayList<String> specialNames = new ArrayList<String>();

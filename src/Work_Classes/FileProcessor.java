@@ -35,6 +35,7 @@ public class FileProcessor {
     	for (Object o : ObjectList) {
     		if (o.getClass() == tempNPC.getClass()) {
     			NPCList.add((NPC) o);
+    			System.out.println("added NPC to NPCList");
     		}
     	}
     	return NPCList;
@@ -53,6 +54,7 @@ public class FileProcessor {
     	for (Object o : ObjectList) {
     		if (o.getClass() == tempCity.getClass()) {
     			cityList.add((City) o);
+    			System.out.println("added City to cityList");
     		}
     	}
     	return cityList;
@@ -67,9 +69,11 @@ public class FileProcessor {
     public ArrayList<Special> getSpecialList() {
     	ArrayList<Special> specialList = new ArrayList<Special>();
     	HashSet<Object> ObjectList = readFile(mainFile);
+    	System.out.println(ObjectList.toString());
     	Special tempSpecial = new Special("Paul Blart", "checker", "fat", true,"12345","");
     	for (Object o : ObjectList) {
     		if (o.getClass() == tempSpecial.getClass()) {
+    			System.out.println("added Special to specialList");
     			specialList.add((Special) o);
     		}
     	}
