@@ -11,7 +11,7 @@ import java.util.*;
 public class FileProcessor {
 
     private final File mainFile;
-    private final HashSet<Object> components;
+    private HashSet<Object> components;
     private boolean admin;
     private final Password password;
 
@@ -25,7 +25,6 @@ public class FileProcessor {
     /**
      * getNPCList returns an ArrayList consisting of every NPC in the file
      * 
-     * @param file being processed
      * @return ArrayList of NPCs
      */
     public ArrayList<NPC> getNPCList() {
@@ -45,12 +44,12 @@ public class FileProcessor {
     /**
      * getCityList returns an ArrayList consisting of every City in the file
      * 
-     * @param file being processed
      * @return ArrayList of Cities
      */
     public ArrayList<City> getCityList() {
     	ArrayList<City> cityList = new ArrayList<City>();
     	HashSet<Object> ObjectList = readFile(mainFile);
+
     	City tempCity = new City("Paul Blart", "checker", "fat", null, null, null, null, true,"12345","");
     	for (Object o : ObjectList) {
     		if (o.getClass() == tempCity.getClass()) {
@@ -64,7 +63,6 @@ public class FileProcessor {
     /**
      * getSpecialList returns an ArrayList consisting of every Special in the file
      * 
-     * @param file being processed
      * @return ArrayList of Specials
      */
     public ArrayList<Special> getSpecialList() {
@@ -79,30 +77,18 @@ public class FileProcessor {
     			System.out.println("added Special to specialList");
     		}
     	}
-    	ArrayList<Integer> duplicates = new ArrayList<Integer>();
-    	for (Special s : specialList) {
-    		for (Special p : specialList) {
-    			if ((s.getName() == p.getName())) {
-    				if (specialList.indexOf(s) == specialList.indexOf(p)) {
-    					System.out.println("same location");
-    				}
-    				else {
-    					duplicates.add(specialList.indexOf(p));
-    					System.out.println("duplicate found!");
-    				}
-    			}
-    		}
-    	}
-    	int repetitions = 0;
-    	for (int d : duplicates) {
-    		specialList.remove(d - repetitions);
-    		repetitions++;
-    	}
     	return specialList;
     }
-    
+
+    /**
+     * This function will read and decode the file provided and
+     * return the system in a HashSet List
+     * @param file the file to be processes
+     * @return The HashList of Objects
+     */
     public HashSet<Object> readFile(File file) {
         BufferedReader reader;
+        components = new HashSet<Object>();
         try {
             reader = new BufferedReader(new FileReader(file));
             boolean tempAdmin = admin;
@@ -249,6 +235,10 @@ public class FileProcessor {
         return "Not a valid object type.";
     }
 
+    /**
+     * This function will write the list of components back
+     * to the chosen file upon close
+     */
     public void writeFile() {
         String encodedString;
         try (Writer writer = new FileWriter(mainFile)) {
