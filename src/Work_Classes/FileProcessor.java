@@ -32,6 +32,7 @@ public class FileProcessor {
     	ArrayList<NPC> NPCList = new ArrayList<NPC>();
     	HashSet<Object> ObjectList = readFile(mainFile);
     	NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
+    	
     	for (Object o : ObjectList) {
     		if (o.getClass() == tempNPC.getClass()) {
     			NPCList.add((NPC) o);
@@ -71,11 +72,31 @@ public class FileProcessor {
     	HashSet<Object> ObjectList = readFile(mainFile);
     	System.out.println(ObjectList.toString());
     	Special tempSpecial = new Special("Paul Blart", "checker", "fat", true,"12345","");
+    	
     	for (Object o : ObjectList) {
     		if (o.getClass() == tempSpecial.getClass()) {
-    			System.out.println("added Special to specialList");
     			specialList.add((Special) o);
+    			System.out.println("added Special to specialList");
     		}
+    	}
+    	ArrayList<Integer> duplicates = new ArrayList<Integer>();
+    	for (Special s : specialList) {
+    		for (Special p : specialList) {
+    			if ((s.getName() == p.getName())) {
+    				if (specialList.indexOf(s) == specialList.indexOf(p)) {
+    					System.out.println("same location");
+    				}
+    				else {
+    					duplicates.add(specialList.indexOf(p));
+    					System.out.println("duplicate found!");
+    				}
+    			}
+    		}
+    	}
+    	int repetitions = 0;
+    	for (int d : duplicates) {
+    		specialList.remove(d - repetitions);
+    		repetitions++;
     	}
     	return specialList;
     }
