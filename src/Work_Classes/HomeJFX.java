@@ -967,10 +967,17 @@ public class HomeJFX {
             grid.add(editSpace, 25, 0);
             System.out.println("Edit space generated");
         }
+                
+
+        ObservableList<String> items =FXCollections.observableArrayList ();
         
+        ArrayList<NPC> NPCList = fileProcessor.getNPCList();
         ListView<String> list = new ListView<String>();
-        ObservableList<String> items =FXCollections.observableArrayList (
-            "Joe Swanson", "Darwin", "The Warden", "Mysterious Wizard");
+        for (NPC n : NPCList) {
+        	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getMet();
+        	items.add(NPCLoop);
+        }
+        
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
@@ -1044,9 +1051,15 @@ public class HomeJFX {
         	System.out.println("Edit space generated");
     	}
         
+       ObservableList<String> items =FXCollections.observableArrayList ();
+        
+        ArrayList<City> cityList = fileProcessor.getCityList();
         ListView<String> list = new ListView<String>();
-        ObservableList<String> items =FXCollections.observableArrayList (
-            "Onnet", "Twoson", "Threed", "Fourside");
+        for (City c : cityList) {
+        	String cityLoop = c.getName() + "							" + c.getPopulation() + "			" + c.getRevealed();
+        	items.add(cityLoop);
+        }
+        
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
@@ -1114,9 +1127,15 @@ public class HomeJFX {
         	System.out.println("Edit space generated");
     	}
         
+       ObservableList<String> items =FXCollections.observableArrayList ();
+        
+        ArrayList<Special> specialList = fileProcessor.getSpecialList();
         ListView<String> list = new ListView<String>();
-        ObservableList<String> items =FXCollections.observableArrayList (
-            "Single", "Double", "Suite", "Family App");
+        for (Special s : specialList) {
+        	String specialLoop = s.getName() + "										" + s.getMet();
+        	items.add(specialLoop);
+        }
+        
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
