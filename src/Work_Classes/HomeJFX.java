@@ -420,31 +420,30 @@ public class HomeJFX {
         grid.add(populationTextField, 1, 1);
         System.out.println("Population Text generated");
 
-        // Gets the City's aesthetic
-        Label cityAesthetic = new Label("Aesthetic:");
-        cityAesthetic.setFont(Font.font("Tahoma"));
-        cityAesthetic.setTextFill(Color.WHITE.darker());
-        grid.add(cityAesthetic, 0, 2);
-        System.out.print("Aesthetic generated");
-
-        TextArea aestheticTextField = new TextArea();
-        aestheticTextField.setPrefWidth(200);
-        grid.add(aestheticTextField, 1, 2);
-        System.out.println("Aesthetic Text generated");
-
         // Gets the City's song
         Label citySong = new Label("Song:");
         citySong.setFont(Font.font("Tahoma"));
         citySong.setTextFill(Color.WHITE.darker());
-        grid.add(citySong, 0, 3);
+        grid.add(citySong, 0, 2);
         System.out.print("Description Generated");
 
         TextField songTextField = new TextField();
         songTextField.setPrefWidth(200);
-        grid.add(songTextField, 1, 3);
+        grid.add(songTextField, 1, 2);
         System.out.println("Song Text generated");
 
-        
+        // Gets the City's population
+        Label cityAesthetic = new Label("Aesthetic:");
+        cityAesthetic.setFont(Font.font("Tahoma"));
+        cityAesthetic.setTextFill(Color.WHITE.darker());
+        grid.add(cityAesthetic, 0, 3);
+        System.out.print("Aesthetic generated");
+
+        TextArea aestheticTextField = new TextArea();
+        aestheticTextField.setPrefWidth(200);
+        grid.add(aestheticTextField, 1, 3);
+        System.out.println("Aesthetic Text generated");
+
         // Gets the City's trades
         Label cityTrade = new Label("Trades:");
         cityTrade.setFont(Font.font("Tahoma"));
@@ -452,9 +451,9 @@ public class HomeJFX {
         grid.add(cityTrade, 0, 4);
         System.out.print("Description Generated");
 
-        TextArea tradeTextField = new TextArea();
+        TextField tradeTextField = new TextField();
         tradeTextField.setPrefWidth(200);
-        grid.add(tradeTextField, 1, 4, 1, 5);
+        grid.add(tradeTextField, 1, 4);
         System.out.println("Trade Text generated");
 
         // Gets the City's Residents
@@ -464,22 +463,19 @@ public class HomeJFX {
         grid.add(cityResidents, 3, 0);
         System.out.print("Residents Generated");
         
-        ArrayList<NPC> NPCList = fileProcessor.getNPCList();
-        ArrayList<String> NPCNames = new ArrayList<String>();
-        NPCNames.add("Choose Residents");
-        for (NPC n : NPCList) {
-        	NPCNames.add(n.getName());
-        }
-        ComboBox<String> residentsComboBox = new ComboBox<String>(FXCollections.observableArrayList(NPCNames));
+        ArrayList<String> deletThis = new ArrayList<String>();
+        deletThis.add("Choose Residents");
+        deletThis.add("joe");
+        deletThis.add("mama");
+        ComboBox residentsComboBox = new ComboBox(FXCollections.observableArrayList(deletThis));
         residentsComboBox.getSelectionModel().selectFirst();
         grid.add(residentsComboBox, 4, 0);
         
         ListView<String> residentsList = new ListView<String>();
-        ObservableList<String> residentsObservableList = FXCollections.observableArrayList ();
+        ObservableList<String> residentsObservableList = FXCollections.observableArrayList (
+            "Joe Swanson", "Darwin", "The Warden", "Mysterious Wizard");
         residentsList.setItems(residentsObservableList);
-        residentsList.setPrefWidth(200);
-        residentsList.setPrefHeight(100);
-        grid.add(residentsList, 4, 1, 4, 2);
+        grid.add(residentsList, 4, 1);
         
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent e)
@@ -495,64 +491,40 @@ public class HomeJFX {
         	@Override
         	public void handle(MouseEvent arg0) {
             	int selected = residentsList.getSelectionModel().getSelectedIndex();
+            	String selectedStr = residentsList.getSelectionModel().getSelectedItem();
             	residentsList.getItems().remove(selected);
+        		residentsComboBox.getItems().add(selectedStr);
         	}
         });
+        
+//        TextField residentsTextField = new TextField();
+//        residentsTextField.setPrefWidth(200);
+//        grid.add(residentsTextField, 1, 5);
+//        System.out.println("Residents Text generated");
 
         // Gets the City's Specials
         Label citySpecials = new Label("Specials:");
         citySpecials.setFont(Font.font("Tahoma"));
         citySpecials.setTextFill(Color.WHITE.darker());
-        grid.add(citySpecials, 3, 3);
-        System.out.println("Specials Generated");
-        
-        ArrayList<Special> specialList = fileProcessor.getSpecialList();
-        ArrayList<String> specialNames = new ArrayList<String>();
-        specialNames.add("Choose Residents");
-        for (Special s : specialList) {
-        	specialNames.add(s.getName());
-        }
-        
-        ComboBox<String> specialsComboBox = new ComboBox<String>(FXCollections.observableArrayList(specialNames));
-        specialsComboBox.getSelectionModel().selectFirst();
-        grid.add(specialsComboBox, 4, 3);
-        
-        ListView<String> specialsList = new ListView<String>();
-        ObservableList<String> specialsObservableList = FXCollections.observableArrayList ();
-        specialsList.setItems(specialsObservableList);
-        specialsList.setPrefWidth(200);
-        specialsList.setPrefHeight(100);
-        grid.add(specialsList, 4, 4, 4, 5);
-        
-        EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
-        	public void handle(ActionEvent e)
-        	{
-        		String selected = (String) specialsComboBox.getValue();
-        		specialsList.getItems().add(selected);
-        	}
-        };
-        specialsComboBox.setOnAction(event2);
-        
-        specialsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        	
-        	@Override
-        	public void handle(MouseEvent arg0) {
-            	int selected = specialsList.getSelectionModel().getSelectedIndex();
-            	specialsList.getItems().remove(selected);
-        	}
-        });
-        
+        grid.add(citySpecials, 0, 6);
+        System.out.print("Specials Generated");
+
+        TextField specialsTextField = new TextField();
+        specialsTextField.setPrefWidth(200);
+        grid.add(specialsTextField, 1, 6);
+        System.out.println("Specials Text generated");
+
         Button cancel = new Button("Cancel");
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(cancel);
-        grid.add(hbBtn, 0, 9);
+        grid.add(hbBtn, 0, 7);
 
         Button save = new Button("Save");
         HBox newWorldBtn = new HBox(20);
         newWorldBtn.setAlignment(Pos.BOTTOM_LEFT);
         newWorldBtn.getChildren().add(save);
-        grid.add(newWorldBtn, 8, 9);
+        grid.add(newWorldBtn, 3, 7);
 
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
@@ -581,8 +553,8 @@ public class HomeJFX {
             public void handle(ActionEvent e) {
                 // checks for the separation string
                 if (nameTextField.getText().contains(" _-_ ") || populationTextField.getText().contains(" _-_ ") || aestheticTextField.getText().contains(" _-_ ") ||
-                        songTextField.getText().contains(" _-_ ") || tradeTextField.getText().contains(" _-_ ") || specialsList.getItems().contains(" _-_ ") || 
-                        residentsList.getItems().contains(" _-_ ")) {
+                        songTextField.getText().contains(" _-_ ") || tradeTextField.getText().contains(" _-_ ") || specialsTextField.getText().contains(" _-_ ") || 
+                        residentsTextField.getText().contains(" _-_ ")) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please avoid using the string ' _-_ '!");
                 }
@@ -609,14 +581,9 @@ public class HomeJFX {
                     }
                 }
                 List<String> residents = new ArrayList<>();
-                for(String s : residentsList.getItems()) {
-                	residents.add(s);
-                }
-                
+                residents.add(residentsTextField.getText());
                 List<String> specials = new ArrayList<>();
-                for(String s : specialsList.getItems()) {
-                    specials.add(s);
-                }
+                residents.add(specialsTextField.getText());
                 if (multipleCheck) {
                     boolean revealCoded = false;
                     String revealCode = "";
@@ -646,7 +613,6 @@ public class HomeJFX {
                     residents, songTextField.getText(), aestheticTextField.getText(), specials, false, revealCode, ""));
                     fileProcessor.writeFile();
                     }
-                cities(admin);
                 }
             }
         );
@@ -967,17 +933,10 @@ public class HomeJFX {
             grid.add(editSpace, 25, 0);
             System.out.println("Edit space generated");
         }
-                
-
-        ObservableList<String> items =FXCollections.observableArrayList ();
         
-        ArrayList<NPC> NPCList = fileProcessor.getNPCList();
         ListView<String> list = new ListView<String>();
-        for (NPC n : NPCList) {
-        	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getMet();
-        	items.add(NPCLoop);
-        }
-        
+        ObservableList<String> items =FXCollections.observableArrayList (
+            "Joe Swanson", "Darwin", "The Warden", "Mysterious Wizard");
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
@@ -1051,15 +1010,9 @@ public class HomeJFX {
         	System.out.println("Edit space generated");
     	}
         
-       ObservableList<String> items =FXCollections.observableArrayList ();
-        
-        ArrayList<City> cityList = fileProcessor.getCityList();
         ListView<String> list = new ListView<String>();
-        for (City c : cityList) {
-        	String cityLoop = c.getName() + "							" + c.getPopulation() + "			" + c.getRevealed();
-        	items.add(cityLoop);
-        }
-        
+        ObservableList<String> items =FXCollections.observableArrayList (
+            "Onnet", "Twoson", "Threed", "Fourside");
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
@@ -1127,15 +1080,9 @@ public class HomeJFX {
         	System.out.println("Edit space generated");
     	}
         
-       ObservableList<String> items =FXCollections.observableArrayList ();
-        
-        ArrayList<Special> specialList = fileProcessor.getSpecialList();
         ListView<String> list = new ListView<String>();
-        for (Special s : specialList) {
-        	String specialLoop = s.getName() + "										" + s.getMet();
-        	items.add(specialLoop);
-        }
-        
+        ObservableList<String> items =FXCollections.observableArrayList (
+            "Single", "Double", "Suite", "Family App");
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);

@@ -167,10 +167,8 @@ public class City{
         if(notes.equals("")){
            notes = " ";
         }
-        String residentString = residents.toString();
-        String specialString = specials.toString();
         return Base64.getEncoder().encodeToString(("City _-_ " + name + " _-_ " + population +
-                " _-_ " + trade + " _-_ " + residentString + " _-_ " + song + " _-_ " + aesthetic + " _-_ " +
-                specialString + " _-_ " + revealed + " _-_ " + revealCode + " _-_ " + notes).getBytes());
+                " _-_ " + trade + " _-_ " + residents + " _-_ " + song + " _-_ " + aesthetic + " _-_ " +
+                specials + " _-_ " + revealed + " _-_ " + revealCode + " _-_ " + notes).getBytes());
     }
 }
