@@ -580,6 +580,7 @@ public class HomeJFX {
                         notMultiple = false;
                     }
                 }
+                //
                 List<String> residents = new ArrayList<>();
                 residents.add(residentsTextField.getText());
                 List<String> specials = new ArrayList<>();
