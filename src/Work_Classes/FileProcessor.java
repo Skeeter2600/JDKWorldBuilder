@@ -151,6 +151,7 @@ public class FileProcessor {
                 String[] tempNPC = splitLine[4].split(" ... ");
                 List<String> residents = new ArrayList<>();
                 Collections.addAll(residents, tempNPC);
+                
                 // get the song
                 String song = splitLine[5];
 
@@ -243,7 +244,7 @@ public class FileProcessor {
         String encodedString;
         try (Writer writer = new FileWriter(mainFile)) {
             NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
-            City tempCity = new City("testville", "1.3 mil.", null, null, "never gonna give you up",
+            City tempCity = new City("testville", "1.3 mil.", "Pharmaceuticals", null, "never gonna give you up",
                     "ballsy", null, false, "12345", "");
             Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
             encodedString = Base64.getEncoder().encodeToString(password.getPassword().getBytes());
@@ -254,16 +255,19 @@ public class FileProcessor {
                 if (part.getClass() == tempNPC.getClass()) {
                     writer.write("\n");
                 	writer.write(((NPC) part).writeNPC());
+                	System.out.println("Saved NPC");
                 }
                 // write a city
                 else if (part.getClass() == tempCity.getClass()) {
                 	writer.write("\n");
                 	writer.write(((City) part).writeCity());
+                	System.out.println("Saved City");
                 }
                 // write a Special
                 else if (part.getClass() == tempSpecial.getClass()) {
                 	writer.write("\n");
                 	writer.write(((Special) part).writeSpecial());
+                	System.out.println("Saved Special");
                 } else {
                     System.out.println(part.toString() + "not a valid system");
                 }
