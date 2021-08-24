@@ -1,4 +1,5 @@
-package main;
+package Work_Classes;
+
 
 import Basic_Classes.Password;
 import Work_Classes.HomeJFX;
@@ -28,13 +29,15 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashSet;
 
-public class Main extends Application {
 
-    // This is the main file
-    // Created by Beck Anderson
+public class AltMain{
 
-    @Override
-    public void start(Stage primaryStage){
+    /**
+     * This a recreation of the start function that launches
+     * when the program begins. It exists to restart the program
+     * @param primaryStage the initial stage
+     */
+    public static void restart(Stage primaryStage){
 
         final boolean[] admin = {false};
         final String[] filename = {null};
@@ -357,14 +360,5 @@ public class Main extends Application {
                 }
             }
         });
-    }
-
-    /**
-     * This is the main.main function for the system
-     *
-     * @param args nada
-     */
-    public static void main(String[] args){
-          launch(args);
     }
 }

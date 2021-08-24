@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import main.Main;
 
 import java.util.*;
 
@@ -114,6 +115,21 @@ public class HomeJFX {
                 specials(admin);
             }
         });
+
+        exit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                primaryStage.close();
+            }
+        });
+
+        close.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                primaryStage.close();
+                AltMain.restart(primaryStage);
+            }
+        });
         
         if (admin) {
             Button AddNPCButton = new Button("Add NPC");
@@ -154,57 +170,6 @@ public class HomeJFX {
 
         boolean quit = false;
         System.out.print("Welcome! ");
-//        while(!quit){
-//            System.out.print("What would you like to do today (type help for list of commands)?: ");
-//            String response = input.nextLine();
-//
-//            switch (response){
-//                case ("help"):
-//                    System.out.println("To add a new component, type 'add'");
-//                    System.out.println("To quit, type 'quit'");
-//                    break;
-//                case ("quit"):
-//                    System.out.print("Are you sure you would like to quit?: ");
-//                    response = input.nextLine();
-//                    if(response.equals("yes") || response.equals("y")) quit = true;
-//                    break;
-//                case ("add"):
-//                    if(admin) {
-//                        System.out.print("Sure! ");
-//                            System.out.print("What would you like to add today (NPC, City, Special)?: ");
-//                            response = input.nextLine();
-//                            switch (response.toLowerCase()) {
-//                                case ("npc"):
-//                                    if (addNPC()) {
-//                                        System.out.println("NPC has been successfully created");
-//                                    } else {
-//                                        System.out.println("Something has gone wrong with the creation. Please try again");
-//                                    }
-//                                    break;
-//                                case ("city"):
-//                                    if (addCity()) {
-//                                        System.out.println("City has been successfully created");
-//                                    } else {
-//                                        System.out.println("Something has gone wrong with the creation. Please try again");
-//                                    }
-//                                    break;
-//                                case ("special"):
-//                                    if (addSpecial()) {
-//                                        System.out.println("Special has been successfully created");
-//                                    } else {
-//                                        System.out.println("Something has gone wrong with the creation. Please try again");
-//                                    }
-//                                    break;
-//                                default:
-//                                    System.out.println("That's not a valid type, please try again");
-//                            }
-//                    }else{
-//                        System.out.println("Sorry, only admins have the ability to add components to the world. :(");
-//                    }break;
-//            }
-//        }
-        // addCity();
-        // addSpecial();
     }
 
 
@@ -484,7 +449,7 @@ public class HomeJFX {
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent e)
         	{
-        		String selected = (String) residentsComboBox.getValue();
+        		String selected = residentsComboBox.getValue();
         		residentsList.getItems().add(selected);
         	}
         };
@@ -608,15 +573,10 @@ public class HomeJFX {
                         notMultiple = false;
                     }
                 }
-                List<String> residents = new ArrayList<>();
-                for(String s : residentsList.getItems()) {
-                	residents.add(s);
-                }
-                
-                List<String> specials = new ArrayList<>();
-                for(String s : specialsList.getItems()) {
-                    specials.add(s);
-                }
+                List<String> residents = new ArrayList<>(residentsList.getItems());
+
+                List<String> specials = new ArrayList<>(specialsList.getItems());
+
                 if (multipleCheck) {
                     boolean revealCoded = false;
                     String revealCode = "";
@@ -656,7 +616,6 @@ public class HomeJFX {
      * This will add a special to the system
      * experimental
      * 
-     * @return true if completed, false if a problem occurred
      */
     public void addSpecial() {
 
@@ -782,7 +741,7 @@ public class HomeJFX {
                 if (multipleCheck) {
                     boolean revealCoded = false;
                     String revealCode = "";
-                    while(!revealCoded) {
+                    while (!revealCoded) {
                         revealCoded = true;
                         // adds the specials to the system
                         int one = new Random().nextInt(9);
@@ -793,8 +752,8 @@ public class HomeJFX {
                         revealCode = one + String.valueOf(two) + three + four + five;
 
                         // add check for if another part has the same revealCode here
-                        Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
-                        for (Object part : processor){
+                        Special tempSpecial = new Special("Capitol Building", "tester", true, "12345", "");
+                        for (Object part : processor) {
                             if (part.getClass() == tempSpecial.getClass()) {
                                 if (tempSpecial.getRevealCode().equals(revealCode)) {
                                     revealCoded = false;
@@ -804,7 +763,7 @@ public class HomeJFX {
                     }
                     if (DescriptionExists.isSelected()) {
                         processor.add(new Special(nameTextField.getText(), descriptionTextField.getText(),
-                        		hiddenDescriptionTextField.getText(), false, revealCode, ""));
+                                hiddenDescriptionTextField.getText(), false, revealCode, ""));
                     } else {
                         processor.add(new Special(nameTextField.getText(), descriptionTextField.getText(),
                                 false, revealCode, ""));
@@ -815,121 +774,10 @@ public class HomeJFX {
             }
         });
     }
-
-//    /**
-//     * OLD CONSOLE METHOD
-//     * This will add a Special to the system
-//     * @return true if completed, false if a problem occurred
-//     */
-//    public boolean addSpecial(){
-//
-//        System.out.print("Awesome! What would you like its name to be?: ");
-//        // checks for if an NPC by that name already exists
-//        boolean notMultiple = false;
-//        String SpecialName = "blank";
-//        boolean multipleCheck = true;
-//        Special comparator = new Special("God Staff", "I check for class",true,"12345","");
-//
-//        // checks each element for its existence
-//        while (!notMultiple) {
-//            SpecialName = input.nextLine();
-//            notMultiple = true;
-//            for (Object o : processor) {
-//                if (o.getClass() == comparator.getClass()) {
-//                    Special check = (Special) o;
-//                    if (check.getName().equals(((Special) o).getName())) {
-//                        System.out.println("An Special by this name already exists. Please provide a new name");
-//                        multipleCheck = false;
-//                    }
-//                }
-//            }if(!multipleCheck){ notMultiple = false; }
-//        }
-//
-//        // gets the description
-//        System.out.print("Interesting.... Can I get a description of it?: ");
-//        String SpecialDescription = input.nextLine();
-//
-//        // checks if a hidden description will exist
-//        System.out.print("Nice! Does it have a hidden description?: ");
-//        String response = input.nextLine();
-//        boolean hidden = false;
-//        String SpecialHiddenDescription = null;
-//        // if yes
-//        if(response.equals("yes")||response.equals("y")){
-//            hidden = true;
-//            System.out.print("What is it?: ");
-//            SpecialHiddenDescription =  input.nextLine();
-//        }
-//
-//        // shows the aspects of the Special
-//        System.out.println("So this is what you want the Special to be like?");
-//        System.out.println("Name: " + SpecialName + "\nDescription: " + SpecialDescription);
-//        if(hidden) System.out.println("Hidden Description (this won't actually show): " + SpecialHiddenDescription);
-//
-//        // Makes sure everything is good
-//        System.out.print("Is this good?: ");
-//        String good = input.nextLine();
-//        // if not, change a part
-//        while (!(good.equals("yes")||good.equals("y"))){
-//            // loop for changes
-//            System.out.print("What needs to change (Name, Description, Hidden Description [if exists], or cancel)?: ");
-//            String change = input.nextLine();
-//            boolean found = false;
-//            while (!found) {
-//                switch (change.toLowerCase()) {
-//                    case ("name"):
-//                        System.out.print("Awesome! What would you like its name to be?: ");
-//                        SpecialName = input.nextLine();
-//                        found = true;
-//                        break;
-//                    case ("description"):
-//                        System.out.print("Can I get a description of it?: ");
-//                        SpecialDescription = input.nextLine();
-//                        found = true;
-//                        break;
-//                    case ("hidden description"):
-//                        System.out.print("What is it?: ");
-//                        SpecialHiddenDescription = input.nextLine();
-//                        found = true;
-//                        break;
-//                    case ("cancel"):
-//                        found = true;
-//                        break;
-//                }
-//            }
-//
-//            System.out.println("So this is what you want the NPC to be like?");
-//            System.out.println("Name: " + SpecialName + "\nDescription: " + SpecialDescription);
-//            if(hidden) System.out.println("Hidden Description (this won't actually show):" + SpecialHiddenDescription);
-//            System.out.print("Is this good?: ");
-//            good = input.nextLine();
-//        }
-//
-//        int one = new Random().nextInt(9);
-//        int two = new Random().nextInt(9);
-//        int three = new Random().nextInt(9);
-//        int four = new Random().nextInt(9);
-//        int five = new Random().nextInt(9);
-//        String revealCode = one + String.valueOf(two) + three + four + five;
-//
-//        // checks for the separation string
-//        if(SpecialName.contains(" _-_ ")||SpecialDescription.contains(" _-_ ")||
-//                (SpecialHiddenDescription != null && SpecialHiddenDescription.contains(" _-_ "))){ return false; }
-//
-//        // adds the NPCs to the system
-//        if(SpecialHiddenDescription!=null){
-//            processor.add(new Special(SpecialName, SpecialDescription, SpecialHiddenDescription, false, revealCode,"" ));
-//        } else {
-//            processor.add(new Special(SpecialName, SpecialDescription, false, revealCode,""));
-//        }
-//        return true;
-//    }
-    
     
     /**
      * This will show available NPCs in the system administrator permitting
      *
-     * @return true if completed, false if a problem occurred
      */
     public void NPCs(boolean admin) {
     	System.out.println("ran NPCs");
@@ -953,7 +801,7 @@ public class HomeJFX {
         grid.add(NPCOccupation, 20, 0);
         System.out.println("Occupation box generated");
         
-        if (admin == true) {
+        if (admin) {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("Tahoma"));
             revealed.setTextFill(Color.WHITE.darker());
@@ -1013,7 +861,6 @@ public class HomeJFX {
     /**
      * This will show available cities in the system administrator permitting
      *
-     * @return true if completed, false if a problem occurred
      */
     public void cities(boolean admin) {
     	System.out.println("ran cities");
@@ -1037,7 +884,7 @@ public class HomeJFX {
         grid.add(cityPop, 20, 0);
         System.out.println("Population box generated");
         
-        if (admin == true) {
+        if (admin) {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("Tahoma"));
             revealed.setTextFill(Color.WHITE.darker());
@@ -1095,7 +942,6 @@ public class HomeJFX {
     /**
      * This will show available specials in the system administrator permitting
      *
-     * @return true if completed, false if a problem occurred
      */
     public void specials(boolean admin) {
     	System.out.println("ran specials");
@@ -1113,7 +959,7 @@ public class HomeJFX {
         grid.add(specialName, 0, 0);
         System.out.println("Name box generated");
         
-        if (admin == true) {
+        if (admin) {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("Tahoma"));
             revealed.setTextFill(Color.WHITE.darker());
