@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -19,7 +20,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.Main;
 
 import java.util.*;
 
@@ -71,7 +71,7 @@ public class HomeJFX {
         primaryStage.setScene(scene);
 
         Text sceneTitle = new Text("Welcome to the World!");
-        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
+        sceneTitle.setFont(Font.font("DroidSansMono.ttf", FontWeight.NORMAL, 30));
         sceneTitle.setFill(Color.WHITE.darker());
         grid.add(sceneTitle, 0, 0, 3, 1);
 
@@ -130,7 +130,7 @@ public class HomeJFX {
                 AltMain.restart(primaryStage);
             }
         });
-        
+
         if (admin) {
             Button AddNPCButton = new Button("Add NPC");
             HBox AdminBtn = new HBox(40);
@@ -189,7 +189,7 @@ public class HomeJFX {
 
         // Get the name of the NPC with text box
         Label NPCname = new Label("Name:");
-        NPCname.setFont(Font.font("Tahoma"));
+        NPCname.setFont(Font.font("DroidSansMono.ttf"));
         NPCname.setTextFill(Color.WHITE.darker());
         grid.add(NPCname, 0, 0);
         System.out.print("Name box generated");
@@ -201,7 +201,7 @@ public class HomeJFX {
 
         // Gets the NPC's occupation
         Label NPCOccupation = new Label("Occupation:");
-        NPCOccupation.setFont(Font.font("Tahoma"));
+        NPCOccupation.setFont(Font.font("DroidSansMono.ttf"));
         NPCOccupation.setTextFill(Color.WHITE.darker());
         grid.add(NPCOccupation, 0, 1);
         System.out.print("Occupation generated");
@@ -213,7 +213,7 @@ public class HomeJFX {
 
         // Gets a description of the NPC
         Label NPCDescription = new Label("Description:");
-        NPCDescription.setFont(Font.font("Tahoma"));
+        NPCDescription.setFont(Font.font("DroidSansMono.ttf"));
         NPCDescription.setTextFill(Color.WHITE.darker());
         grid.add(NPCDescription, 0, 2);
         System.out.print("Description Generated");
@@ -225,7 +225,7 @@ public class HomeJFX {
 
         // Asks if hidden description exists
         Label HiddenDescription = new Label("Hidden Description?:");
-        HiddenDescription.setFont(Font.font("Tahoma"));
+        HiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         HiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(HiddenDescription, 0, 3);
         System.out.print("Description Generated");
@@ -237,7 +237,7 @@ public class HomeJFX {
 
         // Gets a hidden description of the NPC
         Label NPCHiddenDescription = new Label("Hidden Description:");
-        NPCHiddenDescription.setFont(Font.font("Tahoma"));
+        NPCHiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         NPCHiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(NPCHiddenDescription, 0, 4);
         System.out.print("Description Generated");
@@ -334,14 +334,17 @@ public class HomeJFX {
                             }
                         }
                     }
-                    //
+                    NPC newNPC;
                     if (DescriptionExists.isSelected()) {
-                        processor.add(new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
-                        		hiddenDescriptionTextField.getText(), false, revealCode, ""));
+                        newNPC = new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
+                                hiddenDescriptionTextField.getText(), false, revealCode, "");
                     } else {
-                        processor.add(new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(), 
-                        		false, revealCode, ""));
+                        newNPC = new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
+                                false, revealCode, "");
+                        processor.add(newNPC);
                     }
+                    processor.add(newNPC);
+                    fileProcessor.addComponent(newNPC);
                     fileProcessor.writeFile();
                 }
                 NPCs(admin);
@@ -363,7 +366,7 @@ public class HomeJFX {
 
         // Get the name of the NPC with text box
         Label cityName = new Label("Name:");
-        cityName.setFont(Font.font("Tahoma"));
+        cityName.setFont(Font.font("DroidSansMono.ttf"));
         cityName.setTextFill(Color.WHITE.darker());
         grid.add(cityName, 0, 0);
         System.out.print("Name box generated");
@@ -375,7 +378,7 @@ public class HomeJFX {
 
         // Gets the City's population
         Label CityPopulation = new Label("Population:");
-        CityPopulation.setFont(Font.font("Tahoma"));
+        CityPopulation.setFont(Font.font("DroidSansMono.ttf"));
         CityPopulation.setTextFill(Color.WHITE.darker());
         grid.add(CityPopulation, 0, 1);
         System.out.print("Population generated");
@@ -387,7 +390,7 @@ public class HomeJFX {
 
         // Gets the City's aesthetic
         Label cityAesthetic = new Label("Aesthetic:");
-        cityAesthetic.setFont(Font.font("Tahoma"));
+        cityAesthetic.setFont(Font.font("DroidSansMono.ttf"));
         cityAesthetic.setTextFill(Color.WHITE.darker());
         grid.add(cityAesthetic, 0, 2);
         System.out.print("Aesthetic generated");
@@ -399,7 +402,7 @@ public class HomeJFX {
 
         // Gets the City's song
         Label citySong = new Label("Song:");
-        citySong.setFont(Font.font("Tahoma"));
+        citySong.setFont(Font.font("DroidSansMono.ttf"));
         citySong.setTextFill(Color.WHITE.darker());
         grid.add(citySong, 0, 3);
         System.out.print("Description Generated");
@@ -409,10 +412,10 @@ public class HomeJFX {
         grid.add(songTextField, 1, 3);
         System.out.println("Song Text generated");
 
-        
+
         // Gets the City's trades
         Label cityTrade = new Label("Trades:");
-        cityTrade.setFont(Font.font("Tahoma"));
+        cityTrade.setFont(Font.font("DroidSansMono.ttf"));
         cityTrade.setTextFill(Color.WHITE.darker());
         grid.add(cityTrade, 0, 4);
         System.out.print("Description Generated");
@@ -424,11 +427,11 @@ public class HomeJFX {
 
         // Gets the City's Residents
         Label cityResidents = new Label("Residents:");
-        cityResidents.setFont(Font.font("Tahoma"));
+        cityResidents.setFont(Font.font("DroidSansMono.ttf"));
         cityResidents.setTextFill(Color.WHITE.darker());
         grid.add(cityResidents, 3, 0);
         System.out.print("Residents Generated");
-        
+
         ArrayList<NPC> NPCList = fileProcessor.getNPCList();
         ArrayList<String> NPCNames = new ArrayList<String>();
         NPCNames.add("Choose Residents");
@@ -438,14 +441,14 @@ public class HomeJFX {
         ComboBox<String> residentsComboBox = new ComboBox<String>(FXCollections.observableArrayList(NPCNames));
         residentsComboBox.getSelectionModel().selectFirst();
         grid.add(residentsComboBox, 4, 0);
-        
+
         ListView<String> residentsList = new ListView<String>();
         ObservableList<String> residentsObservableList = FXCollections.observableArrayList ();
         residentsList.setItems(residentsObservableList);
         residentsList.setPrefWidth(200);
         residentsList.setPrefHeight(100);
         grid.add(residentsList, 4, 1, 4, 2);
-        
+
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent e)
         	{
@@ -454,9 +457,9 @@ public class HomeJFX {
         	}
         };
         residentsComboBox.setOnAction(event);
-        
+
         residentsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        	
+
         	@Override
         	public void handle(MouseEvent arg0) {
             	int selected = residentsList.getSelectionModel().getSelectedIndex();
@@ -466,29 +469,29 @@ public class HomeJFX {
 
         // Gets the City's Specials
         Label citySpecials = new Label("Specials:");
-        citySpecials.setFont(Font.font("Tahoma"));
+        citySpecials.setFont(Font.font("DroidSansMono.ttf"));
         citySpecials.setTextFill(Color.WHITE.darker());
         grid.add(citySpecials, 3, 3);
         System.out.println("Specials Generated");
-        
+
         ArrayList<Special> specialList = fileProcessor.getSpecialList();
         ArrayList<String> specialNames = new ArrayList<String>();
         specialNames.add("Choose Residents");
         for (Special s : specialList) {
         	specialNames.add(s.getName());
         }
-        
+
         ComboBox<String> specialsComboBox = new ComboBox<String>(FXCollections.observableArrayList(specialNames));
         specialsComboBox.getSelectionModel().selectFirst();
         grid.add(specialsComboBox, 4, 3);
-        
+
         ListView<String> specialsList = new ListView<String>();
         ObservableList<String> specialsObservableList = FXCollections.observableArrayList ();
         specialsList.setItems(specialsObservableList);
         specialsList.setPrefWidth(200);
         specialsList.setPrefHeight(100);
         grid.add(specialsList, 4, 4, 4, 5);
-        
+
         EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent e)
         	{
@@ -497,16 +500,16 @@ public class HomeJFX {
         	}
         };
         specialsComboBox.setOnAction(event2);
-        
+
         specialsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        	
+
         	@Override
         	public void handle(MouseEvent arg0) {
             	int selected = specialsList.getSelectionModel().getSelectedIndex();
             	specialsList.getItems().remove(selected);
         	}
         });
-        
+
         Button cancel = new Button("Cancel");
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -546,7 +549,7 @@ public class HomeJFX {
             public void handle(ActionEvent e) {
                 // checks for the separation string
                 if (nameTextField.getText().contains(" _-_ ") || populationTextField.getText().contains(" _-_ ") || aestheticTextField.getText().contains(" _-_ ") ||
-                        songTextField.getText().contains(" _-_ ") || tradeTextField.getText().contains(" _-_ ") || specialsList.getItems().contains(" _-_ ") || 
+                        songTextField.getText().contains(" _-_ ") || tradeTextField.getText().contains(" _-_ ") || specialsList.getItems().contains(" _-_ ") ||
                         residentsList.getItems().contains(" _-_ ")) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please avoid using the string ' _-_ '!");
@@ -600,10 +603,11 @@ public class HomeJFX {
                             }
                         }
                     }
-                    // adds the NPCs to the system
-
-                    processor.add(new City(nameTextField.getText(), populationTextField.getText(), tradeTextField.getText(), 
-                    residents, songTextField.getText(), aestheticTextField.getText(), specials, false, revealCode, ""));
+                    // adds the City to the system
+                    City newCity = new City(nameTextField.getText(), populationTextField.getText(), tradeTextField.getText(),
+                            residents, songTextField.getText(), aestheticTextField.getText(), specials, false, revealCode, "");
+                    processor.add(newCity);
+                    fileProcessor.addComponent(newCity);
                     fileProcessor.writeFile();
                     }
                 cities(admin);
@@ -615,7 +619,7 @@ public class HomeJFX {
     /**
      * This will add a special to the system
      * experimental
-     * 
+     *
      */
     public void addSpecial() {
 
@@ -628,7 +632,7 @@ public class HomeJFX {
 
         // Get the name of the Special with text box
         Label specialName = new Label("Name:");
-        specialName.setFont(Font.font("Tahoma"));
+        specialName.setFont(Font.font("DroidSansMono.ttf"));
         specialName.setTextFill(Color.WHITE.darker());
         grid.add(specialName, 0, 0);
         System.out.print("Name box generated");
@@ -640,7 +644,7 @@ public class HomeJFX {
 
         // Gets a description of the Special
         Label specialDescription = new Label("Description:");
-        specialDescription.setFont(Font.font("Tahoma"));
+        specialDescription.setFont(Font.font("DroidSansMono.ttf"));
         specialDescription.setTextFill(Color.WHITE.darker());
         grid.add(specialDescription, 0, 2);
         System.out.print("Description Generated");
@@ -652,7 +656,7 @@ public class HomeJFX {
 
         // Asks if hidden description exists
         Label hiddenDescription = new Label("Hidden Description?:");
-        hiddenDescription.setFont(Font.font("Tahoma"));
+        hiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         hiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(hiddenDescription, 0, 3);
         System.out.print("Description Generated");
@@ -664,7 +668,7 @@ public class HomeJFX {
 
         // Gets a hidden description of the Special
         Label specialHiddenDescription = new Label("Hidden Description:");
-        specialHiddenDescription.setFont(Font.font("Tahoma"));
+        specialHiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         specialHiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(specialHiddenDescription, 0, 4);
         System.out.print("Description Generated");
@@ -761,71 +765,74 @@ public class HomeJFX {
                             }
                         }
                     }
+                    Special newSpecial;
                     if (DescriptionExists.isSelected()) {
-                        processor.add(new Special(nameTextField.getText(), descriptionTextField.getText(),
-                                hiddenDescriptionTextField.getText(), false, revealCode, ""));
+                        newSpecial = new Special(nameTextField.getText(), descriptionTextField.getText(),
+                                hiddenDescriptionTextField.getText(), false, revealCode, "");
                     } else {
-                        processor.add(new Special(nameTextField.getText(), descriptionTextField.getText(),
-                                false, revealCode, ""));
+                        newSpecial = new Special(nameTextField.getText(), descriptionTextField.getText(),
+                                false, revealCode, "");
                     }
+                    processor.add(newSpecial);
+                    fileProcessor.addComponent(newSpecial);
                     fileProcessor.writeFile();
                 }
                 specials(admin);
             }
         });
     }
-    
+
     /**
      * This will show available NPCs in the system administrator permitting
      *
      */
     public void NPCs(boolean admin) {
     	System.out.println("ran NPCs");
-    	
+
         grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        
-        //Field labels for list of NPCs 
+
+        //Field labels for list of NPCs
         Label NPCName = new Label("Name");
-        NPCName.setFont(Font.font("Tahoma"));
+        NPCName.setFont(Font.font("DroidSansMono.ttf"));
         NPCName.setTextFill(Color.WHITE.darker());
         grid.add(NPCName, 0, 0);
         System.out.println("Name box generated");
-        
+
         Label NPCOccupation = new Label("Occupation");
-        NPCOccupation.setFont(Font.font("Tahoma"));
+        NPCOccupation.setFont(Font.font("DroidSansMono.ttf"));
         NPCOccupation.setTextFill(Color.WHITE.darker());
         grid.add(NPCOccupation, 20, 0);
         System.out.println("Occupation box generated");
-        
+
         if (admin) {
             Label revealed = new Label("Revealed?");
-            revealed.setFont(Font.font("Tahoma"));
+            revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
 
             //Edit buttons for admin will be below this space
             Label editSpace = new Label("");
-            editSpace.setFont(Font.font("Tahoma"));
+            editSpace.setFont(Font.font("DroidSansMono.ttf"));
             editSpace.setTextFill(Color.WHITE.darker());
             grid.add(editSpace, 25, 0);
             System.out.println("Edit space generated");
         }
-                
+
 
         ObservableList<String> items =FXCollections.observableArrayList ();
-        
+
         ArrayList<NPC> NPCList = fileProcessor.getNPCList();
         ListView<String> list = new ListView<String>();
         for (NPC n : NPCList) {
         	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getMet();
         	items.add(NPCLoop);
         }
-        
+
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
@@ -837,12 +844,12 @@ public class HomeJFX {
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.getChildren().add(cancel);
         grid.add(hbBtn, 0, 2);
-        
+
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(background_fill);
         grid.setBackground(background);
-        
+
         Scene scene = new Scene(grid, 1152, 648);
         primaryStage.setScene(scene);
         primaryStage.setTitle("World Viewer");
@@ -856,57 +863,70 @@ public class HomeJFX {
             }
         });
     }
-    
-    
+
+
     /**
      * This will show available cities in the system administrator permitting
      *
      */
-    public void cities(boolean admin) {
-    	System.out.println("ran cities");
-    	
+    private void cities(boolean admin) {
+        System.out.println("ran cities");
+
         grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        
+
         //Field labels for list of cities
         Label cityName = new Label("Name");
-        cityName.setFont(Font.font("Tahoma"));
+        cityName.setFont(Font.font("DroidSansMono.ttf"));
         cityName.setTextFill(Color.WHITE.darker());
         grid.add(cityName, 0, 0);
         System.out.println("Name box generated");
-        
+
         Label cityPop = new Label("Population");
-        cityPop.setFont(Font.font("Tahoma"));
+        cityPop.setFont(Font.font("DroidSansMono.ttf"));
         cityPop.setTextFill(Color.WHITE.darker());
         grid.add(cityPop, 20, 0);
         System.out.println("Population box generated");
-        
+
         if (admin) {
             Label revealed = new Label("Revealed?");
-            revealed.setFont(Font.font("Tahoma"));
+            revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
-                
-        	Label editSpace = new Label("");
-        	editSpace.setFont(Font.font("Tahoma"));
-        	editSpace.setTextFill(Color.WHITE.darker());
-        	grid.add(editSpace, 25, 0);
-        	System.out.println("Edit space generated");
-    	}
-        
-       ObservableList<String> items =FXCollections.observableArrayList ();
-        
+
+            Label editSpace = new Label("");
+            editSpace.setFont(Font.font("DroidSansMono.ttf"));
+            editSpace.setTextFill(Color.WHITE.darker());
+            grid.add(editSpace, 25, 0);
+            System.out.println("Edit space generated");
+        }
+
+        ObservableList<String> items =FXCollections.observableArrayList ();
+
         ArrayList<City> cityList = fileProcessor.getCityList();
+
         ListView<String> list = new ListView<String>();
         for (City c : cityList) {
-        	String cityLoop = c.getName() + "							" + c.getPopulation() + "			" + c.getRevealed();
-        	items.add(cityLoop);
+            int spacingSize1 = 72 - c.getName().length();
+            int spacingSize2 = 20 - c.getPopulation().length();
+            StringBuilder spacing1 = new StringBuilder();
+            StringBuilder spacing2 = new StringBuilder();
+            while (spacingSize1 > 0) {
+                spacing1.append(" ");
+                spacingSize1 -= 1;
+            }
+            while (spacingSize2 > 0) {
+                spacing2.append(" ");
+                spacingSize2 -= 1;
+            }
+            String specialLoop = c.getName() + spacing1 + c.getPopulation() + spacing2 + c.getRevealed();
+            items.add(specialLoop);
         }
-        
+
         list.setItems(items);
         list.setPrefWidth(500);
         list.setPrefHeight(400);
@@ -918,12 +938,12 @@ public class HomeJFX {
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.getChildren().add(cancel);
         grid.add(hbBtn, 0, 2);
-        
+
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(background_fill);
         grid.setBackground(background);
-        
+
         Scene scene = new Scene(grid, 1152, 648);
         primaryStage.setScene(scene);
         primaryStage.setTitle("World Viewer");
@@ -937,37 +957,37 @@ public class HomeJFX {
             }
         });
     }
-    
-    
+
+
     /**
      * This will show available specials in the system administrator permitting
      *
      */
     public void specials(boolean admin) {
     	System.out.println("ran specials");
-    	
+
         grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        
+
         //Field labels for list of specials
         Label specialName = new Label("Name");
-        specialName.setFont(Font.font("Tahoma"));
+        specialName.setFont(Font.font("DroidSansMono.ttf"));
         specialName.setTextFill(Color.WHITE.darker());
         grid.add(specialName, 0, 0);
         System.out.println("Name box generated");
-        
+
         if (admin) {
             Label revealed = new Label("Revealed?");
-            revealed.setFont(Font.font("Tahoma"));
+            revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
-                
+
         	Label editSpace = new Label("");
-        	editSpace.setFont(Font.font("Tahoma"));
+        	editSpace.setFont(Font.font("DroidSansMono.ttf"));
         	editSpace.setTextFill(Color.WHITE.darker());
         	grid.add(editSpace, 25, 0);
         	System.out.println("Edit space generated");
@@ -978,7 +998,13 @@ public class HomeJFX {
         ArrayList<Special> specialList = fileProcessor.getSpecialList();
         ListView<String> list = new ListView<String>();
         for (Special s : specialList) {
-        	String specialLoop = s.getName() + "										" + s.getMet();
+            int spacingSize = 81 - s.getName().length();
+            StringBuilder spacing = new StringBuilder();
+            while (spacingSize > 0) {
+                spacing.append(" ");
+                spacingSize -= 1;
+            }
+        	String specialLoop = s.getName() + spacing + s.getMet();
         	items.add(specialLoop);
         }
         

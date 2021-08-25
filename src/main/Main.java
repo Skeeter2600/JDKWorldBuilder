@@ -33,6 +33,10 @@ public class Main extends Application {
     // This is the main file
     // Created by Beck Anderson
 
+    /**
+     *
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage){
 

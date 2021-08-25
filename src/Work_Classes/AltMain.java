@@ -2,9 +2,6 @@ package Work_Classes;
 
 
 import Basic_Classes.Password;
-import Work_Classes.HomeJFX;
-import Work_Classes.FileProcessor;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -37,7 +34,7 @@ public class AltMain{
      * when the program begins. It exists to restart the program
      * @param primaryStage the initial stage
      */
-    public static void restart(Stage primaryStage){
+    public static void restart(Stage primaryStage) {
 
         final boolean[] admin = {false};
         final String[] filename = {null};
@@ -83,7 +80,7 @@ public class AltMain{
 
         Button addWorld = new Button("Add World");
         hbBtn.getChildren().add(addWorld);
-        grid.add(hbBtn,0,5);
+        grid.add(hbBtn, 0, 5);
 
         final Text actionTarget = new Text();
         actionTarget.setTextAlignment(TextAlignment.CENTER);
@@ -103,8 +100,7 @@ public class AltMain{
                 if (!directory.exists()) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("File does not exist");
-                }
-                else if(userTextField.getText().equals("")){
+                } else if (userTextField.getText().equals("")) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please give a name for the file");
                 } else {
@@ -184,13 +180,18 @@ public class AltMain{
                             newSceneGrid.add(actionTarget, 1, 7);
 
                             BufferedReader reader = null;
-                            try { reader = new BufferedReader(new FileReader(mainFile[0])); }
-                            catch (FileNotFoundException fileNotFoundException) { fileNotFoundException.printStackTrace(); }
+                            try {
+                                reader = new BufferedReader(new FileReader(mainFile[0]));
+                            } catch (FileNotFoundException fileNotFoundException) {
+                                fileNotFoundException.printStackTrace();
+                            }
                             String passwordInput = null;
                             try {
                                 assert reader != null;
-                                passwordInput = reader.readLine(); }
-                            catch (IOException ioException) { ioException.printStackTrace(); }
+                                passwordInput = reader.readLine();
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
                             byte[] decodedBytes = Base64.getDecoder().decode(passwordInput);
                             String decodedString = new String(decodedBytes);
 
@@ -220,7 +221,7 @@ public class AltMain{
                                         HomeJFX commander = new HomeJFX(objects, true, primaryStage, fileProcessor);
                                         commander.commandProgram();
                                         fileProcessor.writeFile();
-                                    }else{
+                                    } else {
                                         actionTarget.setFill(Color.FIREBRICK);
                                         actionTarget.setText("Password is incorrect. Try again");
                                     }
@@ -235,13 +236,18 @@ public class AltMain{
                             primaryStage.close();
                             primaryStage.setTitle(filename[0]);
                             BufferedReader reader = null;
-                            try { reader = new BufferedReader(new FileReader(mainFile[0])); }
-                            catch (FileNotFoundException fileNotFoundException) { fileNotFoundException.printStackTrace(); }
+                            try {
+                                reader = new BufferedReader(new FileReader(mainFile[0]));
+                            } catch (FileNotFoundException fileNotFoundException) {
+                                fileNotFoundException.printStackTrace();
+                            }
                             String passwordInput = null;
                             try {
                                 assert reader != null;
-                                passwordInput = reader.readLine(); }
-                            catch (IOException ioException) { ioException.printStackTrace(); }
+                                passwordInput = reader.readLine();
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
                             byte[] decodedBytes = Base64.getDecoder().decode(passwordInput);
                             String decodedString = new String(decodedBytes);
 
@@ -266,15 +272,13 @@ public class AltMain{
                 System.out.println("name of new file: " + userTextField.getText());
                 Path filePath = Paths.get(filename[0]);
                 mainFile[0] = new File(filename[0] + ".bck");
-                if (Files.exists(filePath)&&mainFile[0].exists()) {
+                if (Files.exists(filePath) && mainFile[0].exists()) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("File already exists");
-                }
-                else if(userTextField.getText().equals("")){
+                } else if (userTextField.getText().equals("")) {
                     actionTarget.setFill(Color.FIREBRICK);
                     actionTarget.setText("Please give a name for the file");
-                }
-                else {
+                } else {
 
                     GridPane newSceneGrid = new GridPane();
                     newSceneGrid.setAlignment(Pos.CENTER);
@@ -323,12 +327,11 @@ public class AltMain{
                         public void handle(ActionEvent actionEvent) {
                             String newPassword = passwordTextField.getText();
                             String newPassCheck = passwordCheck.getText();
-                            if(newPassword.equals(newPassCheck)) {
-                                if(newPassword.length() < 6){
+                            if (newPassword.equals(newPassCheck)) {
+                                if (newPassword.length() < 6) {
                                     actionTarget.setFill(Color.FIREBRICK);
                                     actionTarget.setText("Make sure that your password is 6 or more character");
-                                }
-                                else {
+                                } else {
                                     try {
                                         primaryStage.close();
                                         primaryStage.setTitle(filename[0]);
@@ -350,7 +353,7 @@ public class AltMain{
                                         e.printStackTrace();
                                     }
                                 }
-                            }else{
+                            } else {
                                 actionTarget.setFill(Color.FIREBRICK);
                                 actionTarget.setText("Make sure that your passwords match");
                             }

@@ -237,6 +237,23 @@ public class FileProcessor {
     }
 
     /**
+     * This function will add a component to the list of objects
+     * while the system is running
+     * @param addedComponent the component to be added
+     */
+    public void addComponent(Object addedComponent){
+        NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
+        City tempCity = new City("testville", "1.3 mil.", "Pharmaceuticals", null, "never gonna give you up",
+                "dope", null, false, "12345", "");
+        Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
+        if (addedComponent.getClass() == tempNPC.getClass() || addedComponent.getClass() == tempCity.getClass()
+                || addedComponent.getClass() == tempSpecial.getClass()) {
+            components.add(addedComponent);
+        }
+        else { System.out.println(addedComponent.toString() + "not a valid system"); }
+    }
+
+    /**
      * This function will write the list of components back
      * to the chosen file upon close
      */
@@ -247,6 +264,7 @@ public class FileProcessor {
             City tempCity = new City("testville", "1.3 mil.", "Pharmaceuticals", null, "never gonna give you up",
                     "ballsy", null, false, "12345", "");
             Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
+            Password tempPassword = new Password("testtest");
             encodedString = Base64.getEncoder().encodeToString(password.getPassword().getBytes());
             writer.write(encodedString);
             writer.flush();
@@ -268,8 +286,10 @@ public class FileProcessor {
                 	writer.write("\n");
                 	writer.write(((Special) part).writeSpecial());
                 	System.out.println("Saved Special");
+                } else if (part.getClass() == tempPassword.getClass()){
+                    System.out.println("Password Skipped");
                 } else {
-                    System.out.println(part.toString() + "not a valid system");
+                    System.out.println(part.toString() + "Not a valid class");
                 }
                 writer.flush();
             }
