@@ -7,6 +7,9 @@ import Pages.Special;
 
 import java.io.*;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class FileProcessor {
 
@@ -116,6 +119,101 @@ public class FileProcessor {
             e.printStackTrace();
         }
         return components;
+    }
+
+    /**
+     * This function will zip a specified directory
+     * @param directory the directory of the to be zipped file
+     * @return true if succeeded, false if failed
+     * @throws FileNotFoundException if file isn't found
+     */
+    public boolean zipFile(File directory) throws FileNotFoundException {
+        String sourceFile = directory.getName();
+        String name = sourceFile.substring(0,sourceFile.length()-4);
+        String userHomeFolder = System.getProperty("user.home");
+        FileOutputStream fos = new FileOutputStream(userHomeFolder + "/" + name+ ".zip");
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        File fileToZip = new File(sourceFile);
+
+        try {
+            zipFileWorking(fileToZip, fileToZip.getName(), zipOut);
+            zipOut.close();
+            fos.close();
+        } catch (IOException e) { return false; }
+        return true;
+    }
+
+    /**
+     * This function will zip a file and send it to the desktop
+     * @param fileToZip the file to be zipped
+     * @param fileName the name of the zip file
+     * @param zipOut the destination of the file
+     * @throws IOException if files don't exist
+     */
+    private static void zipFileWorking(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+        if (fileToZip.isHidden()) {
+            return;
+        }
+        if (fileToZip.isDirectory()) {
+            if (fileName.endsWith("/")) {
+                zipOut.putNextEntry(new ZipEntry(fileName));
+                zipOut.closeEntry();
+            } else {
+                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                zipOut.closeEntry();
+            }
+            File[] children = fileToZip.listFiles();
+            assert children != null;
+            for (File childFile : children) {
+                zipFileWorking(childFile, fileName + "/" + childFile.getName(), zipOut);
+            }
+            return;
+        }
+        FileInputStream fis = new FileInputStream(fileToZip);
+        ZipEntry zipEntry = new ZipEntry(fileName);
+        zipOut.putNextEntry(zipEntry);
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+            zipOut.write(bytes, 0, length);
+        }
+        fis.close();
+    }
+
+    /**
+     * This function is used to extract the contents
+     * of a provided zip file
+     * @param zipFile the file to be unzipped
+     * @return true if succeeded, false if fail
+     */
+    public boolean unzipFile(File zipFile) throws IOException {
+        String name = zipFile.getName();
+        File destDir = new File(name);
+        boolean directoryMake = destDir.mkdirs();
+        byte[] buffer = new byte[1024];
+        ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+        ZipEntry zipEntry = zis.getNextEntry();
+        while (zipEntry != null) {
+            File newFile = new File(name + "/" + zipEntry.getName());
+            if (zipEntry.getName().equals("maps")) {
+                directoryMake  = newFile.mkdirs();
+            } else if (zipEntry.getName().equals("images")){
+                directoryMake  = newFile.mkdirs();
+            }else{
+                // fix for Windows-created archives
+                File parent = newFile.getParentFile();
+                if (!parent.isDirectory() && !parent.mkdirs()) { return false; }
+                // write file content
+                FileOutputStream fos = new FileOutputStream(newFile);
+                int len;
+                while ((len = zis.read(buffer)) > 0) { fos.write(buffer, 0, len); }
+                fos.close();
+            }
+            zipEntry = zis.getNextEntry();
+        }
+        zis.closeEntry();
+        zis.close();
+        return true;
     }
 
     /**

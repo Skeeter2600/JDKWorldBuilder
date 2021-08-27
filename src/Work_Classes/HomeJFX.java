@@ -219,6 +219,7 @@ public class HomeJFX {
         System.out.print("Description Generated");
 
         TextArea descriptionTextField = new TextArea();
+        descriptionTextField.setWrapText(true);
         descriptionTextField.setPrefWidth(200);
         grid.add(descriptionTextField, 1, 2);
         System.out.println("Occupation Text generated");
@@ -243,6 +244,7 @@ public class HomeJFX {
         System.out.print("Description Generated");
 
         TextArea hiddenDescriptionTextField = new TextArea();
+        hiddenDescriptionTextField.setWrapText(true);
         grid.add(hiddenDescriptionTextField, 1, 4);
         System.out.println("Occupation Text generated");
 
@@ -389,13 +391,14 @@ public class HomeJFX {
         System.out.println("Population Text generated");
 
         // Gets the City's aesthetic
-        Label cityAesthetic = new Label("Aesthetic:");
+        Label cityAesthetic = new Label("Description:");
         cityAesthetic.setFont(Font.font("DroidSansMono.ttf"));
         cityAesthetic.setTextFill(Color.WHITE.darker());
         grid.add(cityAesthetic, 0, 2);
         System.out.print("Aesthetic generated");
 
         TextArea aestheticTextField = new TextArea();
+        aestheticTextField.setWrapText(true);
         aestheticTextField.setPrefWidth(200);
         grid.add(aestheticTextField, 1, 2);
         System.out.println("Aesthetic Text generated");
@@ -405,22 +408,21 @@ public class HomeJFX {
         citySong.setFont(Font.font("DroidSansMono.ttf"));
         citySong.setTextFill(Color.WHITE.darker());
         grid.add(citySong, 0, 3);
-        System.out.print("Description Generated");
+        System.out.print("Song Generated");
 
         TextField songTextField = new TextField();
         songTextField.setPrefWidth(200);
         grid.add(songTextField, 1, 3);
         System.out.println("Song Text generated");
 
-
         // Gets the City's trades
         Label cityTrade = new Label("Trades:");
         cityTrade.setFont(Font.font("DroidSansMono.ttf"));
         cityTrade.setTextFill(Color.WHITE.darker());
         grid.add(cityTrade, 0, 4);
-        System.out.print("Description Generated");
+        System.out.print("Trades Generated");
 
-        TextArea tradeTextField = new TextArea();
+        TextField tradeTextField = new TextField();
         tradeTextField.setPrefWidth(200);
         grid.add(tradeTextField, 1, 4, 1, 5);
         System.out.println("Trade Text generated");
@@ -651,6 +653,7 @@ public class HomeJFX {
 
         TextArea descriptionTextField = new TextArea();
         descriptionTextField.setPrefWidth(200);
+        descriptionTextField.setWrapText(true);
         grid.add(descriptionTextField, 1, 2);
         System.out.println("Occupation Text generated");
 
@@ -674,8 +677,9 @@ public class HomeJFX {
         System.out.print("Description Generated");
 
         TextArea hiddenDescriptionTextField = new TextArea();
+        hiddenDescriptionTextField.setWrapText(true);
         grid.add(hiddenDescriptionTextField, 1, 4);
-        System.out.println("Occupation Text generated");
+        System.out.println("Hidden Description Text generated");
 
         Button cancel = new Button("Cancel");
         HBox hbBtn = new HBox(20);
@@ -805,21 +809,31 @@ public class HomeJFX {
         Label NPCOccupation = new Label("Occupation");
         NPCOccupation.setFont(Font.font("DroidSansMono.ttf"));
         NPCOccupation.setTextFill(Color.WHITE.darker());
-        grid.add(NPCOccupation, 20, 0);
+        if(admin){
+            grid.add(NPCOccupation, 15, 0);
+        }else {
+            grid.add(NPCOccupation, 20, 0);
+        }
         System.out.println("Occupation box generated");
 
         if (admin) {
             Label revealed = new Label("Revealed?");
             revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
-            grid.add(revealed, 24, 0);
+            grid.add(revealed, 20, 0);
             System.out.println("Revealed  box generated");
 
+            Label revealCode = new Label("Revealed Code");
+            revealCode.setFont(Font.font("DroidSansMono.ttf"));
+            revealCode.setTextFill(Color.WHITE.darker());
+            grid.add(revealCode, 24, 0);
+            System.out.println("Revealed Code box generated");
+
             //Edit buttons for admin will be below this space
-            Label editSpace = new Label("");
+            Button editSpace = new Button("Edit");
             editSpace.setFont(Font.font("DroidSansMono.ttf"));
-            editSpace.setTextFill(Color.WHITE.darker());
-            grid.add(editSpace, 25, 0);
+            editSpace.setAlignment(Pos.BOTTOM_LEFT);
+            grid.add(editSpace, 24, 2);
             System.out.println("Edit space generated");
         }
 
@@ -828,22 +842,24 @@ public class HomeJFX {
 
         ArrayList<NPC> NPCList = fileProcessor.getNPCList();
         ListView<String> list = new ListView<String>();
+
         for (NPC n : NPCList) {
-        	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getMet();
+        	String NPCLoop = n.getName() + "					" + n.getOccupation();
+        	if(admin){ NPCLoop = NPCLoop + "			" + n.getMet() + "         " + n.getRevealCode();}
         	items.add(NPCLoop);
         }
 
         list.setItems(items);
-        list.setPrefWidth(500);
+        list.setPrefWidth(600);
         list.setPrefHeight(400);
         grid.add(list, 0, 1, 25, 1);
         System.out.println("List generated");
 
-        Button cancel = new Button("Cancel");
+        Button cancel = new Button("Return");
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.getChildren().add(cancel);
-        grid.add(hbBtn, 0, 2);
+        grid.add(hbBtn, 8, 2);
 
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
@@ -898,10 +914,11 @@ public class HomeJFX {
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
 
-            Label editSpace = new Label("");
+            //Edit buttons for admin will be below this space
+            Button editSpace = new Button("Edit");
             editSpace.setFont(Font.font("DroidSansMono.ttf"));
-            editSpace.setTextFill(Color.WHITE.darker());
-            grid.add(editSpace, 25, 0);
+            editSpace.setAlignment(Pos.BOTTOM_LEFT);
+            grid.add(editSpace, 24, 2);
             System.out.println("Edit space generated");
         }
 
@@ -933,11 +950,11 @@ public class HomeJFX {
         grid.add(list, 0, 1, 25, 1);
         System.out.println("List generated");
 
-        Button cancel = new Button("Cancel");
+        Button cancel = new Button("Return");
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.getChildren().add(cancel);
-        grid.add(hbBtn, 0, 2);
+        grid.add(hbBtn, 8, 2);
 
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
@@ -986,11 +1003,12 @@ public class HomeJFX {
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
 
-        	Label editSpace = new Label("");
-        	editSpace.setFont(Font.font("DroidSansMono.ttf"));
-        	editSpace.setTextFill(Color.WHITE.darker());
-        	grid.add(editSpace, 25, 0);
-        	System.out.println("Edit space generated");
+            //Edit buttons for admin will be below this space
+            Button editSpace = new Button("Edit");
+            editSpace.setFont(Font.font("DroidSansMono.ttf"));
+            editSpace.setAlignment(Pos.BOTTOM_LEFT);
+            grid.add(editSpace, 24, 2);
+            System.out.println("Edit space generated");
     	}
         
        ObservableList<String> items =FXCollections.observableArrayList ();
@@ -1014,11 +1032,11 @@ public class HomeJFX {
         grid.add(list, 0, 1, 25, 1);
         System.out.println("List generated");
 
-        Button cancel = new Button("Cancel");
+        Button cancel = new Button("Return");
         HBox hbBtn = new HBox(20);
         hbBtn.setAlignment(Pos.BOTTOM_LEFT);
         hbBtn.getChildren().add(cancel);
-        grid.add(hbBtn, 0, 2);
+        grid.add(hbBtn, 8, 2);
 
         BackgroundFill background_fill = new BackgroundFill(Color.DIMGREY.darker(),
                 CornerRadii.EMPTY, Insets.EMPTY);
