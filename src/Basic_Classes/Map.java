@@ -3,7 +3,6 @@ package Basic_Classes;
 public class Map {
 
     private final Sector[][] layout;
-    private final Sector defaultImage;
 
     /**
      * This will create a new map
@@ -11,7 +10,7 @@ public class Map {
      * @param width this is the y component of the grid
      */
     public Map(int length, int width){
-        this.defaultImage = new Sector("JPGs/BadBoi.jpg");
+        Sector defaultImage = new Sector("JPGs/BadBoi.jpg");
         this.layout = null;
         for(int l=0; l<length; l++){
             for (int w=0; w<width; w++){
@@ -29,6 +28,7 @@ public class Map {
      * @return true if added
      */
     public boolean addSector(String sector, int x, int y){
+        assert layout != null;
         if(!(layout[x][y].equals(new Sector(sector)))){
             layout[x][y] = new Sector(sector);
             return true;
@@ -44,6 +44,7 @@ public class Map {
      * @return true if revealed
      */
     public boolean revealSector(int x, int y, int revealCode){
+        assert layout != null;
         return layout[x][y].reveal(revealCode);
     }
 
@@ -54,6 +55,7 @@ public class Map {
      * @return the sector
      */
     public Sector getSector(int x, int y){
+        assert layout != null;
         return layout[x][y];
     }
 }

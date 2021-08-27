@@ -67,19 +67,6 @@ public class City{
         return trade;
     }
 
-//    /**
-//     * This function will add a trade to the city
-//     */
-//    public void addTrade(String newTrade){ trade.;
-//    }
-
-//    /**
-//     * This function will remove a trade from the city
-//     */
-//    public void removeTrade(String oldTrade){
-//        trade.remove(oldTrade);
-//    }
-
     /**
      * Get the song for the city
      * @return the song

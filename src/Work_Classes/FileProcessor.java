@@ -25,13 +25,17 @@ public class FileProcessor {
         this.password = password;
     }
 
+    public String getFileName(){
+        return mainFile.getName();
+    }
+
     /**
      * getNPCList returns an ArrayList consisting of every NPC in the file
      * 
      * @return ArrayList of NPCs
      */
     public ArrayList<NPC> getNPCList() {
-    	ArrayList<NPC> NPCList = new ArrayList<NPC>();
+    	ArrayList<NPC> NPCList = new ArrayList<>();
     	HashSet<Object> ObjectList = readFile(mainFile);
     	NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
     	
@@ -50,7 +54,7 @@ public class FileProcessor {
      * @return ArrayList of Cities
      */
     public ArrayList<City> getCityList() {
-    	ArrayList<City> cityList = new ArrayList<City>();
+    	ArrayList<City> cityList = new ArrayList<>();
     	HashSet<Object> ObjectList = readFile(mainFile);
 
     	City tempCity = new City("Paul Blart", "checker", "fat", null, null, null, null, true,"12345","");
@@ -69,7 +73,7 @@ public class FileProcessor {
      * @return ArrayList of Specials
      */
     public ArrayList<Special> getSpecialList() {
-    	ArrayList<Special> specialList = new ArrayList<Special>();
+    	ArrayList<Special> specialList = new ArrayList<>();
     	HashSet<Object> ObjectList = readFile(mainFile);
     	System.out.println(ObjectList.toString());
     	Special tempSpecial = new Special("Paul Blart", "checker", "fat", true,"12345","");
@@ -91,7 +95,7 @@ public class FileProcessor {
      */
     public HashSet<Object> readFile(File file) {
         BufferedReader reader;
-        components = new HashSet<Object>();
+        components = new HashSet<>();
         try {
             reader = new BufferedReader(new
                     FileReader(file));
@@ -157,11 +161,10 @@ public class FileProcessor {
         if (fileToZip.isDirectory()) {
             if (fileName.endsWith("/")) {
                 zipOut.putNextEntry(new ZipEntry(fileName));
-                zipOut.closeEntry();
             } else {
                 zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                zipOut.closeEntry();
             }
+            zipOut.closeEntry();
             File[] children = fileToZip.listFiles();
             assert children != null;
             for (File childFile : children) {

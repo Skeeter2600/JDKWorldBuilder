@@ -17,10 +17,9 @@
 //import java.util.HashSet;
 //import java.util.Random;
 //
-/**
-* This code is commented out bc it isn't used yet
-*it's being saved for if we decide to use it
-*/
+//This code is commented out bc it isn't used yet
+//it's being saved for if we decide to use it
+///
 //
 //public class NPCJFX {
 //
