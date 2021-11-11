@@ -1,8 +1,8 @@
-package Pages;
+package Components;
 
 import java.util.Base64;
 
-public class Special{
+public class Special implements WorldElement{
 
     private final String name;
     private String description;
@@ -80,18 +80,10 @@ public class Special{
     }
 
     /**
-     * This will return if the special has been met
-     * @return true if met, false if not
-     */
-    public boolean getMet(){
-        return met;
-    }
-
-    /**
      * This will update if an special has been met
      * @return a string signifying the result
      */
-    public String meetSpecial(){
+    public String meetWorldElement(){
         if(met = false){
             met = true;
             return "Met " + name + "!";
@@ -112,7 +104,7 @@ public class Special{
 
     public void setNotes(String newNotes) {notes = newNotes;}
 
-    public String writeSpecial(){
+    public String writeWorldElement(){
         if(notes.equals("")){
            notes = " ";
         }

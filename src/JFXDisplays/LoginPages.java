@@ -1,6 +1,7 @@
 package JFXDisplays;
 
 import Basic_Classes.Password;
+import Components.WorldElement;
 import Work_Classes.FileProcessor;
 import Work_Classes.HomeJFX;
 import javafx.geometry.Insets;
@@ -20,14 +21,14 @@ import java.io.*;
 import java.util.Base64;
 import java.util.HashSet;
 
-public class AdminPages implements Page{
+public class LoginPages implements Page{
 
     private final Stage primaryStage;
     private final GridPane grid;
     private final Page previous;
     private final File file;
 
-    public AdminPages(Stage stage, Page previous, File file){
+    public LoginPages(Stage stage, Page previous, File file){
         this.primaryStage = stage;
         this.previous = previous;
         this.file = file;
@@ -71,7 +72,6 @@ public class AdminPages implements Page{
         noBtn.setAlignment(Pos.BOTTOM_RIGHT);
         noBtn.getChildren().add(noButton);
         grid.add(noBtn, 0, 1);
-        //boolean admin = false;
 
         yesButton.setOnAction(actionEvent -> {
             grid.getChildren().clear();
@@ -120,7 +120,7 @@ public class AdminPages implements Page{
             cancelButton.setOnAction(actionEvent1 -> {
                 Password password = new Password(decodedString);
                 FileProcessor fileProcessor = new FileProcessor(file, false, password);
-                HashSet<Object> objects = fileProcessor.readFile(file);
+                HashSet<WorldElement> objects = fileProcessor.readFile(file);
                 HomeJFX commander = new HomeJFX(objects, false, primaryStage, fileProcessor);
                 commander.commandProgram();
                 fileProcessor.writeFile();
@@ -134,10 +134,9 @@ public class AdminPages implements Page{
                     primaryStage.setTitle(file.getName());
                     Password password = new Password(decodedString);
                     FileProcessor fileProcessor = new FileProcessor(file, true, password);
-                    HashSet<Object> objects = fileProcessor.readFile(file);
-                    HomeJFX commander = new HomeJFX(objects, true, primaryStage, fileProcessor);
-                    commander.commandProgram();
-                    fileProcessor.writeFile();
+                    HashSet<WorldElement> objects = fileProcessor.readFile(file);
+                    HomePage commander = new HomePage(objects, true, primaryStage, fileProcessor, this);
+                    commander.loadPage();
                 }else{
                     actionTarget1.setFill(Color.FIREBRICK);
                     actionTarget1.setText("Password is incorrect. Try again");
@@ -161,11 +160,9 @@ public class AdminPages implements Page{
 
             Password password = new Password(decodedString);
             FileProcessor fileProcessor = new FileProcessor(file, false, password);
-            HashSet<Object> objects = fileProcessor.readFile(file);
-            HomeJFX commander = new HomeJFX(objects, false, primaryStage, fileProcessor);
-            commander.commandProgram();
-            fileProcessor.writeFile();
-            System.out.println("Thanks! come again");
+            HashSet<WorldElement> objects = fileProcessor.readFile(file);
+            HomePage commander = new HomePage(objects, false, primaryStage, fileProcessor, this);
+            commander.loadPage();
         });
     }
 

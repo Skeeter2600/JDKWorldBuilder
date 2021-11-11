@@ -1,9 +1,10 @@
 package Work_Classes;
 
-import Pages.City;
-import Pages.NPC;
+import Components.City;
+import Components.NPC;
 import Basic_Classes.Password;
-import Pages.Special;
+import Components.Special;
+import Components.WorldElement;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +12,7 @@ import java.util.*;
 public class FileProcessor {
 
     private final File mainFile;
-    private HashSet<Object> components;
+    private HashSet<WorldElement> components;
     private boolean admin;
     private final Password password;
 
@@ -22,14 +23,18 @@ public class FileProcessor {
         this.password = password;
     }
 
+    public String getName(){
+        return mainFile.getName();
+    }
+
     /**
      * getNPCList returns an ArrayList consisting of every NPC in the file
      * 
      * @return ArrayList of NPCs
      */
     public ArrayList<NPC> getNPCList() {
-    	ArrayList<NPC> NPCList = new ArrayList<NPC>();
-    	HashSet<Object> ObjectList = readFile(mainFile);
+    	ArrayList<NPC> NPCList = new ArrayList<>();
+    	HashSet<WorldElement> ObjectList = readFile(mainFile);
     	NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
     	
     	for (Object o : ObjectList) {
@@ -47,8 +52,8 @@ public class FileProcessor {
      * @return ArrayList of Cities
      */
     public ArrayList<City> getCityList() {
-    	ArrayList<City> cityList = new ArrayList<City>();
-    	HashSet<Object> ObjectList = readFile(mainFile);
+    	ArrayList<City> cityList = new ArrayList<>();
+    	HashSet<WorldElement> ObjectList = readFile(mainFile);
 
     	City tempCity = new City("Paul Blart", "checker", "fat", null, null, null, null, true,"12345","");
     	for (Object o : ObjectList) {
@@ -66,8 +71,8 @@ public class FileProcessor {
      * @return ArrayList of Specials
      */
     public ArrayList<Special> getSpecialList() {
-    	ArrayList<Special> specialList = new ArrayList<Special>();
-    	HashSet<Object> ObjectList = readFile(mainFile);
+    	ArrayList<Special> specialList = new ArrayList<>();
+    	HashSet<WorldElement> ObjectList = readFile(mainFile);
     	System.out.println(ObjectList.toString());
     	Special tempSpecial = new Special("Paul Blart", "checker", "fat", true,"12345","");
     	
@@ -86,9 +91,9 @@ public class FileProcessor {
      * @param file the file to be processes
      * @return The HashList of Objects
      */
-    public HashSet<Object> readFile(File file) {
+    public HashSet<WorldElement> readFile(File file) {
         BufferedReader reader;
-        components = new HashSet<Object>();
+        components = new HashSet<>();
         try {
             reader = new BufferedReader(new
                     FileReader(file));
@@ -96,16 +101,19 @@ public class FileProcessor {
             admin = true;
             String line = reader.readLine();
             for (int lineReader = 0; line != null; lineReader++) {
+
                 if(lineReader == 0){
                     byte[] decodedBytes = Base64.getDecoder().decode(line);
                     line = new String(decodedBytes);
                     components.add(new Password(line));
                 }
                 else {
-                    String outcome = addComponent(line);
-                    if (outcome.equals("Not a valid object type.")) {
-                        System.out.println("An error occurred when building " + line.split(" _-_ ")[1] +
-                                ". Please make this element again.");
+                    if (!line.equals("")) {
+                        String outcome = addComponent(line);
+                        if (outcome.equals("Not a valid object type.")) {
+                            System.out.println("An error occurred when building " + line.split(" _-_ ")[1] +
+                                    ". Please make this element again.");
+                        }
                     }
                 }
                 line = reader.readLine();
@@ -231,7 +239,6 @@ public class FileProcessor {
 
             default:
                 assert false;
-                components.add(new Error("Bad line"));
         }
         return "Not a valid object type.";
     }
@@ -241,7 +248,7 @@ public class FileProcessor {
      * while the system is running
      * @param addedComponent the component to be added
      */
-    public void addComponent(Object addedComponent){
+    public void addComponent(WorldElement addedComponent){
         NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
         City tempCity = new City("testville", "1.3 mil.", "Pharmaceuticals", null, "never gonna give you up",
                 "dope", null, false, "12345", "");
@@ -260,38 +267,16 @@ public class FileProcessor {
     public void writeFile() {
         String encodedString;
         try (Writer writer = new FileWriter(mainFile)) {
-            NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
-            City tempCity = new City("testville", "1.3 mil.", "Pharmaceuticals", null, "never gonna give you up",
-                    "ballsy", null, false, "12345", "");
-            Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
-            Password tempPassword = new Password("testtest");
             encodedString = Base64.getEncoder().encodeToString(password.getPassword().getBytes());
             writer.write(encodedString);
             writer.flush();
-            for (Object part : components) {
-                // write an NPC
-                if (part.getClass() == tempNPC.getClass()) {
+            for (WorldElement part : components) {
+                if(part.getClass() != Password.class) {
                     writer.write("\n");
-                	writer.write(((NPC) part).writeNPC());
-                	System.out.println("Saved NPC");
+                    writer.write(part.writeWorldElement());
+                    System.out.println("Saved World Element");
+                    writer.flush();
                 }
-                // write a city
-                else if (part.getClass() == tempCity.getClass()) {
-                	writer.write("\n");
-                	writer.write(((City) part).writeCity());
-                	System.out.println("Saved City");
-                }
-                // write a Special
-                else if (part.getClass() == tempSpecial.getClass()) {
-                	writer.write("\n");
-                	writer.write(((Special) part).writeSpecial());
-                	System.out.println("Saved Special");
-                } else if (part.getClass() == tempPassword.getClass()){
-                    System.out.println("Password Skipped");
-                } else {
-                    System.out.println(part.toString() + "Not a valid class");
-                }
-                writer.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package Pages;
+package Components;
 
 public class Items {
 }

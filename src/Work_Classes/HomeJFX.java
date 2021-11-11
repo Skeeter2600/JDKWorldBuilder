@@ -1,9 +1,10 @@
 package Work_Classes;
 
 //import JFXDisplays.NPCJFX;
-import Pages.City;
-import Pages.NPC;
-import Pages.Special;
+import Components.City;
+import Components.NPC;
+import Components.Special;
+import Components.WorldElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,7 +13,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -25,7 +25,7 @@ import java.util.*;
 
 public class HomeJFX {
 
-    private final HashSet<Object> processor;
+    private final HashSet<WorldElement> processor;
     private final boolean admin;
     private final Scanner input;
     private final Stage primaryStage;
@@ -38,7 +38,7 @@ public class HomeJFX {
      * @param processor the set of objects in the world
      * @param admin     if admin privileges are enabled
      */
-    public HomeJFX(HashSet<Object> processor, boolean admin, Stage primaryStage, FileProcessor fileProcessor) {
+    public HomeJFX(HashSet<WorldElement> processor, boolean admin, Stage primaryStage, FileProcessor fileProcessor) {
         this.processor = processor;
         this.admin = admin;
         this.fileProcessor = fileProcessor;
@@ -96,39 +96,16 @@ public class HomeJFX {
         exitBtn.setAlignment(Pos.CENTER);
         grid.add(exitBtn, 2, 6);
 
-        NPCButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                NPCs(admin);
-            }
-        });
+        NPCButton.setOnAction(actionEvent -> NPCs(admin));
 
-        CityButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-            	cities(admin); }
-        });
+        CityButton.setOnAction(actionEvent -> cities(admin));
 
-        SpecialButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                specials(admin);
-            }
-        });
+        SpecialButton.setOnAction(actionEvent -> specials(admin));
 
-        exit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                primaryStage.close();
-            }
-        });
+        exit.setOnAction(actionEvent -> primaryStage.close());
 
-        close.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                primaryStage.close();
-                AltMain.restart(primaryStage);
-            }
+        close.setOnAction(actionEvent -> {
+            //previous.reloadPage());
         });
 
         if (admin) {
@@ -144,31 +121,17 @@ public class HomeJFX {
             AdminBtn.setAlignment(Pos.CENTER);
             grid.add(AdminBtn, 2, 4);
 
-            AddNPCButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    addNPC();
-                }
-            });
+            AddNPCButton.setOnAction(actionEvent -> addNPC());
 
-            AddCityButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) { addCity(); }
-            });
+            AddCityButton.setOnAction(actionEvent -> addCity());
 
-            AddSpecialButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    addSpecial();
-                }
-            });
+            AddSpecialButton.setOnAction(actionEvent -> addSpecial());
         }
 
         primaryStage.setTitle("World Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        boolean quit = false;
         System.out.print("Welcome! ");
     }
 
@@ -274,81 +237,73 @@ public class HomeJFX {
 
         final String[] outcome = {"false"};
 
-        cancel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                commandProgram();
+        cancel.setOnAction(e -> commandProgram());
+        save.setOnAction(e -> {
+            // checks for the separation string
+            if (nameTextField.getText().contains(" _-_ ") || descriptionTextField.getText().contains(" _-_ ") || occupationTextField.getText().contains(" _-_ ") ||
+                    (hiddenDescriptionTextField.getText().contains(" _-_ "))) {
+                actionTarget.setFill(Color.FIREBRICK);
+                actionTarget.setText("Please avoid using the string ' _-_ '!");
             }
-        });
-        save.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                // checks for the separation string
-                if (nameTextField.getText().contains(" _-_ ") || descriptionTextField.getText().contains(" _-_ ") || occupationTextField.getText().contains(" _-_ ") ||
-                        (hiddenDescriptionTextField.getText().contains(" _-_ "))) {
-                    actionTarget.setFill(Color.FIREBRICK);
-                    actionTarget.setText("Please avoid using the string ' _-_ '!");
+
+            // checks for if an NPC by that name already exists
+            boolean notMultiple = false;
+            boolean multipleCheck = true;
+            NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345", "");
+
+            while (!notMultiple) {
+                notMultiple = true;
+                for (Object o : processor) {
+                    if (o.getClass() == comparator.getClass()) {
+                        NPC check = (NPC) o;
+                        if (check.getName().equals(NPCname.getText())) {
+                            actionTarget.setFill(Color.FIREBRICK);
+                            actionTarget.setText("An NPC by this name already exists!");
+                            multipleCheck = false;
+                        }
+                    }
                 }
+                if (!multipleCheck) {
+                    notMultiple = false;
+                }
+            }
+            if (multipleCheck) {
+                boolean revealCoded = false;
+                String revealCode = "";
+                while(!revealCoded) {
+                    revealCoded = true;
+                    // adds the NPCs to the system
+                    int one = new Random().nextInt(9);
+                    int two = new Random().nextInt(9);
+                    int three = new Random().nextInt(9);
+                    int four = new Random().nextInt(9);
+                    int five = new Random().nextInt(9);
+                    revealCode = one + String.valueOf(two) + three + String.valueOf(four) + five;
 
-                // checks for if an NPC by that name already exists
-                boolean notMultiple = false;
-                boolean multipleCheck = true;
-                NPC comparator = new NPC("Paul Blart", "comparer", "I check for class", true, "12345", "");
-
-                while (!notMultiple) {
-                    notMultiple = true;
-                    for (Object o : processor) {
-                        if (o.getClass() == comparator.getClass()) {
-                            NPC check = (NPC) o;
-                            if (check.getName().equals(NPCname.getText())) {
-                                actionTarget.setFill(Color.FIREBRICK);
-                                actionTarget.setText("An NPC by this name already exists!");
-                                multipleCheck = false;
+                    NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
+                    // add check for if another part has the same revealCode here
+                    for (Object part : processor) {
+                        if (part.getClass() == NPC.class) {
+                            if (tempNPC.getRevealCode().equals(revealCode)) {
+                                revealCoded = false;
                             }
                         }
                     }
-                    if (!multipleCheck) {
-                        notMultiple = false;
-                    }
                 }
-                if (multipleCheck) {
-                    boolean revealCoded = false;
-                    String revealCode = "";
-                    while(!revealCoded) {
-                        revealCoded = true;
-                        // adds the NPCs to the system
-                        int one = new Random().nextInt(9);
-                        int two = new Random().nextInt(9);
-                        int three = new Random().nextInt(9);
-                        int four = new Random().nextInt(9);
-                        int five = new Random().nextInt(9);
-                        revealCode = one + String.valueOf(two) + three + four + five;
-
-                        NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
-                        // add check for if another part has the same revealCode here
-                        for (Object part : processor) {
-                            if (part.getClass() == tempNPC.getClass()) {
-                                if (tempNPC.getRevealCode().equals(revealCode)) {
-                                    revealCoded = false;
-                                }
-                            }
-                        }
-                    }
-                    NPC newNPC;
-                    if (DescriptionExists.isSelected()) {
-                        newNPC = new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
-                                hiddenDescriptionTextField.getText(), false, revealCode, "");
-                    } else {
-                        newNPC = new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
-                                false, revealCode, "");
-                        processor.add(newNPC);
-                    }
+                NPC newNPC;
+                if (DescriptionExists.isSelected()) {
+                    newNPC = new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
+                            hiddenDescriptionTextField.getText(), false, revealCode, "");
+                } else {
+                    newNPC = new NPC(nameTextField.getText(), occupationTextField.getText(), descriptionTextField.getText(),
+                            false, revealCode, "");
                     processor.add(newNPC);
-                    fileProcessor.addComponent(newNPC);
-                    fileProcessor.writeFile();
                 }
-                NPCs(admin);
+                processor.add(newNPC);
+                fileProcessor.addComponent(newNPC);
+                fileProcessor.writeFile();
             }
+            NPCs(admin);
         });
     }
 
@@ -822,7 +777,7 @@ public class HomeJFX {
         ArrayList<NPC> NPCList = fileProcessor.getNPCList();
         ListView<String> list = new ListView<String>();
         for (NPC n : NPCList) {
-        	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getMet();
+        	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getRevealed();
         	items.add(NPCLoop);
         }
 
@@ -997,7 +952,7 @@ public class HomeJFX {
                 spacing.append(" ");
                 spacingSize -= 1;
             }
-        	String specialLoop = s.getName() + spacing + s.getMet();
+        	String specialLoop = s.getName() + spacing + s.getRevealed();
         	items.add(specialLoop);
         }
         

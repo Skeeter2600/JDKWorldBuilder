@@ -1,6 +1,7 @@
 package JFXDisplays;
 
 import Basic_Classes.Password;
+import Components.WorldElement;
 import Work_Classes.FileProcessor;
 import Work_Classes.HomeJFX;
 import javafx.geometry.Insets;
@@ -24,13 +25,13 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashSet;
 
-public class LoginPage implements Page{
+public class WelcomePage implements Page{
 
     private final Stage primaryStage;
     private final GridPane grid;
     private final Scene scene;
 
-    public LoginPage(Stage stage){
+    public WelcomePage(Stage stage){
         this.primaryStage = stage;
 
         this.grid = new GridPane();
@@ -106,8 +107,8 @@ public class LoginPage implements Page{
             else {
                 mainFile = new File(filename + "/" + filename + ".bck");
 
-                AdminPages adminPages = new AdminPages(primaryStage, this, mainFile);
-                adminPages.loadPage();
+                LoginPages loginPages = new LoginPages(primaryStage, this, mainFile);
+                loginPages.loadPage();
             }
         });
 
@@ -191,7 +192,7 @@ public class LoginPage implements Page{
                                 writer.flush();
                                 writer.close();
                                 FileProcessor fileProcessor = new FileProcessor(file, true, password);
-                                HashSet<Object> objects = fileProcessor.readFile(file);
+                                HashSet<WorldElement> objects = fileProcessor.readFile(file);
                                 HomeJFX commander = new HomeJFX(objects, true, primaryStage, fileProcessor);
                                 commander.commandProgram();
                                 fileProcessor.writeFile();
