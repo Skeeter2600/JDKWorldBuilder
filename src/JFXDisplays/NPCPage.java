@@ -1,4 +1,4 @@
-//package JFXDisplays;
+package JFXDisplays;
 //
 //import Pages.NPC;
 //import Work_Classes.HomeJFX;
@@ -22,7 +22,16 @@
 *it's being saved for if we decide to use it
 */
 //
-//public class NPCJFX {
+public class NPCPage implements Page{
+    @Override
+    public void loadPage() {
+
+    }
+
+    @Override
+    public void reloadPage() {
+
+    }
 //
 //    private final HashSet<Object> processor;
 //    private final Stage primaryStage;
@@ -194,4 +203,4 @@
 //            }
 //        });
 //    }
-//}
+}

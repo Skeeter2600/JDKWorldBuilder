@@ -449,22 +449,15 @@ public class HomeJFX {
         residentsList.setPrefHeight(100);
         grid.add(residentsList, 4, 1, 4, 2);
 
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-        	public void handle(ActionEvent e)
-        	{
-        		String selected = residentsComboBox.getValue();
-        		residentsList.getItems().add(selected);
-        	}
+        EventHandler<ActionEvent> event = e -> {
+            String selected = residentsComboBox.getValue();
+            residentsList.getItems().add(selected);
         };
         residentsComboBox.setOnAction(event);
 
-        residentsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-        	@Override
-        	public void handle(MouseEvent arg0) {
-            	int selected = residentsList.getSelectionModel().getSelectedIndex();
-            	residentsList.getItems().remove(selected);
-        	}
+        residentsList.setOnMouseClicked(arg0 -> {
+            int selected = residentsList.getSelectionModel().getSelectedIndex();
+            residentsList.getItems().remove(selected);
         });
 
         // Gets the City's Specials
