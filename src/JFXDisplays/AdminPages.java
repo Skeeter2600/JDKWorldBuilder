@@ -105,12 +105,15 @@ public class AdminPages implements Page{
 
             BufferedReader reader = null;
             try { reader = new BufferedReader(new FileReader(file)); }
+
             catch (FileNotFoundException fileNotFoundException) { fileNotFoundException.printStackTrace(); }
+
             String passwordInput = null;
             try {
                 assert reader != null;
-                passwordInput = reader.readLine(); }
-            catch (IOException ioException) { ioException.printStackTrace(); }
+                passwordInput = reader.readLine();
+            } catch (IOException ioException) { ioException.printStackTrace(); }
+
             byte[] decodedBytes = Base64.getDecoder().decode(passwordInput);
             String decodedString = new String(decodedBytes);
 
