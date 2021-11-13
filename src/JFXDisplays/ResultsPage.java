@@ -84,8 +84,9 @@ public class ResultsPage implements Page{
             WorldElement name = cellData.getValue();
             return new ReadOnlyStringWrapper(name.getName());
         });
-        nameCol.setMinWidth(100);
-        nameCol.setMaxWidth(100);
+        nameCol.setStyle("-fx-alignment: CENTER;");
+        nameCol.setMinWidth(150);
+        nameCol.setMaxWidth(150);
         table.getColumns().add(nameCol);
 
         // the column for the special part of the element
@@ -98,8 +99,9 @@ public class ResultsPage implements Page{
                 if (resultType.equals("NPC")) return new ReadOnlyStringWrapper(((NPC) element).getOccupation());
                 return new ReadOnlyStringWrapper(((City) element).getPopulation());
             });
-            col2.setMinWidth(100);
-            col2.setMaxWidth(100);
+            col2.setStyle("-fx-alignment: CENTER;");
+            col2.setMinWidth(150);
+            col2.setMaxWidth(150);
             table.getColumns().add(col2);
         }
 
@@ -112,6 +114,7 @@ public class ResultsPage implements Page{
                 if (element.getRevealed()) return new ReadOnlyStringWrapper("Yes");
                 return new ReadOnlyStringWrapper("No");
             });
+            revealedCol.setStyle("-fx-alignment: CENTER;");
             revealedCol.setMinWidth(100);
             revealedCol.setMaxWidth(100);
 
@@ -121,6 +124,7 @@ public class ResultsPage implements Page{
                 WorldElement element = cellData.getValue();
                 return new ReadOnlyStringWrapper(element.getRevealCode());
             });
+            revealCodeCol.setStyle("-fx-alignment: CENTER;");
             revealCodeCol.setMinWidth(100);
             revealCodeCol.setMaxWidth(100);
 

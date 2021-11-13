@@ -227,12 +227,8 @@ public class FileProcessor {
      * @param addedComponent the component to be added
      */
     public void addComponent(WorldElement addedComponent){
-        NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
-        City tempCity = new City("testville", "1.3 mil.", "Pharmaceuticals", null, "never gonna give you up",
-                "dope", null, false, "12345", "");
-        Special tempSpecial = new Special("Capitol Building", "tester", true, "12345","");
-        if (addedComponent.getClass() == tempNPC.getClass() || addedComponent.getClass() == tempCity.getClass()
-                || addedComponent.getClass() == tempSpecial.getClass()) {
+        if (addedComponent.getClass() == NPC.class || addedComponent.getClass() == City.class
+                || addedComponent.getClass() == Special.class) {
             components.add(addedComponent);
         }
         else { System.out.println(addedComponent.toString() + "not a valid system"); }

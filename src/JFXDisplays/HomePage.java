@@ -52,7 +52,7 @@ public class HomePage implements Page{
     @Override
     public void loadPage() {
 
-        Text sceneTitle = new Text("Welcome to " + fileProcessor.getName() + "!");
+        Text sceneTitle = new Text("Welcome to " + fileProcessor.getName().equalsIgnoreCase(".bck") + "!");
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
         sceneTitle.setFill(Color.WHITE.darker());
         grid.add(sceneTitle, 0, 0, 3, 1);

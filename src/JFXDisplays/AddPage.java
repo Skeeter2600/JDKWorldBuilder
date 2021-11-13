@@ -21,10 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AddPage implements Page{
 
@@ -99,24 +96,26 @@ public class AddPage implements Page{
             // Gets the City's population
             Label CityPopulation = new Label("Population:");
             CityPopulation.setTextFill(Color.WHITE.darker());
-            grid.add(CityPopulation, 0, 1);
+            grid.add(CityPopulation, 0, level);
             System.out.print("Population generated");
 
             populationTextField = new TextField();
             populationTextField.setPrefWidth(50);
-            grid.add(populationTextField, 1, 1);
+            grid.add(populationTextField, 1, level);
             System.out.println("Population Text generated");
+            level++;
 
             // Gets the City's song
             Label citySong = new Label("Song:");
             citySong.setTextFill(Color.WHITE.darker());
-            grid.add(citySong, 0, 3);
+            grid.add(citySong, 0, level);
             System.out.print("Description Generated");
 
             songTextField = new TextField();
             songTextField.setPrefWidth(200);
             grid.add(songTextField, 1, 3);
             System.out.println("Song Text generated");
+            level++;
 
             // Gets the City's trades
             Label cityTrade = new Label("Trades:");
@@ -128,6 +127,7 @@ public class AddPage implements Page{
             tradeTextField.setPrefWidth(200);
             grid.add(tradeTextField, 1, 4, 1, 5);
             System.out.println("Trade Text generated");
+            level++;
 
             // Gets the City's Residents
             Label cityResidents = new Label("Residents:");
@@ -151,6 +151,7 @@ public class AddPage implements Page{
             residentsList.setPrefWidth(200);
             residentsList.setPrefHeight(100);
             grid.add(residentsList, 4, 1, 4, 2);
+            level++;
 
             ListView<String> finalResidentsList1 = residentsList;
             EventHandler<ActionEvent> event = e -> {
@@ -188,6 +189,7 @@ public class AddPage implements Page{
             specialsList.setPrefWidth(200);
             specialsList.setPrefHeight(100);
             grid.add(specialsList, 4, 4, 4, 5);
+            level++;
 
             ListView<String> finalSpecialsList = specialsList;
             EventHandler<ActionEvent> event2 = e -> {
@@ -279,7 +281,7 @@ public class AddPage implements Page{
         TextField finalSongTextField = songTextField;
         save.setOnAction(e -> {
             // checks for the separation string
-            if (nameTextField.getText().contains(" _-_ ") || descriptionTextField.getText().contains(" _-_ ") || finalOccupationTextField.getText().contains(" _-_ ") ||
+            if (nameTextField.getText().contains(" _-_ ") || descriptionTextField.getText().contains(" _-_ ") ||
                     (hiddenDescriptionTextField.getText().contains(" _-_ "))) {
                 actionTarget.setFill(Color.FIREBRICK);
                 actionTarget.setText("Please avoid using the string ' _-_ '!");
@@ -292,11 +294,10 @@ public class AddPage implements Page{
             while (!notMultiple) {
                 notMultiple = true;
                 for (WorldElement o : processor) {
-                    if (o.getClass() == NPC.class) {
-                        NPC check = (NPC) o;
-                        if (check.getName().equals(NPCname.getText())) {
+                    if (o.getClass() != Password.class) {
+                        if (o.getName().equals(NPCname.getText())) {
                             actionTarget.setFill(Color.FIREBRICK);
-                            actionTarget.setText("An NPC by this name already exists!");
+                            actionTarget.setText("An element by this name already exists!");
                             multipleCheck = false;
                         }
                     }
@@ -327,7 +328,7 @@ public class AddPage implements Page{
                         }
                     }
                 }
-                WorldElement newWorldElement = null;
+                WorldElement newWorldElement;
                 if(addType.equals("NPC")) {
                     if (descriptionExists.isSelected()) {
                         newWorldElement = new NPC(nameTextField.getText(), finalOccupationTextField.getText(), descriptionTextField.getText(),
@@ -359,7 +360,8 @@ public class AddPage implements Page{
                 fileProcessor.addComponent(newWorldElement);
                 fileProcessor.writeFile();
             }
-            ResultsPage resultsPage = new ResultsPage(processor, true, primaryStage, fileProcessor, previous, addType);
+            HashSet<WorldElement> resultList = fileProcessor.getSelectedList(addType);
+            ResultsPage resultsPage = new ResultsPage(resultList, true, primaryStage, fileProcessor, previous, addType);
             resultsPage.loadPage();
         });
     }
