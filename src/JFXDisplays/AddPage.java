@@ -65,7 +65,6 @@ public class AddPage implements Page{
 
         // Get the name of the NPC with text box
         Label NPCname = new Label("Name:");
-        NPCname.setFont(Font.font("DroidSansMono.ttf"));
         NPCname.setTextFill(Color.WHITE.darker());
         grid.add(NPCname, 0, level);
         System.out.print("Name box generated");
@@ -80,7 +79,6 @@ public class AddPage implements Page{
         if (addType.equals("NPC")) {
             // Gets the NPC's occupation
             Label NPCOccupation = new Label("Occupation:");
-            NPCOccupation.setFont(Font.font("DroidSansMono.ttf"));
             NPCOccupation.setTextFill(Color.WHITE.darker());
             grid.add(NPCOccupation, 0, level);
             System.out.print("Occupation generated");
@@ -100,7 +98,6 @@ public class AddPage implements Page{
         if (addType.equals("City")){
             // Gets the City's population
             Label CityPopulation = new Label("Population:");
-            CityPopulation.setFont(Font.font("DroidSansMono.ttf"));
             CityPopulation.setTextFill(Color.WHITE.darker());
             grid.add(CityPopulation, 0, 1);
             System.out.print("Population generated");
@@ -112,7 +109,6 @@ public class AddPage implements Page{
 
             // Gets the City's song
             Label citySong = new Label("Song:");
-            citySong.setFont(Font.font("DroidSansMono.ttf"));
             citySong.setTextFill(Color.WHITE.darker());
             grid.add(citySong, 0, 3);
             System.out.print("Description Generated");
@@ -124,7 +120,6 @@ public class AddPage implements Page{
 
             // Gets the City's trades
             Label cityTrade = new Label("Trades:");
-            cityTrade.setFont(Font.font("DroidSansMono.ttf"));
             cityTrade.setTextFill(Color.WHITE.darker());
             grid.add(cityTrade, 0, 4);
             System.out.print("Trades Generated");
@@ -136,15 +131,14 @@ public class AddPage implements Page{
 
             // Gets the City's Residents
             Label cityResidents = new Label("Residents:");
-            cityResidents.setFont(Font.font("DroidSansMono.ttf"));
             cityResidents.setTextFill(Color.WHITE.darker());
             grid.add(cityResidents, 3, 0);
             System.out.print("Residents Generated");
 
-            ArrayList<NPC> NPCList = fileProcessor.getNPCList();
+            HashSet<WorldElement> NPCList = fileProcessor.getSelectedList("NPC");
             ArrayList<String> NPCNames = new ArrayList<>();
             NPCNames.add("Choose Residents");
-            for (NPC n : NPCList) {
+            for (WorldElement n : NPCList) {
                 NPCNames.add(n.getName());
             }
             ComboBox<String> residentsComboBox = new ComboBox<>(FXCollections.observableArrayList(NPCNames));
@@ -173,15 +167,14 @@ public class AddPage implements Page{
 
             // Gets the City's Specials
             Label citySpecials = new Label("Specials:");
-            citySpecials.setFont(Font.font("DroidSansMono.ttf"));
             citySpecials.setTextFill(Color.WHITE.darker());
             grid.add(citySpecials, 3, 3);
             System.out.println("Specials Generated");
 
-            ArrayList<Special> specialList = fileProcessor.getSpecialList();
+            HashSet<WorldElement> specialList = fileProcessor.getSelectedList("Special");
             ArrayList<String> specialNames = new ArrayList<>();
             specialNames.add("Choose Residents");
-            for (Special s : specialList) {
+            for (WorldElement s : specialList) {
                 specialNames.add(s.getName());
             }
 
@@ -212,7 +205,6 @@ public class AddPage implements Page{
 
         // Gets a description of the Element
         Label NPCDescription = new Label("Description:");
-        NPCDescription.setFont(Font.font("DroidSansMono.ttf"));
         NPCDescription.setTextFill(Color.WHITE.darker());
         grid.add(NPCDescription, 0, level);
         System.out.print("Description Generated");
@@ -225,7 +217,6 @@ public class AddPage implements Page{
 
         // Asks if hidden description exists
         Label hiddenDescriptionQuestion = new Label("Hidden Description?:");
-        hiddenDescriptionQuestion.setFont(Font.font("DroidSansMono.ttf"));
         hiddenDescriptionQuestion.setTextFill(Color.WHITE.darker());
         System.out.print("Description Generated");
 
@@ -239,7 +230,6 @@ public class AddPage implements Page{
 
         // Gets a hidden description of the element
         Label hiddenDescription = new Label("Hidden Description:");
-        hiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         hiddenDescription.setTextFill(Color.WHITE.darker());
         System.out.print("Description Generated");
 

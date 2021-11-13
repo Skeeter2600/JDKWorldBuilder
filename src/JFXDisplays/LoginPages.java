@@ -3,7 +3,6 @@ package JFXDisplays;
 import Basic_Classes.Password;
 import Components.WorldElement;
 import Work_Classes.FileProcessor;
-import Work_Classes.HomeJFX;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -121,8 +120,7 @@ public class LoginPages implements Page{
                 Password password = new Password(decodedString);
                 FileProcessor fileProcessor = new FileProcessor(file, false, password);
                 HashSet<WorldElement> objects = fileProcessor.readFile(file);
-                HomeJFX commander = new HomeJFX(objects, false, primaryStage, fileProcessor);
-                commander.commandProgram();
+                HomePage commander = new HomePage(objects, false, primaryStage, fileProcessor, this);                commander.loadPage();
                 fileProcessor.writeFile();
                 System.out.println("Thanks! come again");
             });

@@ -1,7 +1,6 @@
 package JFXDisplays;
 //
 //import Pages.NPC;
-//import Work_Classes.HomeJFX;
 //import javafx.event.ActionEvent;
 //import javafx.event.EventHandler;
 //import javafx.geometry.Insets;
@@ -148,7 +147,6 @@ public class NPCPage implements Page{
 //        cancel.setOnAction(new EventHandler<ActionEvent>() {
 //            @Override
 //            public void handle(ActionEvent e) {
-//                HomeJFX commander = new HomeJFX(processor, false, primaryStage);
 //                commander.commandProgram();
 //            }
 //        });

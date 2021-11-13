@@ -13,6 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class HomePage implements Page{
@@ -52,7 +53,7 @@ public class HomePage implements Page{
     public void loadPage() {
 
         Text sceneTitle = new Text("Welcome to " + fileProcessor.getName() + "!");
-        sceneTitle.setFont(Font.font("DroidSansMono.ttf", FontWeight.NORMAL, 30));
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
         sceneTitle.setFill(Color.WHITE.darker());
         grid.add(sceneTitle, 0, 0, 3, 1);
 
@@ -78,15 +79,21 @@ public class HomePage implements Page{
         grid.add(exitBtn, 2, 6);
 
         NPCButton.setOnAction(actionEvent -> {
-            //NPCs(admin);
+            HashSet<WorldElement> NPCList = fileProcessor.getSelectedList("NPC");
+            ResultsPage resultsPage = new ResultsPage(NPCList, admin, primaryStage, fileProcessor, this, "NPC");
+            resultsPage.loadPage();
         });
 
         CityButton.setOnAction(actionEvent -> {
-            //cities(admin);
+            HashSet<WorldElement> cityList = fileProcessor.getSelectedList("City");
+            ResultsPage resultsPage = new ResultsPage(cityList, admin, primaryStage, fileProcessor, this, "City");
+            resultsPage.loadPage();
         });
 
         SpecialButton.setOnAction(actionEvent -> {
-            //specials(admin);
+            HashSet<WorldElement> specialList = fileProcessor.getSelectedList("Special");
+            ResultsPage resultsPage = new ResultsPage(specialList, admin, primaryStage, fileProcessor, this, "Special");
+            resultsPage.loadPage();
         });
 
         exit.setOnAction(actionEvent -> {

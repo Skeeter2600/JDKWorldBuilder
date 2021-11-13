@@ -32,57 +32,35 @@ public class FileProcessor {
      * 
      * @return ArrayList of NPCs
      */
-    public ArrayList<NPC> getNPCList() {
-    	ArrayList<NPC> NPCList = new ArrayList<>();
-    	HashSet<WorldElement> ObjectList = readFile(mainFile);
-    	NPC tempNPC = new NPC("Paul Blart", "checker", "fat", true,"12345","");
-    	
-    	for (Object o : ObjectList) {
-    		if (o.getClass() == tempNPC.getClass()) {
-    			NPCList.add((NPC) o);
-    			System.out.println("added NPC to NPCList");
-    		}
-    	}
-    	return NPCList;
-    }
-    
-    /**
-     * getCityList returns an ArrayList consisting of every City in the file
-     * 
-     * @return ArrayList of Cities
-     */
-    public ArrayList<City> getCityList() {
-    	ArrayList<City> cityList = new ArrayList<>();
+    public HashSet<WorldElement> getSelectedList(String type) {
+    	HashSet<WorldElement> outcomeList = new HashSet<>();
     	HashSet<WorldElement> ObjectList = readFile(mainFile);
 
-    	City tempCity = new City("Paul Blart", "checker", "fat", null, null, null, null, true,"12345","");
-    	for (Object o : ObjectList) {
-    		if (o.getClass() == tempCity.getClass()) {
-    			cityList.add((City) o);
-    			System.out.println("added City to cityList");
-    		}
-    	}
-    	return cityList;
-    }
-    
-    /**
-     * getSpecialList returns an ArrayList consisting of every Special in the file
-     * 
-     * @return ArrayList of Specials
-     */
-    public ArrayList<Special> getSpecialList() {
-    	ArrayList<Special> specialList = new ArrayList<>();
-    	HashSet<WorldElement> ObjectList = readFile(mainFile);
-    	System.out.println(ObjectList.toString());
-    	Special tempSpecial = new Special("Paul Blart", "checker", "fat", true,"12345","");
-    	
-    	for (Object o : ObjectList) {
-    		if (o.getClass() == tempSpecial.getClass()) {
-    			specialList.add((Special) o);
-    			System.out.println("added Special to specialList");
-    		}
-    	}
-    	return specialList;
+    	if (type.equals("NPC")) {
+            for (WorldElement o : ObjectList) {
+                if (o.getClass() == NPC.class) {
+                    outcomeList.add(o);
+                    System.out.println("added NPC to outcomeList");
+                }
+            }
+        }
+        if (type.equals("City")) {
+            for (WorldElement o : ObjectList) {
+                if (o.getClass() == City.class) {
+                    outcomeList.add(o);
+                    System.out.println("added City to outcomeList");
+                }
+            }
+        }
+        if (type.equals("Special")) {
+            for (WorldElement o : ObjectList) {
+                if (o.getClass() == Special.class) {
+                    outcomeList.add(o);
+                    System.out.println("added Special to outcomeList");
+                }
+            }
+        }
+        return outcomeList;
     }
 
     /**

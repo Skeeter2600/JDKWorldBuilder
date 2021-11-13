@@ -71,7 +71,6 @@ public class HomeJFX {
         primaryStage.setScene(scene);
 
         Text sceneTitle = new Text("Welcome to the World!");
-        sceneTitle.setFont(Font.font("DroidSansMono.ttf", FontWeight.NORMAL, 30));
         sceneTitle.setFill(Color.WHITE.darker());
         grid.add(sceneTitle, 0, 0, 3, 1);
 
@@ -152,7 +151,6 @@ public class HomeJFX {
 
         // Get the name of the NPC with text box
         Label NPCname = new Label("Name:");
-        NPCname.setFont(Font.font("DroidSansMono.ttf"));
         NPCname.setTextFill(Color.WHITE.darker());
         grid.add(NPCname, 0, 0);
         System.out.print("Name box generated");
@@ -164,7 +162,6 @@ public class HomeJFX {
 
         // Gets the NPC's occupation
         Label NPCOccupation = new Label("Occupation:");
-        NPCOccupation.setFont(Font.font("DroidSansMono.ttf"));
         NPCOccupation.setTextFill(Color.WHITE.darker());
         grid.add(NPCOccupation, 0, 1);
         System.out.print("Occupation generated");
@@ -176,7 +173,6 @@ public class HomeJFX {
 
         // Gets a description of the NPC
         Label NPCDescription = new Label("Description:");
-        NPCDescription.setFont(Font.font("DroidSansMono.ttf"));
         NPCDescription.setTextFill(Color.WHITE.darker());
         grid.add(NPCDescription, 0, 2);
         System.out.print("Description Generated");
@@ -188,7 +184,6 @@ public class HomeJFX {
 
         // Asks if hidden description exists
         Label HiddenDescription = new Label("Hidden Description?:");
-        HiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         HiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(HiddenDescription, 0, 3);
         System.out.print("Description Generated");
@@ -200,7 +195,6 @@ public class HomeJFX {
 
         // Gets a hidden description of the NPC
         Label NPCHiddenDescription = new Label("Hidden Description:");
-        NPCHiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         NPCHiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(NPCHiddenDescription, 0, 4);
         System.out.print("Description Generated");
@@ -321,7 +315,6 @@ public class HomeJFX {
 
         // Get the name of the NPC with text box
         Label cityName = new Label("Name:");
-        cityName.setFont(Font.font("DroidSansMono.ttf"));
         cityName.setTextFill(Color.WHITE.darker());
         grid.add(cityName, 0, 0);
         System.out.print("Name box generated");
@@ -333,7 +326,6 @@ public class HomeJFX {
 
         // Gets the City's population
         Label CityPopulation = new Label("Population:");
-        CityPopulation.setFont(Font.font("DroidSansMono.ttf"));
         CityPopulation.setTextFill(Color.WHITE.darker());
         grid.add(CityPopulation, 0, 1);
         System.out.print("Population generated");
@@ -345,7 +337,6 @@ public class HomeJFX {
 
         // Gets the City's aesthetic
         Label cityAesthetic = new Label("Aesthetic:");
-        cityAesthetic.setFont(Font.font("DroidSansMono.ttf"));
         cityAesthetic.setTextFill(Color.WHITE.darker());
         grid.add(cityAesthetic, 0, 2);
         System.out.print("Aesthetic generated");
@@ -357,7 +348,6 @@ public class HomeJFX {
 
         // Gets the City's song
         Label citySong = new Label("Song:");
-        citySong.setFont(Font.font("DroidSansMono.ttf"));
         citySong.setTextFill(Color.WHITE.darker());
         grid.add(citySong, 0, 3);
         System.out.print("Description Generated");
@@ -370,7 +360,6 @@ public class HomeJFX {
 
         // Gets the City's trades
         Label cityTrade = new Label("Trades:");
-        cityTrade.setFont(Font.font("DroidSansMono.ttf"));
         cityTrade.setTextFill(Color.WHITE.darker());
         grid.add(cityTrade, 0, 4);
         System.out.print("Description Generated");
@@ -382,15 +371,14 @@ public class HomeJFX {
 
         // Gets the City's Residents
         Label cityResidents = new Label("Residents:");
-        cityResidents.setFont(Font.font("DroidSansMono.ttf"));
         cityResidents.setTextFill(Color.WHITE.darker());
         grid.add(cityResidents, 3, 0);
         System.out.print("Residents Generated");
 
-        ArrayList<NPC> NPCList = fileProcessor.getNPCList();
+        HashSet<WorldElement> NPCList = fileProcessor.getSelectedList("NPC");
         ArrayList<String> NPCNames = new ArrayList<String>();
         NPCNames.add("Choose Residents");
-        for (NPC n : NPCList) {
+        for (WorldElement n : NPCList) {
         	NPCNames.add(n.getName());
         }
         ComboBox<String> residentsComboBox = new ComboBox<String>(FXCollections.observableArrayList(NPCNames));
@@ -417,15 +405,14 @@ public class HomeJFX {
 
         // Gets the City's Specials
         Label citySpecials = new Label("Specials:");
-        citySpecials.setFont(Font.font("DroidSansMono.ttf"));
         citySpecials.setTextFill(Color.WHITE.darker());
         grid.add(citySpecials, 3, 3);
         System.out.println("Specials Generated");
 
-        ArrayList<Special> specialList = fileProcessor.getSpecialList();
+        HashSet<WorldElement> specialList = fileProcessor.getSelectedList("Special");
         ArrayList<String> specialNames = new ArrayList<String>();
         specialNames.add("Choose Residents");
-        for (Special s : specialList) {
+        for (WorldElement s : specialList) {
         	specialNames.add(s.getName());
         }
 
@@ -580,7 +567,6 @@ public class HomeJFX {
 
         // Get the name of the Special with text box
         Label specialName = new Label("Name:");
-        specialName.setFont(Font.font("DroidSansMono.ttf"));
         specialName.setTextFill(Color.WHITE.darker());
         grid.add(specialName, 0, 0);
         System.out.print("Name box generated");
@@ -592,7 +578,6 @@ public class HomeJFX {
 
         // Gets a description of the Special
         Label specialDescription = new Label("Description:");
-        specialDescription.setFont(Font.font("DroidSansMono.ttf"));
         specialDescription.setTextFill(Color.WHITE.darker());
         grid.add(specialDescription, 0, 2);
         System.out.print("Description Generated");
@@ -604,7 +589,6 @@ public class HomeJFX {
 
         // Asks if hidden description exists
         Label hiddenDescription = new Label("Hidden Description?:");
-        hiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         hiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(hiddenDescription, 0, 3);
         System.out.print("Description Generated");
@@ -616,7 +600,6 @@ public class HomeJFX {
 
         // Gets a hidden description of the Special
         Label specialHiddenDescription = new Label("Hidden Description:");
-        specialHiddenDescription.setFont(Font.font("DroidSansMono.ttf"));
         specialHiddenDescription.setTextFill(Color.WHITE.darker());
         grid.add(specialHiddenDescription, 0, 4);
         System.out.print("Description Generated");
@@ -737,35 +720,25 @@ public class HomeJFX {
     public void NPCs(boolean admin) {
     	System.out.println("ran NPCs");
 
-        grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-
         //Field labels for list of NPCs
         Label NPCName = new Label("Name");
-        NPCName.setFont(Font.font("DroidSansMono.ttf"));
         NPCName.setTextFill(Color.WHITE.darker());
         grid.add(NPCName, 0, 0);
         System.out.println("Name box generated");
 
         Label NPCOccupation = new Label("Occupation");
-        NPCOccupation.setFont(Font.font("DroidSansMono.ttf"));
         NPCOccupation.setTextFill(Color.WHITE.darker());
         grid.add(NPCOccupation, 20, 0);
         System.out.println("Occupation box generated");
 
         if (admin) {
             Label revealed = new Label("Revealed?");
-            revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
 
             //Edit buttons for admin will be below this space
             Label editSpace = new Label("");
-            editSpace.setFont(Font.font("DroidSansMono.ttf"));
             editSpace.setTextFill(Color.WHITE.darker());
             grid.add(editSpace, 25, 0);
             System.out.println("Edit space generated");
@@ -774,10 +747,10 @@ public class HomeJFX {
 
         ObservableList<String> items =FXCollections.observableArrayList ();
 
-        ArrayList<NPC> NPCList = fileProcessor.getNPCList();
+        HashSet<WorldElement> NPCList = fileProcessor.getSelectedList("NPC");
         ListView<String> list = new ListView<String>();
-        for (NPC n : NPCList) {
-        	String NPCLoop = n.getName() + "							" + n.getOccupation() + "			" + n.getRevealed();
+        for (WorldElement n : NPCList) {
+        	String NPCLoop = n.getName() + "							" + ((NPC) n).getOccupation() + "			" + n.getRevealed();
         	items.add(NPCLoop);
         }
 
@@ -828,26 +801,22 @@ public class HomeJFX {
 
         //Field labels for list of cities
         Label cityName = new Label("Name");
-        cityName.setFont(Font.font("DroidSansMono.ttf"));
         cityName.setTextFill(Color.WHITE.darker());
         grid.add(cityName, 0, 0);
         System.out.println("Name box generated");
 
         Label cityPop = new Label("Population");
-        cityPop.setFont(Font.font("DroidSansMono.ttf"));
         cityPop.setTextFill(Color.WHITE.darker());
         grid.add(cityPop, 20, 0);
         System.out.println("Population box generated");
 
         if (admin) {
             Label revealed = new Label("Revealed?");
-            revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
 
             Label editSpace = new Label("");
-            editSpace.setFont(Font.font("DroidSansMono.ttf"));
             editSpace.setTextFill(Color.WHITE.darker());
             grid.add(editSpace, 25, 0);
             System.out.println("Edit space generated");
@@ -855,12 +824,12 @@ public class HomeJFX {
 
         ObservableList<String> items =FXCollections.observableArrayList ();
 
-        ArrayList<City> cityList = fileProcessor.getCityList();
+        HashSet<WorldElement> cityList = fileProcessor.getSelectedList("City");
 
         ListView<String> list = new ListView<String>();
-        for (City c : cityList) {
+        for (WorldElement c : cityList) {
             int spacingSize1 = 72 - c.getName().length();
-            int spacingSize2 = 20 - c.getPopulation().length();
+            int spacingSize2 = 20 - ((City)c).getPopulation().length();
             StringBuilder spacing1 = new StringBuilder();
             StringBuilder spacing2 = new StringBuilder();
             while (spacingSize1 > 0) {
@@ -871,7 +840,7 @@ public class HomeJFX {
                 spacing2.append(" ");
                 spacingSize2 -= 1;
             }
-            String specialLoop = c.getName() + spacing1 + c.getPopulation() + spacing2 + c.getRevealed();
+            String specialLoop = c.getName() + spacing1 + ((City)c).getPopulation() + spacing2 + c.getRevealed();
             items.add(specialLoop);
         }
 
@@ -922,30 +891,27 @@ public class HomeJFX {
 
         //Field labels for list of specials
         Label specialName = new Label("Name");
-        specialName.setFont(Font.font("DroidSansMono.ttf"));
         specialName.setTextFill(Color.WHITE.darker());
         grid.add(specialName, 0, 0);
         System.out.println("Name box generated");
 
         if (admin) {
             Label revealed = new Label("Revealed?");
-            revealed.setFont(Font.font("DroidSansMono.ttf"));
             revealed.setTextFill(Color.WHITE.darker());
             grid.add(revealed, 24, 0);
             System.out.println("Revealed  box generated");
 
         	Label editSpace = new Label("");
-        	editSpace.setFont(Font.font("DroidSansMono.ttf"));
         	editSpace.setTextFill(Color.WHITE.darker());
         	grid.add(editSpace, 25, 0);
         	System.out.println("Edit space generated");
     	}
         
-       ObservableList<String> items =FXCollections.observableArrayList ();
+        ObservableList<String> items =FXCollections.observableArrayList ();
         
-        ArrayList<Special> specialList = fileProcessor.getSpecialList();
+        HashSet<WorldElement> specialList = fileProcessor.getSelectedList("Special");
         ListView<String> list = new ListView<String>();
-        for (Special s : specialList) {
+        for (WorldElement s : specialList) {
             int spacingSize = 81 - s.getName().length();
             StringBuilder spacing = new StringBuilder();
             while (spacingSize > 0) {
