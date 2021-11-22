@@ -1,14 +1,14 @@
-package Pages;
+package Components;
 
 import java.util.Base64;
 import java.util.List;
 
-public class City{
+public class City implements WorldElement{
 
-    private final String name;
+    private String name;
     private String population;
     private String song;
-    private final String aesthetic;
+    private String aesthetic;
     private boolean revealed;
     private final String revealCode;
     private String notes;
@@ -41,6 +41,11 @@ public class City{
      */
     public String getName(){
         return name;
+    }
+
+    @Override
+    public void setName(String newName) {
+        name = newName;
     }
 
     /**
@@ -86,9 +91,28 @@ public class City{
      * Get teh aesthetic for a city
      * @return the aesthetic description
      */
-    public String getAesthetic(){
+    public String getDescription(){
         return aesthetic;
     }
+
+    @Override
+    public void setDescription(String newDescription) {
+        aesthetic = newDescription;
+    }
+
+    @Override
+    public String getHiddenDescription() {
+        return null;
+    }
+
+    @Override
+    public void setHiddenDescription(String newHiddenDescription) {}
+
+    @Override
+    public void revealHiddenDescription() {}
+
+    @Override
+    public void addHiddenDescription(String newHiddenDescription) {}
 
     /**
      * This will get a list of all the NPCs living in the city
@@ -134,8 +158,13 @@ public class City{
         specials.remove(oldSpecial);
     }
 
-    public void meetCity(){
-        revealed = true;
+    public String meetWorldElement(){
+        if(!revealed){
+            revealed = true;
+            return "Met " + name + "!";
+        }else{
+            return "Already me " + name + "!";
+        }
     }
 
     public boolean getRevealed(){
@@ -150,7 +179,7 @@ public class City{
 
     public void setNotes(String newNotes) { this.notes = newNotes; }
 
-    public String writeCity(){
+    public String writeWorldElement(){
         if(notes.equals("")){
            notes = " ";
         }

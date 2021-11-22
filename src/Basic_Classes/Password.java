@@ -1,6 +1,8 @@
 package Basic_Classes;
 
-public class Password {
+import Components.WorldElement;
+
+public class Password implements WorldElement {
 
     private final String password;
 
@@ -11,4 +13,46 @@ public class Password {
     public String getPassword(){
         return password;
     }
+
+    @Override
+    public String getName() { return null; }
+
+    @Override
+    public void setName(String newName) {}
+
+    @Override
+    public String getDescription() { return null; }
+
+    @Override
+    public void setDescription(String newDescription) {}
+
+    @Override
+    public String getHiddenDescription() { return null; }
+
+    @Override
+    public void setHiddenDescription(String newHiddenDescription) {}
+
+    @Override
+    public void revealHiddenDescription() { }
+
+    @Override
+    public void addHiddenDescription(String newHiddenDescription) { }
+
+    @Override
+    public String meetWorldElement() { return null; }
+
+    @Override
+    public boolean getRevealed() { return false; }
+
+    @Override
+    public String getRevealCode() { return null; }
+
+    @Override
+    public String getNotes() { return null; }
+
+    @Override
+    public void setNotes(String newNotes) { }
+
+    @Override
+    public String writeWorldElement() { return null; }
 }

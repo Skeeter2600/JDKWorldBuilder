@@ -1,11 +1,10 @@
-package Pages;
+package Components;
 
-import java.io.Writer;
 import java.util.Base64;
 
-public class NPC{
+public class NPC implements WorldElement{
 
-    private final String name;
+    private String name;
     private final String occupation;
     private String description;
     private String hiddenDescription;
@@ -60,6 +59,11 @@ public class NPC{
         return name;
     }
 
+    @Override
+    public void setName(String newName) {
+        name = newName;
+    }
+
     /**
      * This will get the NPC's occupation
      * @return the occupation
@@ -76,8 +80,18 @@ public class NPC{
         return description;
     }
 
+    @Override
+    public void setDescription(String newDescription) {
+        description = newDescription;
+    }
+
     public String getHiddenDescription(){
         return hiddenDescription;
+    }
+
+    @Override
+    public void setHiddenDescription(String newHiddenDescription) {
+        hiddenDescription = newHiddenDescription;
     }
 
     /**
@@ -105,7 +119,7 @@ public class NPC{
      * This will return if the NPC has been met
      * @return true if met, false if not
      */
-    public boolean getMet(){
+    public boolean getRevealed(){
         return revealed;
     }
 
@@ -113,8 +127,8 @@ public class NPC{
      * This will update if an Classes.NPC has been met
      * @return a string signifying the result
      */
-    public String meetNPC(){
-        if(revealed = false){
+    public String meetWorldElement(){
+        if(!revealed){
             revealed = true;
             return "Met " + name + "!";
         }else{
@@ -130,7 +144,7 @@ public class NPC{
 
     public void setNotes(String newNotes) { notes = newNotes;}
 
-    public String writeNPC(){
+    public String writeWorldElement(){
         String encodedString;
         if(notes.equals("")){
            notes = " ";

@@ -1,10 +1,10 @@
-package Pages;
+package Components;
 
 import java.util.Base64;
 
-public class Special{
+public class Special implements WorldElement{
 
-    private final String name;
+    private String name;
     private String description;
     private String hiddenDescription;
     private final String revealCode;
@@ -40,12 +40,32 @@ public class Special{
         this.notes = notes;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setHiddenDescription(String hiddenDescription) {
+        this.hiddenDescription = hiddenDescription;
+    }
+
+    public void setHiddenDescriptionReveal(boolean hiddenDescriptionReveal) {
+        this.hiddenDescriptionReveal = hiddenDescriptionReveal;
+    }
+
+    public void setMet(boolean met) {
+        this.met = met;
+    }
+
     /**
      * This will return the special's name
      * @return the name
      */
     public String getName(){
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -80,19 +100,11 @@ public class Special{
     }
 
     /**
-     * This will return if the special has been met
-     * @return true if met, false if not
-     */
-    public boolean getMet(){
-        return met;
-    }
-
-    /**
      * This will update if an special has been met
      * @return a string signifying the result
      */
-    public String meetSpecial(){
-        if(met = false){
+    public String meetWorldElement(){
+        if(!met){
             met = true;
             return "Met " + name + "!";
         }else{
@@ -112,7 +124,7 @@ public class Special{
 
     public void setNotes(String newNotes) {notes = newNotes;}
 
-    public String writeSpecial(){
+    public String writeWorldElement(){
         if(notes.equals("")){
            notes = " ";
         }
