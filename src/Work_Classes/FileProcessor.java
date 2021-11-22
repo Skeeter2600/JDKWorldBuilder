@@ -34,10 +34,9 @@ public class FileProcessor {
      */
     public HashSet<WorldElement> getSelectedList(String type) {
     	HashSet<WorldElement> outcomeList = new HashSet<>();
-    	HashSet<WorldElement> ObjectList = readFile(mainFile);
 
     	if (type.equals("NPC")) {
-            for (WorldElement o : ObjectList) {
+            for (WorldElement o : components) {
                 if (o.getClass() == NPC.class) {
                     outcomeList.add(o);
                     System.out.println("added NPC to outcomeList");
@@ -45,7 +44,7 @@ public class FileProcessor {
             }
         }
         if (type.equals("City")) {
-            for (WorldElement o : ObjectList) {
+            for (WorldElement o : components) {
                 if (o.getClass() == City.class) {
                     outcomeList.add(o);
                     System.out.println("added City to outcomeList");
@@ -53,7 +52,7 @@ public class FileProcessor {
             }
         }
         if (type.equals("Special")) {
-            for (WorldElement o : ObjectList) {
+            for (WorldElement o : components) {
                 if (o.getClass() == Special.class) {
                     outcomeList.add(o);
                     System.out.println("added Special to outcomeList");
@@ -231,7 +230,12 @@ public class FileProcessor {
                 || addedComponent.getClass() == Special.class) {
             components.add(addedComponent);
         }
-        else { System.out.println(addedComponent.toString() + "not a valid system"); }
+        else { System.out.println(addedComponent + "not a valid system"); }
+    }
+
+    public void updateComponent(WorldElement component){
+        components.remove(component);
+        components.add(component);
     }
 
     /**

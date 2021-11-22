@@ -2,13 +2,12 @@ package JFXDisplays;
 
 import Components.City;
 import Components.NPC;
+import Components.Special;
 import Components.WorldElement;
 import Work_Classes.FileProcessor;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,7 +23,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ResultsPage implements Page{
@@ -37,6 +35,7 @@ public class ResultsPage implements Page{
     private final boolean admin;
     private final HashSet<WorldElement> processor;
     private final String resultType;
+    private TableView<WorldElement> table;
 
     public ResultsPage(HashSet<WorldElement> processor, boolean admin, Stage stage, FileProcessor fileProcessor, Page previous, String resultType){
 
@@ -76,7 +75,7 @@ public class ResultsPage implements Page{
         actionText.setFill(Color.WHITE.darker());
         actionBox.setAlignment(Pos.CENTER);
 
-        TableView<WorldElement> table = new TableView<>();
+        table = new TableView<>();
 
         // the column for the name of the element
         TableColumn<WorldElement, String> nameCol = new TableColumn<>("Name");
@@ -141,10 +140,20 @@ public class ResultsPage implements Page{
             TableRow<WorldElement> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-//                    actionText.setText("");
-//                    RAS rowContent = row.getItem();
-//                    Details details = new Details(stage, rowContent, this, mmls, global);
-//                    details.loadPage();
+                    actionText.setText("");
+                    WorldElement rowContent = row.getItem();
+                    if (resultType.equals("City")){
+                        CityPage details = new CityPage(primaryStage, this, (City) rowContent, admin);
+                        details.loadPage();
+                    }
+                    else if (resultType.equals("NPC")){
+                        NPCPage details = new NPCPage(primaryStage, this, (NPC) rowContent, admin);
+                        details.loadPage();
+                    }
+                    else {
+                        SpecialPage details = new SpecialPage(primaryStage, this, (Special) rowContent, admin);
+                        details.loadPage();
+                    }
                 }
             });
             return row ;
@@ -165,7 +174,12 @@ public class ResultsPage implements Page{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        back.setOnAction(actionEvent -> previous.reloadPage());
+        back.setOnAction(actionEvent -> {
+            for (WorldElement part : processor){
+                fileProcessor.updateComponent(part);
+            }
+            previous.reloadPage();
+        });
 
     }
 
@@ -173,5 +187,7 @@ public class ResultsPage implements Page{
     public void reloadPage() {
         primaryStage.setScene(scene);
         primaryStage.show();
+        table.refresh();
     }
+
 }

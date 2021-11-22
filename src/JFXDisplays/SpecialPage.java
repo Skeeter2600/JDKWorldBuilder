@@ -1,13 +1,10 @@
 package JFXDisplays;
 
-import Components.NPC;
+import Components.Special;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -15,21 +12,19 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
-public class NPCPage implements Page{
+public class SpecialPage implements Page{
 
     private final Stage primaryStage;
     private final GridPane grid;
     private final Scene scene;
-    private final Page previous;
-    private final NPC npc;
+    private final ResultsPage previous;
+    private final Special special;
     private final boolean admin;
 
-    public NPCPage(Stage primaryStage, Page previous, NPC npc, boolean admin){
+    public SpecialPage(Stage primaryStage, ResultsPage previous, Special special, boolean admin){
         this.primaryStage = primaryStage;
         this.previous = previous;
-        this.npc = npc;
+        this.special = special;
         this.admin = admin;
 
         this.grid = new GridPane();
@@ -43,13 +38,7 @@ public class NPCPage implements Page{
         Background background = new Background(background_fill);
         grid.setBackground(background);
 
-        ScrollPane sp = new ScrollPane();
-        sp.setFitToHeight(true);
-        sp.setFitToWidth(true);
-        sp.setContent(grid);
-
-        scene = new Scene(sp, 1152, 648);
-
+        scene = new Scene(grid, 1152, 648);
         primaryStage.setScene(scene);
     }
 
@@ -59,11 +48,9 @@ public class NPCPage implements Page{
         // header of the page
         Text actionText = new Text();
         actionText.setFill(Color.WHITE.darker());
-        grid.add(actionText, 0, 6);
-
+        grid.add(actionText, 0, 4);
         StackPane root = new StackPane();
-        TextArea sceneTitle = new TextArea(npc.getName());
-        sceneTitle.setMaxSize(400, 100);
+        TextArea sceneTitle = new TextArea(special.getName());
         if (!admin) sceneTitle.setEditable(false);
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
         root.getChildren().add(sceneTitle);
@@ -72,67 +59,50 @@ public class NPCPage implements Page{
         BorderPane windowDisplay = new BorderPane();  // the full window setup
 
         GridPane info = new GridPane();
-        info.setVgap(20);
+        info.setHgap(20);
         info.setAlignment(Pos.CENTER);
 
-        Text occupationHeader = new Text("Occupation:");
-        occupationHeader.setFill(Color.WHITE.darker());
-        TextArea occupation = new TextArea(npc.getDescription());
-        occupation.setMaxSize(300, 20);
-        if (!admin) occupation.setEditable(false);
-
-        info.add(occupationHeader, 0, 1);
-        info.add(occupation, 1, 1);
-
-        Text descriptionHeader = new Text("Description:");
+        Text descriptionHeader = new Text("Description");
         descriptionHeader.setFill(Color.WHITE.darker());
-        TextArea description = new TextArea(npc.getDescription());
+        TextArea description = new TextArea(special.getDescription());
         if (!admin) description.setEditable(false);
 
-        info.add(descriptionHeader, 0, 2);
-        info.add(description, 1, 2);
+        info.add(descriptionHeader, 0, 0);
+        info.add(description, 0, 1);
 
         Text hiddenDescriptionHeader = new Text("Hidden Description:");
         hiddenDescriptionHeader.setFill(Color.WHITE.darker());
-        TextArea hiddenDescription;
-        if (npc.getHiddenDescription() != null) hiddenDescription = new TextArea(npc.getHiddenDescription());
-        else hiddenDescription = new TextArea();
+        TextArea hiddenDescription = new TextArea(special.getHiddenDescription());
 
         if (!admin) hiddenDescription.setEditable(false);
         CheckBox revealed = new CheckBox();
-        Text revealCode = new Text(String.valueOf(npc.getRevealCode()));
-        revealCode.setFill(Color.WHITE.darker());
+        TextArea revealCode = new TextArea(String.valueOf(special.getRevealCode()));
+        revealCode.setEditable(false);
 
         if(admin) {
             Text revealedHeader = new Text("Revealed?");
             revealedHeader.setFill(Color.WHITE.darker());
-            revealed.setSelected(npc.getRevealed());
+            revealed.setSelected(special.getRevealed());
 
-            info.add(revealedHeader, 0, 3);
-            info.add(revealed, 1, 3);
+            info.add(revealedHeader, 1, 0);
+            info.add(revealed, 1, 1);
 
             Text revealCodeHeader = new Text("Reveal Code: ");
             revealCodeHeader.setFill(Color.WHITE.darker());
-            info.add(revealCodeHeader, 0, 4);
-            info.add(revealCode, 1, 4);
+            info.add(revealCodeHeader, 2, 0);
+            info.add(revealCode, 2, 1);
 
-            if (npc.getHiddenDescription() != null){
-                info.add(hiddenDescriptionHeader, 0, 5);
-                info.add(hiddenDescription, 1, 5);
+            if (special.getHiddenDescription() != null){
+                info.add(hiddenDescriptionHeader, 3, 0);
+                info.add(hiddenDescription, 3, 1);
             }
         }
 
         Text notesHeader = new Text("Notes:");
         notesHeader.setFill(Color.WHITE.darker());
-        TextArea notes = new TextArea(npc.getNotes());
-        if(admin) {
-            info.add(notesHeader, 0, 6);
-            info.add(notes, 1, 6);
-        }
-        else{
-            info.add(notesHeader, 0, 2);
-            info.add(notes, 1, 2);
-        }
+        TextArea notes = new TextArea(special.getNotes());
+        info.add(notesHeader, 3, 0);
+        info.add(notes, 3, 1);
 
         windowDisplay.setTop(info);
         BorderPane.setMargin(info, new Insets(10));
@@ -156,37 +126,32 @@ public class NPCPage implements Page{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        TextArea finalHiddenDescription = hiddenDescription;
         back.setOnAction(actionEvent -> {
             if (sceneTitle.getText().contains(" _-_ ") || description.getText().contains(" _-_ ") ||
-                    (notes.getText().contains(" _-_ ")) || occupation.getText().contains(" _-_ ") ||
-                     Objects.requireNonNull(finalHiddenDescription).getText().contains(" _-_ ")) {
+                    (notes.getText().contains(" _-_ "))) {
                 actionText.setFill(Color.FIREBRICK);
                 actionText.setText("Please avoid using the string ' _-_ '!");
             }
             else {
-                npc.setNotes(notes.getText());
+                special.setNotes(notes.getText());
                 previous.reloadPage();
             }
         });
 
-        TextArea finalHiddenDescription1 = hiddenDescription;
         save.setOnAction(actionEvent -> {
             if (sceneTitle.getText().contains(" _-_ ") || description.getText().contains(" _-_ ") ||
-                    (notes.getText().contains(" _-_ ")) || occupation.getText().contains(" _-_ ") ||
-                    Objects.requireNonNull(finalHiddenDescription1).getText().contains(" _-_ ")) {
+                    (notes.getText().contains(" _-_ "))) {
                 actionText.setFill(Color.FIREBRICK);
                 actionText.setText("Please avoid using the string ' _-_ '!");
             }
             else {
-                npc.setName(sceneTitle.getText());
-                npc.setDescription(description.getText());
-                npc.setNotes(notes.getText());
+                special.setName(sceneTitle.getText());
+                special.setDescription(description.getText());
+                special.setNotes(notes.getText());
                 actionText.setFill(Color.WHITE.darker());
                 actionText.setText(sceneTitle.getText() + " has been updated!");
             }
         });
-
     }
 
     @Override

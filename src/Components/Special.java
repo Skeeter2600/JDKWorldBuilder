@@ -4,7 +4,7 @@ import java.util.Base64;
 
 public class Special implements WorldElement{
 
-    private final String name;
+    private String name;
     private String description;
     private String hiddenDescription;
     private final String revealCode;
@@ -40,12 +40,32 @@ public class Special implements WorldElement{
         this.notes = notes;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setHiddenDescription(String hiddenDescription) {
+        this.hiddenDescription = hiddenDescription;
+    }
+
+    public void setHiddenDescriptionReveal(boolean hiddenDescriptionReveal) {
+        this.hiddenDescriptionReveal = hiddenDescriptionReveal;
+    }
+
+    public void setMet(boolean met) {
+        this.met = met;
+    }
+
     /**
      * This will return the special's name
      * @return the name
      */
     public String getName(){
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -84,7 +104,7 @@ public class Special implements WorldElement{
      * @return a string signifying the result
      */
     public String meetWorldElement(){
-        if(met = false){
+        if(!met){
             met = true;
             return "Met " + name + "!";
         }else{

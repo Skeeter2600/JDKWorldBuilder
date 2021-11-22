@@ -18,10 +18,19 @@ public class Password implements WorldElement {
     public String getName() { return null; }
 
     @Override
+    public void setName(String newName) {}
+
+    @Override
     public String getDescription() { return null; }
 
     @Override
+    public void setDescription(String newDescription) {}
+
+    @Override
     public String getHiddenDescription() { return null; }
+
+    @Override
+    public void setHiddenDescription(String newHiddenDescription) {}
 
     @Override
     public void revealHiddenDescription() { }

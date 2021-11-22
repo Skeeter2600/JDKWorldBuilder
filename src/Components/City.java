@@ -5,10 +5,10 @@ import java.util.List;
 
 public class City implements WorldElement{
 
-    private final String name;
+    private String name;
     private String population;
     private String song;
-    private final String aesthetic;
+    private String aesthetic;
     private boolean revealed;
     private final String revealCode;
     private String notes;
@@ -43,6 +43,11 @@ public class City implements WorldElement{
         return name;
     }
 
+    @Override
+    public void setName(String newName) {
+        name = newName;
+    }
+
     /**
      * This function will get the population of the city
      * @return the population
@@ -66,19 +71,6 @@ public class City implements WorldElement{
     public String getTrade(){
         return trade;
     }
-
-//    /**
-//     * This function will add a trade to the city
-//     */
-//    public void addTrade(String newTrade){ trade.;
-//    }
-
-//    /**
-//     * This function will remove a trade from the city
-//     */
-//    public void removeTrade(String oldTrade){
-//        trade.remove(oldTrade);
-//    }
 
     /**
      * Get the song for the city
@@ -104,9 +96,17 @@ public class City implements WorldElement{
     }
 
     @Override
+    public void setDescription(String newDescription) {
+        aesthetic = newDescription;
+    }
+
+    @Override
     public String getHiddenDescription() {
         return null;
     }
+
+    @Override
+    public void setHiddenDescription(String newHiddenDescription) {}
 
     @Override
     public void revealHiddenDescription() {}
@@ -159,7 +159,7 @@ public class City implements WorldElement{
     }
 
     public String meetWorldElement(){
-        if(revealed = false){
+        if(!revealed){
             revealed = true;
             return "Met " + name + "!";
         }else{

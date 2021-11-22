@@ -4,7 +4,7 @@ import java.util.Base64;
 
 public class NPC implements WorldElement{
 
-    private final String name;
+    private String name;
     private final String occupation;
     private String description;
     private String hiddenDescription;
@@ -59,6 +59,11 @@ public class NPC implements WorldElement{
         return name;
     }
 
+    @Override
+    public void setName(String newName) {
+        name = newName;
+    }
+
     /**
      * This will get the NPC's occupation
      * @return the occupation
@@ -75,8 +80,18 @@ public class NPC implements WorldElement{
         return description;
     }
 
+    @Override
+    public void setDescription(String newDescription) {
+        description = newDescription;
+    }
+
     public String getHiddenDescription(){
         return hiddenDescription;
+    }
+
+    @Override
+    public void setHiddenDescription(String newHiddenDescription) {
+        hiddenDescription = newHiddenDescription;
     }
 
     /**
@@ -113,7 +128,7 @@ public class NPC implements WorldElement{
      * @return a string signifying the result
      */
     public String meetWorldElement(){
-        if(revealed = false){
+        if(!revealed){
             revealed = true;
             return "Met " + name + "!";
         }else{
