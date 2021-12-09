@@ -11,9 +11,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class HomePage implements Page{
@@ -24,9 +26,9 @@ public class HomePage implements Page{
     private final Page previous;
     private final FileProcessor fileProcessor;
     private final boolean admin;
-    private final HashSet<WorldElement> processor;
+    private final HashMap<String,WorldElement> processor;
 
-    public HomePage(HashSet<WorldElement> processor, boolean admin, Stage stage, FileProcessor fileProcessor, Page previous){
+    public HomePage(HashMap<String,WorldElement> processor, boolean admin, Stage stage, FileProcessor fileProcessor, Page previous){
 
         this.primaryStage = stage;
         this.previous = previous;
@@ -52,22 +54,28 @@ public class HomePage implements Page{
     @Override
     public void loadPage() {
 
-        Text sceneTitle = new Text("Welcome to " + fileProcessor.getName().equalsIgnoreCase(".bck") + "!");
+        String name =  fileProcessor.getName();
+        name = name.replaceAll(".bck", "");
+
+        HBox title = new HBox(40);
+        title.setAlignment(Pos.CENTER);
+        Text sceneTitle = new Text("Welcome to " + name + "!");
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
         sceneTitle.setFill(Color.WHITE.darker());
-        grid.add(sceneTitle, 0, 0, 3, 1);
+        title.getChildren().add(sceneTitle);
+        grid.add(title, 0, 0);
 
         Button NPCButton = new Button("NPCs");
-        HBox GeneralBtn = new HBox(40);
-        GeneralBtn.getChildren().add(NPCButton);
+        HBox generalBtn = new HBox(40);
+        generalBtn.getChildren().add(NPCButton);
 
         Button CityButton = new Button("Cities");
-        GeneralBtn.getChildren().add(CityButton);
+        generalBtn.getChildren().add(CityButton);
 
         Button SpecialButton = new Button("Specials");
-        GeneralBtn.getChildren().add(SpecialButton);
-        GeneralBtn.setAlignment(Pos.CENTER);
-        grid.add(GeneralBtn, 2, 3);
+        generalBtn.getChildren().add(SpecialButton);
+        generalBtn.setAlignment(Pos.CENTER);
+        grid.add(generalBtn, 0, 3);
 
         Button exit = new Button("Exit Program");
         HBox exitBtn = new HBox(80);
@@ -76,7 +84,7 @@ public class HomePage implements Page{
         Button close = new Button("Close World");
         exitBtn.getChildren().add(close);
         exitBtn.setAlignment(Pos.CENTER);
-        grid.add(exitBtn, 2, 6);
+        grid.add(exitBtn, 0, 6);
 
         NPCButton.setOnAction(actionEvent -> {
             HashSet<WorldElement> NPCList = fileProcessor.getSelectedList("NPC");
@@ -105,7 +113,7 @@ public class HomePage implements Page{
         close.setOnAction(actionEvent -> {
             fileProcessor.writeFile();
             System.out.println("Thanks! come again");
-            previous.reloadPage();
+            previous.loadLast();
         });
 
         if (admin) {
@@ -119,7 +127,7 @@ public class HomePage implements Page{
             Button AddSpecialButton = new Button("Add Special");
             AdminBtn.getChildren().add(AddSpecialButton);
             AdminBtn.setAlignment(Pos.CENTER);
-            grid.add(AdminBtn, 2, 4);
+            grid.add(AdminBtn, 0, 4);
 
             AddNPCButton.setOnAction(actionEvent -> {
                 AddPage addNPC = new AddPage(primaryStage, fileProcessor, this, processor, "NPC");
@@ -141,7 +149,7 @@ public class HomePage implements Page{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        System.out.print("Welcome! ");
+        System.out.print("Welcome!");
 
     }
 
@@ -149,5 +157,15 @@ public class HomePage implements Page{
     public void reloadPage() {
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    @Override
+    public void loadLast() {
+        previous.reloadPage();
+    }
+
+    @Override
+    public Page getPrevious() {
+        return previous;
     }
 }

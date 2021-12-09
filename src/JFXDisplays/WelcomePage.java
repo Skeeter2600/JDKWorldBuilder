@@ -22,6 +22,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class WelcomePage implements Page{
@@ -52,10 +53,13 @@ public class WelcomePage implements Page{
     @Override
     public void loadPage() {
 
+        HBox title = new HBox(40);
+        title.setAlignment(Pos.CENTER);
         Text sceneTitle = new Text("Welcome to World Builder!");
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
         sceneTitle.setFill(Color.WHITE.darker());
-        grid.add(sceneTitle, 0, 0, 3, 1);
+        title.getChildren().add(sceneTitle);
+        grid.add(title, 0, 0, 3, 1);
 
         HBox worldName = new HBox(60);
         Label userName = new Label("World Name:");
@@ -90,7 +94,7 @@ public class WelcomePage implements Page{
 
         signIn.setOnAction(e -> {
             String filename = userTextField.getText();
-            File mainFile = null;
+            File mainFile;
 
             System.out.println("name of file: " + userTextField.getText());
             File directory = new File(filename);
@@ -191,7 +195,7 @@ public class WelcomePage implements Page{
                                 writer.flush();
                                 writer.close();
                                 FileProcessor fileProcessor = new FileProcessor(file, true, password);
-                                HashSet<WorldElement> objects = fileProcessor.readFile(file);
+                                HashMap<String,WorldElement> objects = fileProcessor.readFile(file);
                                 HomePage commander = new HomePage(objects, true, primaryStage, fileProcessor, this);
                                 commander.loadPage();
                                 fileProcessor.writeFile();
@@ -213,5 +217,11 @@ public class WelcomePage implements Page{
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    @Override
+    public void loadLast() { }
+
+    @Override
+    public Page getPrevious() { return null; }
 
 }

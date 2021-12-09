@@ -1,6 +1,7 @@
 package JFXDisplays;
 
 import Components.NPC;
+import Work_Classes.FileProcessor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,12 +25,14 @@ public class NPCPage implements Page{
     private final Scene scene;
     private final Page previous;
     private final NPC npc;
+    private final FileProcessor fileProcessor;
     private final boolean admin;
 
-    public NPCPage(Stage primaryStage, Page previous, NPC npc, boolean admin){
+    public NPCPage(Stage primaryStage, Page previous, NPC npc, FileProcessor fileProcessor, boolean admin){
         this.primaryStage = primaryStage;
         this.previous = previous;
         this.npc = npc;
+        this.fileProcessor = fileProcessor;
         this.admin = admin;
 
         this.grid = new GridPane();
@@ -73,6 +76,7 @@ public class NPCPage implements Page{
 
         GridPane info = new GridPane();
         info.setVgap(20);
+        info.setHgap(10);
         info.setAlignment(Pos.CENTER);
 
         Text occupationHeader = new Text("Occupation:");
@@ -111,7 +115,7 @@ public class NPCPage implements Page{
             info.add(revealedHeader, 0, 3);
             info.add(revealed, 1, 3);
 
-            Text revealCodeHeader = new Text("Reveal Code: ");
+            Text revealCodeHeader = new Text("Reveal Code:");
             revealCodeHeader.setFill(Color.WHITE.darker());
             info.add(revealCodeHeader, 0, 4);
             info.add(revealCode, 1, 4);
@@ -130,8 +134,8 @@ public class NPCPage implements Page{
             info.add(notes, 1, 6);
         }
         else{
-            info.add(notesHeader, 0, 2);
-            info.add(notes, 1, 2);
+            info.add(notesHeader, 0, 3);
+            info.add(notes, 1, 3);
         }
 
         windowDisplay.setTop(info);
@@ -144,8 +148,12 @@ public class NPCPage implements Page{
         buttonBox.getChildren().add(back);
 
         Button save = new Button("Save");
+        Button delete = new Button("Delete");
 
-        if (admin) buttonBox.getChildren().add(save);
+        if (admin) {
+            buttonBox.getChildren().add(save);
+            buttonBox.getChildren().add(delete);
+        }
 
         windowDisplay.setCenter(buttonBox);
         BorderPane.setMargin(buttonBox, new Insets(10));
@@ -166,7 +174,7 @@ public class NPCPage implements Page{
             }
             else {
                 npc.setNotes(notes.getText());
-                previous.reloadPage();
+                loadLast();
             }
         });
 
@@ -187,11 +195,26 @@ public class NPCPage implements Page{
             }
         });
 
+        delete.setOnAction( ae -> {
+            RemovePage deletePage = new RemovePage(primaryStage, this, npc, fileProcessor);
+            deletePage.loadPage();
+        });
+
     }
 
     @Override
     public void reloadPage() {
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    @Override
+    public void loadLast(){
+        previous.reloadPage();
+    }
+
+    @Override
+    public Page getPrevious() {
+        return previous;
     }
 }

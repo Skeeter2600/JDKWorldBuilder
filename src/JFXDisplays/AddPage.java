@@ -31,9 +31,9 @@ public class AddPage implements Page{
     private final Page previous;
     private final FileProcessor fileProcessor;
     private final String addType;
-    private final HashSet<WorldElement> processor;
+    private final HashMap<String,WorldElement> processor;
 
-    public AddPage(Stage stage, FileProcessor fileProcessor, Page previous, HashSet<WorldElement> processor, String addType){
+    public AddPage(Stage stage, FileProcessor fileProcessor, Page previous, HashMap<String, WorldElement> processor, String addType){
         this.primaryStage = stage;
         this.previous = previous;
         this.fileProcessor = fileProcessor;
@@ -113,19 +113,21 @@ public class AddPage implements Page{
 
             songTextField = new TextField();
             songTextField.setPrefWidth(200);
-            grid.add(songTextField, 1, 3);
+            grid.add(songTextField, 1, level);
             System.out.println("Song Text generated");
             level++;
 
             // Gets the City's trades
             Label cityTrade = new Label("Trades:");
             cityTrade.setTextFill(Color.WHITE.darker());
-            grid.add(cityTrade, 0, 4);
+            grid.add(cityTrade, 0, level);
             System.out.print("Trades Generated");
 
             tradeTextField = new TextArea();
             tradeTextField.setPrefWidth(200);
-            grid.add(tradeTextField, 1, 4, 1, 5);
+            tradeTextField.setPrefHeight(40);
+            tradeTextField.setWrapText(true);
+            grid.add(tradeTextField, 1, level);
             System.out.println("Trade Text generated");
             level++;
 
@@ -156,7 +158,7 @@ public class AddPage implements Page{
             ListView<String> finalResidentsList1 = residentsList;
             EventHandler<ActionEvent> event = e -> {
                 String selected = residentsComboBox.getValue();
-                finalResidentsList1.getItems().add(selected);
+                if (!(finalResidentsList1.getItems().contains(selected) || selected.equals("Choose Residents"))) finalResidentsList1.getItems().add(selected);
             };
             residentsComboBox.setOnAction(event);
 
@@ -174,7 +176,7 @@ public class AddPage implements Page{
 
             HashSet<WorldElement> specialList = fileProcessor.getSelectedList("Special");
             ArrayList<String> specialNames = new ArrayList<>();
-            specialNames.add("Choose Residents");
+            specialNames.add("Choose Special");
             for (WorldElement s : specialList) {
                 specialNames.add(s.getName());
             }
@@ -194,14 +196,14 @@ public class AddPage implements Page{
             ListView<String> finalSpecialsList = specialsList;
             EventHandler<ActionEvent> event2 = e -> {
                 String selected = specialsComboBox.getValue();
-                finalSpecialsList.getItems().add(selected);
+                if (!(finalResidentsList.getItems().contains(selected) || selected.equals("Choose Special"))) finalSpecialsList.getItems().add(selected);
             };
             specialsComboBox.setOnAction(event2);
 
             ListView<String> finalSpecialsList1 = specialsList;
             specialsList.setOnMouseClicked(arg0 -> {
                 int selected = finalSpecialsList1.getSelectionModel().getSelectedIndex();
-                finalSpecialsList1.getItems().remove(selected);
+                if (selected >= 0) finalSpecialsList1.getItems().remove(selected);
             });
         }
 
@@ -213,6 +215,7 @@ public class AddPage implements Page{
 
         TextArea descriptionTextField = new TextArea();
         descriptionTextField.setPrefWidth(200);
+        descriptionTextField.setWrapText(true);
         grid.add(descriptionTextField, 1, level);
         System.out.println("Description Text generated");
         level++;
@@ -236,6 +239,7 @@ public class AddPage implements Page{
         System.out.print("Description Generated");
 
         TextArea hiddenDescriptionTextField = new TextArea();
+        hiddenDescriptionTextField.setWrapText(true);
         System.out.println("Hidden Description Text generated");
         int tempLevel = level + 1;
         level += 2;
@@ -259,7 +263,7 @@ public class AddPage implements Page{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        cancel.setOnAction(e -> previous.reloadPage());
+        cancel.setOnAction(e -> loadLast());
 
         descriptionExists.setOnAction(actionEvent -> {
             if (descriptionExists.isSelected()) {
@@ -293,9 +297,10 @@ public class AddPage implements Page{
 
             while (!notMultiple) {
                 notMultiple = true;
-                for (WorldElement o : processor) {
-                    if (o.getClass() != Password.class) {
-                        if (o.getName().equals(NPCname.getText())) {
+                for (String key : processor.keySet()) {
+                    WorldElement part = processor.get(key);
+                    if (part.getClass() != Password.class) {
+                        if (part.getName().equals(NPCname.getText())) {
                             actionTarget.setFill(Color.FIREBRICK);
                             actionTarget.setText("An element by this name already exists!");
                             multipleCheck = false;
@@ -320,7 +325,8 @@ public class AddPage implements Page{
                     revealCode = one + String.valueOf(two) + three + four + five;
 
                     // add check for if another part has the same revealCode here
-                    for (WorldElement part : processor) {
+                    for (String key : processor.keySet()) {
+                        WorldElement part = processor.get(key);
                         if (part.getClass() != Password.class) {
                             if (part.getRevealCode().equals(revealCode)) {
                                 revealCoded = false;
@@ -356,7 +362,7 @@ public class AddPage implements Page{
                                 false, revealCode, "");
                     }
                 }
-                processor.add(newWorldElement);
+                processor.put(newWorldElement.getName(), newWorldElement);
                 fileProcessor.addComponent(newWorldElement);
                 fileProcessor.writeFile();
             }
@@ -370,5 +376,15 @@ public class AddPage implements Page{
     public void reloadPage() {
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    @Override
+    public void loadLast() {
+        previous.reloadPage();
+    }
+
+    @Override
+    public Page getPrevious() {
+        return previous;
     }
 }

@@ -12,13 +12,13 @@ import java.util.*;
 public class FileProcessor {
 
     private final File mainFile;
-    private HashSet<WorldElement> components;
+    private HashMap<String,WorldElement> components;
     private boolean admin;
     private final Password password;
 
     public FileProcessor(File mainFile, boolean admin, Password password) {
         this.mainFile = mainFile;
-        this.components = new HashSet<>();
+        this.components = new HashMap<>();
         this.admin = admin;
         this.password = password;
     }
@@ -36,25 +36,28 @@ public class FileProcessor {
     	HashSet<WorldElement> outcomeList = new HashSet<>();
 
     	if (type.equals("NPC")) {
-            for (WorldElement o : components) {
-                if (o.getClass() == NPC.class) {
-                    outcomeList.add(o);
+            for (String key : components.keySet()) {
+                WorldElement part = components.get(key);
+                if (part.getClass() == NPC.class) {
+                    outcomeList.add(part);
                     System.out.println("added NPC to outcomeList");
                 }
             }
         }
         if (type.equals("City")) {
-            for (WorldElement o : components) {
-                if (o.getClass() == City.class) {
-                    outcomeList.add(o);
+            for (String key : components.keySet()) {
+                WorldElement part = components.get(key);
+                if (part.getClass() == City.class) {
+                    outcomeList.add(part);
                     System.out.println("added City to outcomeList");
                 }
             }
         }
         if (type.equals("Special")) {
-            for (WorldElement o : components) {
-                if (o.getClass() == Special.class) {
-                    outcomeList.add(o);
+            for (String key : components.keySet()) {
+                WorldElement part = components.get(key);
+                if (part.getClass() == Special.class) {
+                    outcomeList.add(part);
                     System.out.println("added Special to outcomeList");
                 }
             }
@@ -68,9 +71,9 @@ public class FileProcessor {
      * @param file the file to be processes
      * @return The HashList of Objects
      */
-    public HashSet<WorldElement> readFile(File file) {
+    public HashMap<String, WorldElement> readFile(File file) {
         BufferedReader reader;
-        components = new HashSet<>();
+        components = new HashMap<>();
         try {
             reader = new BufferedReader(new
                     FileReader(file));
@@ -82,7 +85,7 @@ public class FileProcessor {
                 if(lineReader == 0){
                     byte[] decodedBytes = Base64.getDecoder().decode(line);
                     line = new String(decodedBytes);
-                    components.add(new Password(line));
+                    components.put("Password",new Password(line));
                 }
                 else {
                     if (!line.equals("")) {
@@ -133,9 +136,11 @@ public class FileProcessor {
                 String trades = splitLine[3];
 
                 // get NPCs
-                String[] tempNPC = splitLine[4].split(" ... ");
                 List<String> residents = new ArrayList<>();
-                Collections.addAll(residents, tempNPC);
+                if (!splitLine[4].equals("")) {
+                    String[] tempNPC = splitLine[4].split(" ... ");
+                    Collections.addAll(residents, tempNPC);
+                }
                 
                 // get the song
                 String song = splitLine[5];
@@ -144,9 +149,11 @@ public class FileProcessor {
                 String aesthetic = splitLine[6];
 
                 // get the specials
-                String[] specialsTemp = splitLine[7].split(" ... ");
                 List<String> specials = new ArrayList<>();
-                Collections.addAll(specials, specialsTemp);
+                if (!splitLine[7].equals("")) {
+                    String[] specialsTemp = splitLine[7].split(" ... ");
+                    Collections.addAll(specials, specialsTemp);
+                }
 
                 boolean revealed = splitLine[8].equals("true");
 
@@ -155,7 +162,7 @@ public class FileProcessor {
                 String notes = splitLine[10];
                 
                 // add to the components
-                components.add(new City(cityName, population, trades , residents, song, aesthetic, specials, revealed, revealCode, notes));
+                components.put(cityName, new City(cityName, population, trades , residents, song, aesthetic, specials, revealed, revealCode, notes));
                 return cityName + " added";
 
             case ("NPC"):
@@ -179,11 +186,11 @@ public class FileProcessor {
                     revealCode = splitLine[6];
                     NPCNotes = splitLine[7];
                     assert false;
-                    components.add(new NPC(NPCName, occupation, description, hiddenDescription, revealed, revealCode, NPCNotes));
+                    components.put(NPCName, new NPC(NPCName, occupation, description, hiddenDescription, revealed, revealCode, NPCNotes));
                 } else {
                     // add to the components
                     assert false;
-                    components.add(new NPC(NPCName, occupation, description, revealed, revealCode,NPCNotes));
+                    components.put(NPCName, new NPC(NPCName, occupation, description, revealed, revealCode,NPCNotes));
                 }
                 return NPCName + " added";
 
@@ -206,11 +213,11 @@ public class FileProcessor {
                     revealCode = splitLine[5];
                     SpecialNotes = splitLine[6];
                     assert false;
-                    components.add(new Special(specialName, specialDescription, hiddenDescription, revealed, revealCode, SpecialNotes));
+                    components.put(specialName, new Special(specialName, specialDescription, hiddenDescription, revealed, revealCode, SpecialNotes));
                 } else {
                     // add to the components
                     assert false;
-                    components.add(new Special(specialName, specialDescription, revealed, revealCode, SpecialNotes));
+                    components.put(specialName, new Special(specialName, specialDescription, revealed, revealCode, SpecialNotes));
                 }
                 return specialName + " added";
 
@@ -228,14 +235,14 @@ public class FileProcessor {
     public void addComponent(WorldElement addedComponent){
         if (addedComponent.getClass() == NPC.class || addedComponent.getClass() == City.class
                 || addedComponent.getClass() == Special.class) {
-            components.add(addedComponent);
+            components.put(addedComponent.getName(), addedComponent);
         }
         else { System.out.println(addedComponent + "not a valid system"); }
     }
 
     public void updateComponent(WorldElement component){
-        components.remove(component);
-        components.add(component);
+        components.remove(component.getName());
+        components.put(component.getName(), component);
     }
 
     /**
@@ -248,7 +255,8 @@ public class FileProcessor {
             encodedString = Base64.getEncoder().encodeToString(password.getPassword().getBytes());
             writer.write(encodedString);
             writer.flush();
-            for (WorldElement part : components) {
+            for (String key : components.keySet()) {
+                WorldElement part = components.get(key);
                 if(part.getClass() != Password.class) {
                     writer.write("\n");
                     writer.write(part.writeWorldElement());
@@ -259,5 +267,25 @@ public class FileProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public WorldElement getWorldElement(String name){
+        return components.get(name);
+    }
+
+    public void removeWorldElement(String name){
+        if (!(components.get(name) instanceof City)){
+            HashSet<WorldElement> cities = getSelectedList("City");
+
+            for (WorldElement city : cities){
+                List<String> residents = ((City) city).getResidents();
+                List<String> specials = ((City) city).getSpecials();
+
+                if (residents.contains(name)) ((City) city).removeResident(name);
+                if (specials.contains(name)) ((City) city).removeSpecial(name);
+            }
+        }
+        components.remove(name);
+        System.out.println(name + "has been deleted");
     }
 }

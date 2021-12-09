@@ -1,6 +1,7 @@
 package JFXDisplays;
 
 import Components.Special;
+import Work_Classes.FileProcessor;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,12 +20,14 @@ public class SpecialPage implements Page{
     private final Scene scene;
     private final ResultsPage previous;
     private final Special special;
+    private final FileProcessor fileProcessor;
     private final boolean admin;
 
-    public SpecialPage(Stage primaryStage, ResultsPage previous, Special special, boolean admin){
+    public SpecialPage(Stage primaryStage, ResultsPage previous, Special special, FileProcessor fileProcessor, boolean admin){
         this.primaryStage = primaryStage;
         this.previous = previous;
         this.special = special;
+        this.fileProcessor = fileProcessor;
         this.admin = admin;
 
         this.grid = new GridPane();
@@ -114,8 +117,12 @@ public class SpecialPage implements Page{
         buttonBox.getChildren().add(back);
 
         Button save = new Button("Save");
+        Button delete = new Button("Delete");
 
-        if (admin) buttonBox.getChildren().add(save);
+        if (admin) {
+            buttonBox.getChildren().add(save);
+            buttonBox.getChildren().add(delete);
+        }
 
         windowDisplay.setCenter(buttonBox);
         BorderPane.setMargin(buttonBox, new Insets(10));
@@ -134,7 +141,7 @@ public class SpecialPage implements Page{
             }
             else {
                 special.setNotes(notes.getText());
-                previous.reloadPage();
+                loadLast();
             }
         });
 
@@ -152,11 +159,26 @@ public class SpecialPage implements Page{
                 actionText.setText(sceneTitle.getText() + " has been updated!");
             }
         });
+
+        delete.setOnAction( ae -> {
+            RemovePage deletePage = new RemovePage(primaryStage, this, special, fileProcessor);
+            deletePage.loadPage();
+        });
     }
 
     @Override
     public void reloadPage() {
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    @Override
+    public void loadLast(){
+        previous.reloadPage();
+    }
+
+    @Override
+    public Page getPrevious() {
+        return previous;
     }
 }

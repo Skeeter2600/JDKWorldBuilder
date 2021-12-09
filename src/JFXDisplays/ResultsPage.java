@@ -67,6 +67,14 @@ public class ResultsPage implements Page{
 
         BorderPane windowDisplay = new BorderPane();  // the full window setup
 
+        HBox title = new HBox(40);
+        title.setAlignment(Pos.CENTER);
+        Text sceneTitle = new Text("Results for " + resultType);
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 30));
+        sceneTitle.setFill(Color.WHITE.darker());
+        title.getChildren().add(sceneTitle);
+        grid.add(title, 0, 0);
+
         HBox actionBox = new HBox();
         Text actionText = new Text();
         actionText.setTextAlignment(TextAlignment.CENTER);
@@ -143,15 +151,15 @@ public class ResultsPage implements Page{
                     actionText.setText("");
                     WorldElement rowContent = row.getItem();
                     if (resultType.equals("City")){
-                        CityPage details = new CityPage(primaryStage, this, (City) rowContent, admin);
+                        CityPage details = new CityPage(primaryStage, this, (City) rowContent, fileProcessor, admin);
                         details.loadPage();
                     }
                     else if (resultType.equals("NPC")){
-                        NPCPage details = new NPCPage(primaryStage, this, (NPC) rowContent, admin);
+                        NPCPage details = new NPCPage(primaryStage, this, (NPC) rowContent, fileProcessor, admin);
                         details.loadPage();
                     }
                     else {
-                        SpecialPage details = new SpecialPage(primaryStage, this, (Special) rowContent, admin);
+                        SpecialPage details = new SpecialPage(primaryStage, this, (Special) rowContent, fileProcessor, admin);
                         details.loadPage();
                     }
                 }
@@ -178,7 +186,7 @@ public class ResultsPage implements Page{
             for (WorldElement part : processor){
                 fileProcessor.updateComponent(part);
             }
-            previous.reloadPage();
+            loadLast();
         });
 
     }
@@ -188,6 +196,16 @@ public class ResultsPage implements Page{
         primaryStage.setScene(scene);
         primaryStage.show();
         table.refresh();
+    }
+
+    @Override
+    public void loadLast() {
+        previous.reloadPage();
+    }
+
+    @Override
+    public Page getPrevious() {
+        return previous;
     }
 
 }

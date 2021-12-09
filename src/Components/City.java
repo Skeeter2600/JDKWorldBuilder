@@ -1,5 +1,6 @@
 package Components;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -154,7 +155,7 @@ public class City implements WorldElement{
      * This will remove a resident from the city
      * @param oldSpecial the resident to be removed
      */
-    public void removeSpecial(Special oldSpecial){
+    public void removeSpecial(String oldSpecial){
         specials.remove(oldSpecial);
     }
 
@@ -183,8 +184,11 @@ public class City implements WorldElement{
         if(notes.equals("")){
            notes = " ";
         }
-        String residentString = residents.toString();
-        String specialString = specials.toString();
+        StringBuilder residentString = new StringBuilder();
+        for (String name : residents) residentString.append(name).append(" ... ");
+        StringBuilder specialString = new StringBuilder();
+        for (String name : specials) specialString.append(name).append(" ... ");
+
         return Base64.getEncoder().encodeToString(("City _-_ " + name + " _-_ " + population +
                 " _-_ " + trade + " _-_ " + residentString + " _-_ " + song + " _-_ " + aesthetic + " _-_ " +
                 specialString + " _-_ " + revealed + " _-_ " + revealCode + " _-_ " + notes).getBytes());

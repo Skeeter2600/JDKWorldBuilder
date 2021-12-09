@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class LoginPages implements Page{
@@ -119,7 +120,7 @@ public class LoginPages implements Page{
             cancelButton.setOnAction(actionEvent1 -> {
                 Password password = new Password(decodedString);
                 FileProcessor fileProcessor = new FileProcessor(file, false, password);
-                HashSet<WorldElement> objects = fileProcessor.readFile(file);
+                HashMap<String, WorldElement> objects = fileProcessor.readFile(file);
                 HomePage commander = new HomePage(objects, false, primaryStage, fileProcessor, this);                commander.loadPage();
                 fileProcessor.writeFile();
                 System.out.println("Thanks! come again");
@@ -132,7 +133,7 @@ public class LoginPages implements Page{
                     primaryStage.setTitle(file.getName());
                     Password password = new Password(decodedString);
                     FileProcessor fileProcessor = new FileProcessor(file, true, password);
-                    HashSet<WorldElement> objects = fileProcessor.readFile(file);
+                    HashMap<String, WorldElement> objects = fileProcessor.readFile(file);
                     HomePage commander = new HomePage(objects, true, primaryStage, fileProcessor, this);
                     commander.loadPage();
                 }else{
@@ -158,14 +159,22 @@ public class LoginPages implements Page{
 
             Password password = new Password(decodedString);
             FileProcessor fileProcessor = new FileProcessor(file, false, password);
-            HashSet<WorldElement> objects = fileProcessor.readFile(file);
+            HashMap<String,WorldElement> objects = fileProcessor.readFile(file);
             HomePage commander = new HomePage(objects, false, primaryStage, fileProcessor, this);
             commander.loadPage();
         });
     }
 
     @Override
-    public void reloadPage() {
+    public void reloadPage() { }
+
+    @Override
+    public void loadLast() {
         previous.loadPage();
+    }
+
+    @Override
+    public Page getPrevious() {
+        return previous;
     }
 }
