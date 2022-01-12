@@ -81,7 +81,7 @@ public class NPCPage implements Page{
 
         Text occupationHeader = new Text("Occupation:");
         occupationHeader.setFill(Color.WHITE.darker());
-        TextArea occupation = new TextArea(npc.getDescription());
+        TextArea occupation = new TextArea(npc.getOccupation());
         occupation.setMaxSize(300, 20);
         if (!admin) occupation.setEditable(false);
 

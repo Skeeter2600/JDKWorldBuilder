@@ -18,12 +18,12 @@ public class SpecialPage implements Page{
     private final Stage primaryStage;
     private final GridPane grid;
     private final Scene scene;
-    private final ResultsPage previous;
+    private final Page previous;
     private final Special special;
     private final FileProcessor fileProcessor;
     private final boolean admin;
 
-    public SpecialPage(Stage primaryStage, ResultsPage previous, Special special, FileProcessor fileProcessor, boolean admin){
+    public SpecialPage(Stage primaryStage, Page previous, Special special, FileProcessor fileProcessor, boolean admin){
         this.primaryStage = primaryStage;
         this.previous = previous;
         this.special = special;

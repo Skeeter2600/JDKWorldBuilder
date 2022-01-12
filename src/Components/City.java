@@ -15,8 +15,8 @@ public class City implements WorldElement{
     private String notes;
 
     private final String trade;
-    private final List<String> residents;
-    private final List<String> specials;
+    private List<String> residents;
+    private List<String> specials;
 
     /**
      * This will create a new instance of a city using
@@ -131,6 +131,8 @@ public class City implements WorldElement{
         residents.add(newResident);
     }
 
+    public void setResidents(List<String> residents) {this.residents = residents;}
+
     /**
      * This will remove a resident from the city
      * @param oldResident the resident to be removed
@@ -158,6 +160,8 @@ public class City implements WorldElement{
     public void removeSpecial(String oldSpecial){
         specials.remove(oldSpecial);
     }
+
+    public void setSpecials(List<String> specials) { this.specials = specials; }
 
     public String meetWorldElement(){
         if(!revealed){

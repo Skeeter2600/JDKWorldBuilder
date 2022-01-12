@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CityPage implements Page{
@@ -189,10 +191,10 @@ public class CityPage implements Page{
         // add NPC table to page
 
         HBox NPCListBox = new HBox();
+        NPCListBox.setSpacing(30);
 
         Text NPCTableHeader = new Text("NPCs:");
         NPCTableHeader.setFill(Color.WHITE.darker());
-        NPCListBox.getChildren().add(NPCTableHeader);
         NPCListBox.getChildren().add(NPCTable);
 
         // add the editable list if admin
@@ -208,19 +210,59 @@ public class CityPage implements Page{
             ComboBox<String> residentsComboBox = new ComboBox<>(FXCollections.observableArrayList(NPCNames));
             residentsComboBox.getSelectionModel().selectFirst();
 
+            // adding and removing from list here
+            residentsComboBox.setOnAction(mouseEvent -> {
+                String selected = residentsComboBox.getValue();
+                boolean addCheck = true;
+                for (NPC NPCChecker : NPCList){
+                    if (NPCChecker.getName().equals(selected)) {
+                        addCheck = false;
+                        break;
+                    }
+                }
+                if (!(!addCheck || selected.equals("Choose Residents"))) {
+                    NPCList.add((NPC) fileProcessor.getWorldElement(selected));
+                    NPCTable.setItems(NPCList);
+                    NPCTable.refresh();
+                }
+            });
 
+            NPCTable.setOnMouseClicked(arg0 -> {
+                int selected = NPCTable.getSelectionModel().getSelectedIndex();
+                NPCTable.getItems().remove(selected);
+            });
 
             NPCListBox.getChildren().add(residentsComboBox);
 
         }
 
-        info.add(NPCListBox, 0, 5);
+        // load the selected element if not admin
+
+        else{
+            NPCTable.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == 2){
+                    int selected = NPCTable.getSelectionModel().getSelectedIndex();
+                    NPCPage details = new NPCPage(primaryStage, this, NPCTable.getItems().get(selected), fileProcessor, false);
+                    details.loadPage();
+                }
+            });
+        }
+
+        info.add(NPCTableHeader, 0, 5);
+        info.add(NPCListBox, 1, 5);
 
         // add the Specials of the City to a table
 
         TableView<Special> specialTable = new TableView<>();
         specialTable.setMaxHeight(120);
         specialTable.setMaxWidth(200);
+
+        // add the specials to the table
+
+        ObservableList<Special> specialList = FXCollections.observableArrayList();
+        List<String> specialStringList = city.getSpecials();
+        for (String name : specialStringList){ specialList.add((Special) fileProcessor.getWorldElement(name)); }
+        specialTable.setItems(specialList);
 
         // the column for the name of the element
 
@@ -234,19 +276,68 @@ public class CityPage implements Page{
         specialNameCol.setMaxWidth(200);
         specialTable.getColumns().add(specialNameCol);
 
-        // add the specials to the table
+        // add the Special table to the page
 
-        ObservableList<Special> specialList = FXCollections.observableArrayList();
-        List<String> specialStringList = city.getSpecials();
-        for (String name : specialStringList){ specialList.add((Special) fileProcessor.getWorldElement(name)); }
-        specialTable.setItems(specialList);
-
-        // add specials to the table
+        HBox specialsListBox = new HBox();
+        specialsListBox.setSpacing(30);
 
         Text specialTableHeader = new Text("Specials:");
         specialTableHeader.setFill(Color.WHITE.darker());
+        specialsListBox.getChildren().add(specialTable);
+
+        // add the editable list if admin
+
+        if (admin){
+
+            HashSet<WorldElement> allSpecialList = fileProcessor.getSelectedList("Special");
+            ArrayList<String> specialNames = new ArrayList<>();
+            specialNames.add("Choose Specials");
+            for (WorldElement n : allSpecialList) {
+                specialNames.add(n.getName());
+            }
+            ComboBox<String> specialsComboBox = new ComboBox<>(FXCollections.observableArrayList(specialNames));
+            specialsComboBox.getSelectionModel().selectFirst();
+
+            // adding and removing from list here
+            specialsComboBox.setOnAction(mouseEvent -> {
+                String selected = specialsComboBox.getValue();
+                boolean addCheck = true;
+                for (Special specialChecker : specialList){
+                    if (specialChecker.getName().equals(selected)) {
+                        addCheck = false;
+                        break;
+                    }
+                }
+                if (!(!addCheck || selected.equals("Choose Specials"))) {
+                    specialList.add((Special) fileProcessor.getWorldElement(selected));
+                    specialTable.setItems(specialList);
+                    specialTable.refresh();
+                }
+            });
+
+            specialTable.setOnMouseClicked(arg0 -> {
+                int selected = specialTable.getSelectionModel().getSelectedIndex();
+                specialTable.getItems().remove(selected);
+            });
+
+            specialsListBox.getChildren().add(specialsComboBox);
+
+        }
+
+        else{
+            specialTable.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == 2){
+                    int selected = specialTable.getSelectionModel().getSelectedIndex();
+                    SpecialPage details = new SpecialPage(primaryStage, this, specialTable.getItems().get(selected), fileProcessor, false);
+                    details.loadPage();
+                }
+            });
+        }
+
+        // add specials to the table
+
         info.add(specialTableHeader, 0, 6);
-        info.add(specialTable, 1, 6);
+        info.add(specialsListBox, 1, 6);
 
         Text notesHeader = new Text("Notes:");
         notesHeader.setFill(Color.WHITE.darker());
@@ -301,6 +392,21 @@ public class CityPage implements Page{
                 city.setDescription(description.getText());
                 city.setSong(songLink.getText());
                 city.setNotes(notes.getText());
+
+                List<String> residentList = new LinkedList<>();
+                for (NPC resident : NPCList){
+                    residentList.add(resident.getName());
+                }
+
+                city.setResidents(residentList);
+
+                List<String> specialSaveList = new LinkedList<>();
+                for (Special special : specialList){
+                    specialSaveList.add(special.getName());
+                }
+
+                city.setSpecials(specialSaveList);
+
                 actionText.setFill(Color.WHITE.darker());
                 actionText.setText(sceneTitle.getText() + " has been updated!");
             }
